@@ -6,7 +6,7 @@
 <title>KISANVANI — Voice-First Agri-Advisory for Indian Farmers</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     /* Colors */
@@ -67,6 +67,7 @@
     -webkit-font-smoothing: antialiased;
     background-image: radial-gradient(rgba(26, 51, 0, 0.04) 1px, transparent 1px);
     background-size: 24px 24px;
+    overflow-x: hidden;
   }
 
   a {
@@ -74,233 +75,242 @@
     text-decoration: none;
   }
 
-  /* ---------- PRELOADER (SAY BRIEFLY SKETCHBOOK) ---------- */
+  /* ==========================================================================
+     AWWARD-WINNING KINETIC PRELOADER (SAY BRIEFLY SKETCHBOOK EDITION)
+     ========================================================================== */
   #preloader {
     position: fixed;
     inset: 0;
     z-index: 999999;
+    pointer-events: all;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  /* 5 Vertical Staggered Curtain Slats */
+  .curtain-container {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .curtain-col {
+    flex: 1;
+    height: 100%;
     background-color: var(--color-cream-paper);
-    background-image: radial-gradient(rgba(26, 51, 0, 0.08) 1.5px, transparent 1.5px);
-    background-size: 24px 24px;
+    background-image: radial-gradient(rgba(26, 51, 0, 0.07) 1.5px, transparent 1.5px);
+    background-size: 22px 22px;
+    border-right: 1px solid rgba(182, 182, 182, 0.45);
+    transform: translateY(0);
+    transition: transform 0.9s cubic-bezier(0.83, 0, 0.17, 1);
+    will-change: transform;
+  }
+
+  .curtain-col:last-child {
+    border-right: none;
+  }
+
+  /* When done, staggered wipe up */
+  #preloader.preloader-exit .curtain-col:nth-child(1) { transition-delay: 0.00s; transform: translateY(-101%); }
+  #preloader.preloader-exit .curtain-col:nth-child(2) { transition-delay: 0.06s; transform: translateY(-101%); }
+  #preloader.preloader-exit .curtain-col:nth-child(3) { transition-delay: 0.12s; transform: translateY(-101%); }
+  #preloader.preloader-exit .curtain-col:nth-child(4) { transition-delay: 0.18s; transform: translateY(-101%); }
+  #preloader.preloader-exit .curtain-col:nth-child(5) { transition-delay: 0.24s; transform: translateY(-101%); }
+
+  /* Preloader Stage Content */
+  .preloader-stage {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1080px;
+    height: 100vh;
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.6s cubic-bezier(0.7, 0, 0.3, 1), opacity 0.5s ease;
+    will-change: transform, opacity;
+  }
+
+  #preloader.preloader-exit .preloader-stage {
+    transform: translateY(-40px) scale(0.97);
+    opacity: 0;
+  }
+
+  /* Center Kinetic Typographic Canvas */
+  .preloader-center {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 24px;
-    transition: transform 0.75s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.5s ease;
-    will-change: transform, opacity;
-  }
-
-  #preloader.preloader-done {
-    transform: translateY(-100%);
-    opacity: 0;
-    pointer-events: none;
-  }
-
-  .preloader-card {
-    background: #ffffff;
-    border: 2px solid var(--color-forest-ink);
-    border-radius: var(--radius-cards);
-    padding: 36px 32px 28px;
-    width: min(450px, 92vw);
-    box-shadow: 6px 6px 0px var(--color-forest-ink);
-    position: relative;
     text-align: center;
-    transform: translateY(0);
-    animation: memoEntrance 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
-  @keyframes memoEntrance {
-    0% { transform: translateY(24px) scale(0.96); opacity: 0; }
-    100% { transform: translateY(0) scale(1); opacity: 1; }
-  }
-
-  /* Yellow Tape on Top of Memo */
-  .preloader-tape {
-    position: absolute;
-    top: -14px;
-    left: 50%;
-    transform: translateX(-50%) rotate(-1.2deg);
-    width: 96px;
-    height: 28px;
-    background: rgba(255, 233, 92, 0.88);
-    border: 1px dashed rgba(26, 51, 0, 0.35);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-    pointer-events: none;
-  }
-
-  /* Preloader Header / Audio Waves */
-  .preloader-header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-    margin-bottom: 18px;
-  }
-
-  .preloader-logo-badge {
-    width: 44px;
-    height: 44px;
-    background: var(--color-highlighter-yellow);
-    border: 1.5px solid var(--color-forest-ink);
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-bricolage-grotesque);
-    font-weight: 800;
-    font-size: 20px;
-    color: var(--color-forest-ink);
-    transform: rotate(-2deg);
-    box-shadow: 2px 2px 0px var(--color-forest-ink);
-  }
-
-  /* Voice Audio Wave Bars */
-  .preloader-waveform {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    height: 38px;
-    padding: 0 6px;
-  }
-
-  .wave-bar {
-    width: 4px;
-    background: var(--color-forest-ink);
-    border-radius: 4px;
-    animation: wavePulse 1.2s ease-in-out infinite alternate;
-  }
-
-  .wave-bar:nth-child(1) { height: 10px; animation-delay: 0.1s; }
-  .wave-bar:nth-child(2) { height: 22px; animation-delay: 0.3s; }
-  .wave-bar:nth-child(3) { height: 34px; animation-delay: 0.2s; }
-  .wave-bar:nth-child(4) { height: 16px; animation-delay: 0.4s; }
-  .wave-bar:nth-child(5) { height: 28px; animation-delay: 0.15s; }
-  .wave-bar:nth-child(6) { height: 12px; animation-delay: 0.35s; }
-  .wave-bar:nth-child(7) { height: 20px; animation-delay: 0.25s; }
-
-  @keyframes wavePulse {
-    0% { transform: scaleY(0.3); }
-    100% { transform: scaleY(1); }
-  }
-
-  .preloader-title {
-    font-family: var(--font-bricolage-grotesque);
-    font-weight: 800;
-    font-size: 32px;
-    line-height: 1.1;
-    letter-spacing: 0.04em;
-    color: var(--color-forest-ink);
-    margin: 0 0 10px;
-  }
-
-  .preloader-marker {
+  /* Massive Kinetic Counter */
+  .counter-wrapper {
     position: relative;
-    display: inline-block;
-    padding: 0 6px;
-    z-index: 1;
-  }
-
-  .preloader-marker::before {
-    content: '';
-    position: absolute;
-    inset: 15% 0 10% 0;
-    background: var(--color-highlighter-yellow);
-    z-index: -1;
-    border-radius: 2px;
-    transform-origin: left;
-    animation: markerDraw 0.8s 0.3s cubic-bezier(0.25, 1, 0.5, 1) both;
-  }
-
-  @keyframes markerDraw {
-    0% { transform: scaleX(0); }
-    100% { transform: scaleX(1); }
-  }
-
-  /* Cycling Regional Status Message */
-  .preloader-phrase-box {
-    min-height: 26px;
-    margin-bottom: 22px;
-  }
-
-  .preloader-phrase {
-    font-family: var(--font-inter);
-    font-size: 14.5px;
-    font-weight: 500;
-    color: #435b39;
-    opacity: 0;
-    transform: translateY(4px);
-    transition: opacity 0.25s ease, transform 0.25s ease;
-  }
-
-  .preloader-phrase.active {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* Progress Bar Container */
-  .preloader-progress-wrap {
-    margin-bottom: 18px;
-  }
-
-  .preloader-progress-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-family: var(--font-roboto-mono);
-    font-size: 11.5px;
-    font-weight: 600;
-    color: var(--color-forest-ink);
+    display: inline-flex;
+    align-items: baseline;
+    justify-content: center;
     margin-bottom: 8px;
   }
 
-  .preloader-progress-track {
-    width: 100%;
-    height: 14px;
-    background: #f4f0e4;
-    border: 1.5px solid var(--color-forest-ink);
-    border-radius: var(--radius-buttons);
-    overflow: hidden;
+  .kinetic-number {
+    font-family: var(--font-bricolage-grotesque);
+    font-weight: 800;
+    font-size: clamp(84px, 15vw, 160px);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: var(--color-forest-ink);
     position: relative;
-    padding: 1px;
+    z-index: 2;
+    user-select: none;
   }
 
-  .preloader-progress-bar {
+  .kinetic-unit {
+    font-family: var(--font-roboto-mono);
+    font-size: clamp(24px, 4vw, 42px);
+    font-weight: 700;
+    color: var(--color-forest-ink);
+    margin-left: 8px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Highlighter yellow stroke that expands behind number */
+  .counter-marker-wash {
+    position: absolute;
+    bottom: 12%;
+    left: -5%;
+    width: 0%;
+    height: 48%;
+    background: var(--color-highlighter-yellow);
+    z-index: 1;
+    border-radius: 4px;
+    transition: width 0.1s linear;
+    transform: rotate(-1deg);
+  }
+
+  /* Live Oscillating Audio Waveform Canvas */
+  .waveform-box {
+    position: relative;
+    width: min(520px, 90vw);
+    height: 72px;
+    margin: 8px auto 20px;
+  }
+
+  #preloaderCanvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  /* Morphing Dialect Callout */
+  .preloader-dialect-banner {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: #ffffff;
+    border: 1.5px solid var(--color-forest-ink);
+    border-radius: var(--radius-buttons);
+    padding: 8px 18px;
+    box-shadow: 3px 3px 0px var(--color-forest-ink);
+  }
+
+  .dialect-chip {
+    font-family: var(--font-roboto-mono);
+    font-size: 11px;
+    font-weight: 700;
+    background: var(--color-highlighter-yellow);
+    border: 1px solid var(--color-forest-ink);
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+
+  .dialect-text {
+    font-family: var(--font-inter);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--color-forest-ink);
+    min-width: 260px;
+    text-align: left;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+  }
+
+  /* Bottom Progress Meter & Ruler */
+  .preloader-bottom-hud {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .ruler-track {
+    width: 100%;
+    height: 20px;
+    background: #ffffff;
+    border: 1.5px solid var(--color-forest-ink);
+    border-radius: 6px;
+    padding: 2px;
+    box-shadow: 2px 2px 0px var(--color-forest-ink);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ruler-fill {
     height: 100%;
     width: 0%;
     background: repeating-linear-gradient(
       -45deg,
-      var(--color-highlighter-yellow),
-      var(--color-highlighter-yellow) 8px,
-      #f5de43 8px,
-      #f5de43 16px
+      var(--color-forest-ink),
+      var(--color-forest-ink) 10px,
+      #294a05 10px,
+      #294a05 20px
     );
     border-radius: 3px;
-    transition: width 0.15s cubic-bezier(0.2, 0.8, 0.4, 1);
+    transition: width 0.12s linear;
   }
 
-  .preloader-footer-meta {
+  .bottom-specs {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     font-family: var(--font-roboto-mono);
     font-size: 11px;
-    color: #72856a;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    color: #556b50;
+    letter-spacing: 0.04em;
+    flex-wrap: wrap;
+    gap: 8px;
   }
 
-  /* Smooth reveal for page content when preloader exits */
+  /* Smooth page entrance once preloader lifts */
   .nav-wrapper, .hero {
     opacity: 0;
-    transform: translateY(12px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
+    transform: translateY(20px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  body.site-revealed .nav-wrapper,
+  body.site-revealed .nav-wrapper {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.1s;
+  }
+
   body.site-revealed .hero {
     opacity: 1;
     transform: translateY(0);
+    transition-delay: 0.25s;
   }
 
-  /* ---------- FLOATING PILL NAVIGATION ---------- */
+  /* ==========================================================================
+     FLOATING PILL NAVIGATION
+     ========================================================================== */
   .nav-wrapper {
     position: sticky;
     top: 16px;
@@ -431,7 +441,9 @@
     .nav-links { display: none; }
   }
 
-  /* ---------- HERO SECTION ---------- */
+  /* ==========================================================================
+     HERO SECTION
+     ========================================================================== */
   .hero {
     position: relative;
     padding: 72px 24px 64px;
@@ -577,11 +589,35 @@
     border-radius: var(--radius-buttons);
   }
 
-  /* ---------- INTERACTIVE DEMO CARD ---------- */
+  /* ==========================================================================
+     INTERACTIVE DEMO CARD & AVATAR SECTION
+     ========================================================================== */
   .demo-section-wrapper {
-    max-width: 860px;
+    max-width: 1240px;
     margin: 48px auto 80px;
-    padding: 0 20px;
+    padding: 0 24px;
+    position: relative;
+  }
+
+  .demo-grid-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(300px, 0.75fr);
+    gap: 48px;
+    align-items: center;
+  }
+
+  @media (max-width: 1040px) {
+    .demo-grid-layout {
+      grid-template-columns: minmax(0, 1.2fr) 280px;
+      gap: 32px;
+    }
+  }
+
+  @media (max-width: 880px) {
+    .demo-grid-layout {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
   }
 
   .demo-card {
@@ -591,10 +627,101 @@
     padding: 32px;
     box-shadow: 4px 4px 0px var(--color-forest-ink);
     position: relative;
+    width: 100%;
+  }
+
+  /* Avatar Presentation on Right */
+  .demo-avatar-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    user-select: none;
+  }
+
+  .avatar-stage-wrap {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .avatar-blob-graphic {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    animation: avatarFloat 4.2s ease-in-out infinite;
+    filter: drop-shadow(0 16px 32px rgba(47, 191, 160, 0.28));
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .avatar-blob-graphic svg {
+    width: 100%;
+    max-width: 310px;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    display: block;
+    transform: scaleX(-1); /* Eyes face left towards Ask KISANVANI card as in image.png */
+    transition: transform 0.3s ease;
+  }
+
+  .avatar-blob-graphic:hover {
+    transform: translateY(-8px) scale(1.03);
+  }
+
+  .avatar-floor-shadow {
+    width: 220px;
+    height: 20px;
+    background: radial-gradient(ellipse at center, rgba(26, 51, 0, 0.22) 0%, rgba(26, 51, 0, 0) 70%);
+    border-radius: 50%;
+    margin-top: 14px;
+    animation: avatarShadowBob 4.2s ease-in-out infinite;
+  }
+
+  @keyframes avatarFloat {
+    0%, 100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-12px) rotate(1.2deg);
+    }
+  }
+
+  @keyframes avatarShadowBob {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 0.65;
+    }
+    50% {
+      transform: scale(0.8);
+      opacity: 0.28;
+    }
+  }
+
+  /* Interactive States */
+  .avatar-stage-wrap.avatar-listening .avatar-blob-graphic {
+    animation: avatarListenPulse 1.1s ease-in-out infinite;
+    filter: drop-shadow(0 0 28px rgba(47, 191, 160, 0.6));
+  }
+
+  .avatar-stage-wrap.avatar-speaking .avatar-blob-graphic {
+    animation: avatarTalkBounce 0.55s ease-in-out infinite alternate;
+  }
+
+  @keyframes avatarListenPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.06); }
+  }
+
+  @keyframes avatarTalkBounce {
+    0% { transform: translateY(0) scale(1, 1); }
+    100% { transform: translateY(-14px) scale(1.04, 0.96); }
   }
 
   .demo-card::after {
-    /* Hand-drawn tape accent at top center */
     content: '';
     position: absolute;
     top: -12px;
@@ -811,7 +938,9 @@
     display: none;
   }
 
-  /* ---------- SHOWCASE (VIDEO DEMO) ---------- */
+  /* ==========================================================================
+     SHOWCASE (VIDEO DEMO)
+     ========================================================================== */
   .showcase {
     max-width: 1200px;
     margin: 0 auto;
@@ -856,35 +985,60 @@
     margin: 0;
   }
 
-  .phone-wrap {
+  .video-theater-wrap {
     display: flex;
     justify-content: center;
     margin-bottom: 48px;
   }
 
-  .phone {
+  .video-theater-card {
     position: relative;
-    width: min(340px, 84vw);
-    aspect-ratio: 9/18.5;
-    background: #111e15;
-    border-radius: 36px;
-    padding: 10px;
-    box-shadow: 6px 6px 0px var(--color-forest-ink), 0 20px 40px rgba(26, 51, 0, 0.15);
+    width: min(1000px, 95vw);
+    background: #ffffff;
+    border-radius: var(--radius-cards);
+    padding: 14px;
+    box-shadow: 6px 6px 0px var(--color-forest-ink), 0 20px 40px rgba(26, 51, 0, 0.12);
     border: 2px solid var(--color-forest-ink);
   }
 
-  .phone-screen {
-    width: 100%;
-    height: 100%;
-    border-radius: 28px;
-    overflow: hidden;
-    background: #000;
+  .video-theater-card::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 40px;
+    width: 76px;
+    height: 22px;
+    background: rgba(255, 233, 92, 0.88);
+    border: 1px dashed rgba(26, 51, 0, 0.35);
+    transform: rotate(-1.5deg);
+    pointer-events: none;
   }
 
-  .phone-screen video {
+  .video-theater-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 8px 12px;
+    font-family: var(--font-roboto-mono);
+    font-size: 11.5px;
+    color: var(--color-forest-ink);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
+  .video-theater-screen {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #000000;
+    border: 1px solid rgba(26, 51, 0, 0.25);
+  }
+
+  .video-theater-screen video {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     display: block;
   }
 
@@ -930,7 +1084,9 @@
     line-height: 1.5;
   }
 
-  /* ---------- FEATURES SECTION (STICKY NOTE PALETTE) ---------- */
+  /* ==========================================================================
+     FEATURES SECTION (STICKY NOTE PALETTE)
+     ========================================================================== */
   .features-section {
     max-width: 1200px;
     margin: 0 auto;
@@ -1009,7 +1165,9 @@
     border-radius: var(--radius-tags);
   }
 
-  /* ---------- HOW IT WORKS (5 STEPS) ---------- */
+  /* ==========================================================================
+     HOW IT WORKS (5 STEPS)
+     ========================================================================== */
   .how-section {
     max-width: 1200px;
     margin: 0 auto;
@@ -1069,7 +1227,9 @@
     line-height: 1.5;
   }
 
-  /* ---------- UNDER THE HOOD (PIPELINE) ---------- */
+  /* ==========================================================================
+     UNDER THE HOOD (PIPELINE)
+     ========================================================================== */
   .tech-section {
     max-width: 1200px;
     margin: 0 auto;
@@ -1132,7 +1292,9 @@
     user-select: none;
   }
 
-  /* ---------- TRUST & SAFETY ---------- */
+  /* ==========================================================================
+     TRUST & SAFETY
+     ========================================================================== */
   .safety-section {
     max-width: 1200px;
     margin: 0 auto;
@@ -1140,7 +1302,9 @@
     border-top: 1px solid var(--color-pencil-gray);
   }
 
-  /* ---------- FOOTER ---------- */
+  /* ==========================================================================
+     FOOTER
+     ========================================================================== */
   footer {
     border-top: 1px solid var(--color-pencil-gray);
     padding: 48px 24px 56px;
@@ -1163,44 +1327,52 @@
 </head>
 <body>
 
-  <!-- PRELOADER (SAY BRIEFLY SKETCHBOOK AESTHETIC) -->
-  <div id="preloader" role="progressbar" aria-label="Loading KISANVANI voice lines" aria-valuemin="0" aria-valuemax="100">
-    <div class="preloader-card">
-      <div class="preloader-tape"></div>
+  <!-- AWPRINT-LEVEL KINETIC SHUTTER PRELOADER -->
+  <div id="preloader" role="progressbar" aria-label="Loading KISANVANI voice intelligence" aria-valuemin="0" aria-valuemax="100">
+    <!-- 5 Staggered Paper Slats -->
+    <div class="curtain-container" aria-hidden="true">
+      <div class="curtain-col"></div>
+      <div class="curtain-col"></div>
+      <div class="curtain-col"></div>
+      <div class="curtain-col"></div>
+      <div class="curtain-col"></div>
+    </div>
 
-      <div class="preloader-header">
-        <div class="preloader-logo-badge">KV</div>
-        <div class="preloader-waveform" aria-hidden="true">
-          <div class="wave-bar"></div>
-          <div class="wave-bar"></div>
-          <div class="wave-bar"></div>
-          <div class="wave-bar"></div>
-          <div class="wave-bar"></div>
-          <div class="wave-bar"></div>
-          <div class="wave-bar"></div>
+    <!-- Active Stage Overlay -->
+    <div class="preloader-stage">
+      <div class="preloader-top-spacer"></div>
+
+      <!-- Center Kinetic Typography & Canvas Wave -->
+      <div class="preloader-center">
+        <!-- Massive Kinetic Counter -->
+        <div class="counter-wrapper">
+          <div class="counter-marker-wash" id="counterMarkerWash"></div>
+          <span id="kineticCount" class="kinetic-number">00</span>
+          <span class="kinetic-unit">%</span>
+        </div>
+
+        <!-- Live Audio Sine-Wave Canvas -->
+        <div class="waveform-box">
+          <canvas id="preloaderCanvas"></canvas>
+        </div>
+
+        <!-- Morphing Dialect Callout -->
+        <div class="preloader-dialect-banner">
+          <span id="dialectChip" class="dialect-chip">IN.HI</span>
+          <span id="dialectText" class="dialect-text">हर किसान की अपनी आवाज़...</span>
         </div>
       </div>
 
-      <h2 class="preloader-title">
-        KISAN<span class="preloader-marker">VANI</span>
-      </h2>
-
-      <div class="preloader-phrase-box">
-        <div id="preloaderPhrase" class="preloader-phrase active">Connecting rural voice network...</div>
-      </div>
-
-      <div class="preloader-progress-wrap">
-        <div class="preloader-progress-header">
-          <span class="preloader-status">INITIALIZING</span>
-          <span id="preloaderPercent" class="preloader-percent">0%</span>
+      <!-- Bottom Progress Track & Metadata -->
+      <div class="preloader-bottom-hud">
+        <div class="ruler-track">
+          <div id="rulerFill" class="ruler-fill"></div>
         </div>
-        <div class="preloader-progress-track">
-          <div id="preloaderProgressBar" class="preloader-progress-bar"></div>
+        <div class="bottom-specs">
+          <span>CORD: 28.6139° N, 77.2090° E</span>
+          <span id="preloaderStatusText">CONNECTING TELECOM IVR VOIP GATEWAY...</span>
+          <span>DATA: AIKOSH / DATA.GOV.IN KCC</span>
         </div>
-      </div>
-
-      <div class="preloader-footer-meta">
-        0₹ Toll-Free · 8 Languages · 15+ Crops
       </div>
     </div>
   </div>
@@ -1276,76 +1448,89 @@
 
   <!-- INTERACTIVE DEMO SECTION -->
   <section class="demo-section-wrapper" id="demo">
-    <div class="demo-card">
-      <div class="demo-card-header">
-        <div>
-          <span class="eyebrow">[LIVE PIPELINE DEMO]</span>
-          <h3>Ask KISANVANI</h3>
-        </div>
-        <span class="pill-live">● Local Model Ready</span>
-      </div>
-
-      <div class="hint-row">
-        <div class="select-group">
-          <label for="cropSelect">FILTER BY CROP (OPTIONAL)</label>
-          <select id="cropSelect">
-            <option value="">Any crop (National)</option>
-            <option value="cotton">Cotton (कपास)</option>
-            <option value="rice">Rice (धान / चावल)</option>
-            <option value="wheat">Wheat (गेहूं)</option>
-            <option value="sugarcane">Sugarcane (गन्ना)</option>
-            <option value="maize">Maize (मक्का)</option>
-            <option value="soybean">Soybean (सोयाबीन)</option>
-            <option value="groundnut">Groundnut (मूंगफली)</option>
-            <option value="chilli">Chilli (मिर्च)</option>
-            <option value="tomato">Tomato (टमाटर)</option>
-            <option value="onion">Onion (प्याज)</option>
-            <option value="potato">Potato (आलू)</option>
-            <option value="banana">Banana (केला)</option>
-            <option value="mustard">Mustard (सरसों)</option>
-            <option value="gram">Gram (चना)</option>
-            <option value="tea">Tea (चाय)</option>
-          </select>
+    <div class="demo-grid-layout">
+      <!-- LEFT: Ask KISANVANI dialog box -->
+      <div class="demo-card">
+        <div class="demo-card-header">
+          <div>
+            <span class="eyebrow">[LIVE PIPELINE DEMO]</span>
+            <h3>Ask KISANVANI</h3>
+          </div>
+          <span class="pill-live">● Local Model Ready</span>
         </div>
 
-        <div class="select-group">
-          <label for="stateSelect">FILTER BY STATE (OPTIONAL)</label>
-          <select id="stateSelect">
-            <option value="">Any state</option>
-            <option value="gujarat">Gujarat</option>
-            <option value="maharashtra">Maharashtra</option>
-            <option value="punjab">Punjab</option>
-            <option value="uttar pradesh">Uttar Pradesh</option>
-            <option value="madhya pradesh">Madhya Pradesh</option>
-            <option value="karnataka">Karnataka</option>
-            <option value="tamil nadu">Tamil Nadu</option>
-            <option value="andhra pradesh">Andhra Pradesh</option>
-            <option value="west bengal">West Bengal</option>
-            <option value="bihar">Bihar</option>
-            <option value="rajasthan">Rajasthan</option>
-            <option value="haryana">Haryana</option>
-            <option value="assam">Assam</option>
-          </select>
+        <div class="hint-row">
+          <div class="select-group">
+            <label for="cropSelect">FILTER BY CROP (OPTIONAL)</label>
+            <select id="cropSelect">
+              <option value="">Any crop (National)</option>
+              <option value="cotton">Cotton (कपास)</option>
+              <option value="rice">Rice (धान / चावल)</option>
+              <option value="wheat">Wheat (गेहूं)</option>
+              <option value="sugarcane">Sugarcane (गन्ना)</option>
+              <option value="maize">Maize (मक्का)</option>
+              <option value="soybean">Soybean (सोयाबीन)</option>
+              <option value="groundnut">Groundnut (मूंगफली)</option>
+              <option value="chilli">Chilli (मिर्च)</option>
+              <option value="tomato">Tomato (टमाटर)</option>
+              <option value="onion">Onion (प्याज)</option>
+              <option value="potato">Potato (आलू)</option>
+              <option value="banana">Banana (केला)</option>
+              <option value="mustard">Mustard (सरसों)</option>
+              <option value="gram">Gram (चना)</option>
+              <option value="tea">Tea (चाय)</option>
+            </select>
+          </div>
+
+          <div class="select-group">
+            <label for="stateSelect">FILTER BY STATE (OPTIONAL)</label>
+            <select id="stateSelect">
+              <option value="">Any state</option>
+              <option value="gujarat">Gujarat</option>
+              <option value="maharashtra">Maharashtra</option>
+              <option value="punjab">Punjab</option>
+              <option value="uttar pradesh">Uttar Pradesh</option>
+              <option value="madhya pradesh">Madhya Pradesh</option>
+              <option value="karnataka">Karnataka</option>
+              <option value="tamil nadu">Tamil Nadu</option>
+              <option value="andhra pradesh">Andhra Pradesh</option>
+              <option value="west bengal">West Bengal</option>
+              <option value="bihar">Bihar</option>
+              <option value="rajasthan">Rajasthan</option>
+              <option value="haryana">Haryana</option>
+              <option value="assam">Assam</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="pipeline">
+          <div class="stage" id="stage-record">01 Record</div>
+          <div class="stage" id="stage-asr">02 Transcribe</div>
+          <div class="stage" id="stage-retrieve">03 Retrieve</div>
+          <div class="stage" id="stage-generate">04 Generate</div>
+          <div class="stage" id="stage-guard">05 Guardrail</div>
+          <div class="stage" id="stage-speak">06 Speak</div>
+        </div>
+
+        <div class="record-zone">
+          <button id="micBtn" class="mic-btn" title="Click to record voice">●</button>
+          <div class="rec-label" id="recLabel">Tap microphone to speak your question</div>
+        </div>
+
+        <div id="langTag" class="lang-tag" style="display:none;"></div>
+        <div id="resultBox" class="result-box"></div>
+        <audio id="audioPlayer" controls></audio>
+      </div>
+
+      <!-- RIGHT: Avatar Companion -->
+      <div class="demo-avatar-column">
+        <div class="avatar-stage-wrap" id="avatarStage">
+          <div class="avatar-blob-graphic">
+            <svg width="250" height="250" viewBox="-125 -125 250 250" role="img" aria-label="Animated bloub avatar" xmlns="http://www.w3.org/2000/svg"><defs><mask id="bot-mask-rk5gr0" maskUnits="userSpaceOnUse" x="-158" y="-158" width="316" height="316"><path d="M100.31 0.12C100.31 3.4 100.15 6.69 99.83 9.96C99.51 13.22 99.02 16.49 98.39 19.7C97.75 22.92 96.95 26.12 96 29.26C95.05 32.4 93.95 35.51 92.7 38.54C91.45 41.57 90.04 44.55 88.5 47.44C86.96 50.33 85.27 53.16 83.46 55.89C81.64 58.62 79.68 61.27 77.61 63.81C75.54 66.34 73.33 68.79 71.02 71.11C68.71 73.42 66.27 75.64 63.75 77.72C61.22 79.8 58.58 81.77 55.87 83.59C53.15 85.41 50.33 87.11 47.45 88.66C44.57 90.2 41.6 91.61 38.58 92.87C35.56 94.12 32.46 95.23 29.34 96.19C26.21 97.14 23.02 97.94 19.82 98.58C16.61 99.22 13.36 99.7 10.11 100.03C6.86 100.35 3.58 100.51 0.31 100.51C-2.96 100.51 -6.24 100.35 -9.49 100.03C-12.74 99.7 -16 99.22 -19.2 98.58C-22.4 97.94 -25.59 97.14 -28.72 96.19C-31.85 95.23 -34.94 94.12 -37.96 92.87C-40.98 91.61 -43.95 90.2 -46.83 88.66C-49.71 87.11 -52.53 85.41 -55.25 83.59C-57.96 81.77 -60.6 79.8 -63.13 77.72C-65.66 75.64 -68.09 73.42 -70.4 71.11C-72.71 68.79 -74.92 66.34 -76.99 63.81C-79.06 61.27 -81.02 58.62 -82.84 55.89C-84.65 53.16 -86.34 50.33 -87.88 47.44C-89.42 44.55 -90.83 41.57 -92.08 38.54C-93.33 35.51 -94.44 32.4 -95.39 29.26C-96.33 26.12 -97.13 22.92 -97.77 19.7C-98.41 16.49 -98.89 13.22 -99.21 9.96C-99.53 6.69 -99.69 3.4 -99.69 0.12C-99.69 -3.16 -99.53 -6.46 -99.21 -9.72C-98.89 -12.99 -98.41 -16.25 -97.77 -19.47C-97.13 -22.68 -96.33 -25.89 -95.39 -29.02C-94.44 -32.16 -93.33 -35.27 -92.08 -38.3C-90.83 -41.33 -89.42 -44.31 -87.88 -47.21C-86.34 -50.1 -84.65 -52.93 -82.84 -55.66C-81.02 -58.38 -79.06 -61.03 -76.99 -63.57C-74.92 -66.11 -72.71 -68.55 -70.4 -70.87C-68.09 -73.19 -65.66 -75.41 -63.13 -77.49C-60.6 -79.57 -57.96 -81.53 -55.25 -83.35C-52.53 -85.18 -49.71 -86.87 -46.83 -88.42C-43.95 -89.97 -40.98 -91.38 -37.96 -92.63C-34.94 -93.89 -31.85 -95 -28.72 -95.95C-25.59 -96.9 -22.4 -97.7 -19.2 -98.34C-16 -98.98 -12.74 -99.47 -9.49 -99.79C-6.24 -100.11 -2.96 -100.27 0.31 -100.27C3.58 -100.27 6.86 -100.11 10.11 -99.79C13.36 -99.47 16.61 -98.98 19.82 -98.34C23.02 -97.7 26.21 -96.9 29.34 -95.95C32.46 -95 35.56 -93.89 38.58 -92.63C41.6 -91.38 44.57 -89.97 47.45 -88.42C50.33 -86.87 53.15 -85.18 55.87 -83.35C58.58 -81.53 61.22 -79.57 63.75 -77.49C66.27 -75.41 68.71 -73.19 71.02 -70.87C73.33 -68.55 75.54 -66.11 77.61 -63.57C79.68 -61.03 81.64 -58.38 83.46 -55.66C85.27 -52.93 86.96 -50.1 88.5 -47.21C90.04 -44.31 91.45 -41.33 92.7 -38.3C93.95 -35.27 95.05 -32.16 96 -29.02C96.95 -25.89 97.75 -22.68 98.39 -19.47C99.02 -16.25 99.51 -12.99 99.83 -9.72C100.15 -6.46 100.31 -3.16 100.31 0.12Z" fill="#fff"/><path d="M-9.3 -11.3A9.3 9.3 0 0 1 0 -20.6L0 -20.6A9.3 9.3 0 0 1 9.3 -11.3L9.3 11.3A9.3 9.3 0 0 1 0 20.6L0 20.6A9.3 9.3 0 0 1 -9.3 11.3Z" transform="matrix(0.91,-0.29,0.36,0.9,19.02,-33.96)" opacity="1" fill="#000"/><path d="M-9.3 -11.3A9.3 9.3 0 0 1 0 -20.6L0 -20.6A9.3 9.3 0 0 1 9.3 -11.3L9.3 11.3A9.3 9.3 0 0 1 0 20.6L0 20.6A9.3 9.3 0 0 1 -9.3 11.3Z" transform="matrix(0.69,-0.07,0.36,0.9,63.25,-43.86)" opacity="1" fill="#000"/></mask></defs><g fill="none" stroke-linecap="round"></g><g opacity="1"><path d="M100.31 0.12C100.31 3.4 100.15 6.69 99.83 9.96C99.51 13.22 99.02 16.49 98.39 19.7C97.75 22.92 96.95 26.12 96 29.26C95.05 32.4 93.95 35.51 92.7 38.54C91.45 41.57 90.04 44.55 88.5 47.44C86.96 50.33 85.27 53.16 83.46 55.89C81.64 58.62 79.68 61.27 77.61 63.81C75.54 66.34 73.33 68.79 71.02 71.11C68.71 73.42 66.27 75.64 63.75 77.72C61.22 79.8 58.58 81.77 55.87 83.59C53.15 85.41 50.33 87.11 47.45 88.66C44.57 90.2 41.6 91.61 38.58 92.87C35.56 94.12 32.46 95.23 29.34 96.19C26.21 97.14 23.02 97.94 19.82 98.58C16.61 99.22 13.36 99.7 10.11 100.03C6.86 100.35 3.58 100.51 0.31 100.51C-2.96 100.51 -6.24 100.35 -9.49 100.03C-12.74 99.7 -16 99.22 -19.2 98.58C-22.4 97.94 -25.59 97.14 -28.72 96.19C-31.85 95.23 -34.94 94.12 -37.96 92.87C-40.98 91.61 -43.95 90.2 -46.83 88.66C-49.71 87.11 -52.53 85.41 -55.25 83.59C-57.96 81.77 -60.6 79.8 -63.13 77.72C-65.66 75.64 -68.09 73.42 -70.4 71.11C-72.71 68.79 -74.92 66.34 -76.99 63.81C-79.06 61.27 -81.02 58.62 -82.84 55.89C-84.65 53.16 -86.34 50.33 -87.88 47.44C-89.42 44.55 -90.83 41.57 -92.08 38.54C-93.33 35.51 -94.44 32.4 -95.39 29.26C-96.33 26.12 -97.13 22.92 -97.77 19.7C-98.41 16.49 -98.89 13.22 -99.21 9.96C-99.53 6.69 -99.69 3.4 -99.69 0.12C-99.69 -3.16 -99.53 -6.46 -99.21 -9.72C-98.89 -12.99 -98.41 -16.25 -97.77 -19.47C-97.13 -22.68 -96.33 -25.89 -95.39 -29.02C-94.44 -32.16 -93.33 -35.27 -92.08 -38.3C-90.83 -41.33 -89.42 -44.31 -87.88 -47.21C-86.34 -50.1 -84.65 -52.93 -82.84 -55.66C-81.02 -58.38 -79.06 -61.03 -76.99 -63.57C-74.92 -66.11 -72.71 -68.55 -70.4 -70.87C-68.09 -73.19 -65.66 -75.41 -63.13 -77.49C-60.6 -79.57 -57.96 -81.53 -55.25 -83.35C-52.53 -85.18 -49.71 -86.87 -46.83 -88.42C-43.95 -89.97 -40.98 -91.38 -37.96 -92.63C-34.94 -93.89 -31.85 -95 -28.72 -95.95C-25.59 -96.9 -22.4 -97.7 -19.2 -98.34C-16 -98.98 -12.74 -99.47 -9.49 -99.79C-6.24 -100.11 -2.96 -100.27 0.31 -100.27C3.58 -100.27 6.86 -100.11 10.11 -99.79C13.36 -99.47 16.61 -98.98 19.82 -98.34C23.02 -97.7 26.21 -96.9 29.34 -95.95C32.46 -95 35.56 -93.89 38.58 -92.63C41.6 -91.38 44.57 -89.97 47.45 -88.42C50.33 -86.87 53.15 -85.18 55.87 -83.35C58.58 -81.53 61.22 -79.57 63.75 -77.49C66.27 -75.41 68.71 -73.19 71.02 -70.87C73.33 -68.55 75.54 -66.11 77.61 -63.57C79.68 -61.03 81.64 -58.38 83.46 -55.66C85.27 -52.93 86.96 -50.1 88.5 -47.21C90.04 -44.31 91.45 -41.33 92.7 -38.3C93.95 -35.27 95.05 -32.16 96 -29.02C96.95 -25.89 97.75 -22.68 98.39 -19.47C99.02 -16.25 99.51 -12.99 99.83 -9.72C100.15 -6.46 100.31 -3.16 100.31 0.12Z" fill="#f9f9f9"/><g mask="url(#bot-mask-rk5gr0)"><rect x="-158" y="-158" width="316" height="316" fill="#2fbfa0"/></g></g><g></g><g fill="none" stroke-linecap="round"></g></svg>
+          </div>
+          <div class="avatar-floor-shadow"></div>
         </div>
       </div>
-
-      <div class="pipeline">
-        <div class="stage" id="stage-record">01 Record</div>
-        <div class="stage" id="stage-asr">02 Transcribe</div>
-        <div class="stage" id="stage-retrieve">03 Retrieve</div>
-        <div class="stage" id="stage-generate">04 Generate</div>
-        <div class="stage" id="stage-guard">05 Guardrail</div>
-        <div class="stage" id="stage-speak">06 Speak</div>
-      </div>
-
-      <div class="record-zone">
-        <button id="micBtn" class="mic-btn" title="Click to record voice">●</button>
-        <div class="rec-label" id="recLabel">Tap microphone to speak your question</div>
-      </div>
-
-      <div id="langTag" class="lang-tag" style="display:none;"></div>
-      <div id="resultBox" class="result-box"></div>
-      <audio id="audioPlayer" controls></audio>
     </div>
   </section>
 
@@ -1357,10 +1542,14 @@
       <p>Watch how a farmer speaks out loud in their regional tongue and receives immediate, grounded voice advice — no app, no keypad typing.</p>
     </div>
 
-    <div class="phone-wrap">
-      <div class="phone">
-        <div class="phone-screen">
-          <video src="/assets/videokisan.mp4" autoplay loop muted playsinline controls></video>
+    <div class="video-theater-wrap">
+      <div class="video-theater-card">
+        <div class="video-theater-topbar">
+          <span>● HD FIELD DEMONSTRATION // LIVE TEST</span>
+          <span>1280 × 720 WIDESCREEN</span>
+        </div>
+        <div class="video-theater-screen">
+          <video src="/assets/viddeo.mp4" autoplay loop muted playsinline controls preload="metadata"></video>
         </div>
       </div>
     </div>
@@ -1582,82 +1771,151 @@
   </footer>
 
 <script>
-  // ---------- PRELOADER LOGIC ----------
-  (function initPreloader() {
+  /* ==========================================================================
+     AWWARD-WINNING KINETIC PRELOADER ENGINE
+     ========================================================================== */
+  (function initCinematicPreloader() {
     const preloader = document.getElementById('preloader');
-    const progressBar = document.getElementById('preloaderProgressBar');
-    const percentLabel = document.getElementById('preloaderPercent');
-    const phraseEl = document.getElementById('preloaderPhrase');
-    if (!preloader || !progressBar || !percentLabel) return;
+    const kineticCount = document.getElementById('kineticCount');
+    const markerWash = document.getElementById('counterMarkerWash');
+    const rulerFill = document.getElementById('rulerFill');
+    const dialectChip = document.getElementById('dialectChip');
+    const dialectText = document.getElementById('dialectText');
+    const statusText = document.getElementById('preloaderStatusText');
+    const canvas = document.getElementById('preloaderCanvas');
+    if (!preloader || !kineticCount) return;
 
-    const phrases = [
-      "Connecting rural voice network...",
-      "🌾 किसानवाणी · खेत से खलिहान तक",
-      "🎙️ ਕਿਸਾਨਾਂ ਦੀ ਆਪਣੀ ਆਵਾਜ਼",
-      "🌱 ખેતી સલાહ, તમારી ભાષામાં",
-      "🛡️ ICAR Package-of-Practices Ready",
-      "✨ Welcome to KISANVANI"
+    // Dialect sequence
+    const dialects = [
+      { chip: "IN.HI", text: "हर किसान की अपनी बोली, अपनी आवाज़...", status: "CONNECTING TELEPHONY VOIP GATEWAY..." },
+      { chip: "IN.PA", text: "ਕਿਸਾਨਾਂ ਦੀ ਆਵਾਜ਼, ਸੁਰੱਖਿਅਤ ਸਲਾਹ...", status: "LOADING MULTILINGUAL WHISPER ASR..." },
+      { chip: "IN.GU", text: "ખેડૂતનો સાચો સાથી, સાચી સલાહ...", status: "SYNCHRONIZING AIKOSH KCC CORPUS..." },
+      { chip: "IN.BN", text: "মাটির কাছে মানুষের মুখের কথা...", status: "ENFORCING ICAR POP SAFETY GUARDRAILS..." },
+      { chip: "IN.EN", text: "KISANVANI: VOICE INTELLIGENCE READY.", status: "LOCAL LLAMA 3.1 INITIALIZED." }
     ];
 
-    let progress = 0;
-    let phraseIndex = 0;
+    // Live Canvas Audio Waveform
+    let ctx, animFrameId;
+    let canvasW = 0, canvasH = 0;
+    if (canvas) {
+      ctx = canvas.getContext('2d');
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      canvasW = rect.width || 480;
+      canvasH = rect.height || 64;
+      canvas.width = canvasW * dpr;
+      canvas.height = canvasH * dpr;
+      ctx.scale(dpr, dpr);
+    }
 
-    // Change greeting phrase dynamically as progress climbs
-    const phraseInterval = setInterval(() => {
-      if (progress < 90 && phraseIndex < phrases.length - 1) {
-        phraseIndex++;
-        if (phraseEl) {
-          phraseEl.classList.remove('active');
-          setTimeout(() => {
-            phraseEl.innerText = phrases[phraseIndex];
-            phraseEl.classList.add('active');
-          }, 140);
-        }
+    let wavePhase = 0;
+    function renderWave() {
+      if (!ctx) return;
+      ctx.clearRect(0, 0, canvasW, canvasH);
+      const centerY = canvasH / 2;
+
+      // 1. Highlight Yellow Secondary Wave
+      ctx.beginPath();
+      ctx.strokeStyle = '#ffe95c';
+      ctx.lineWidth = 4;
+      ctx.lineCap = 'round';
+      for (let x = 0; x < canvasW; x += 3) {
+        const y = centerY + Math.sin(x * 0.022 + wavePhase * 1.2) * 16 * Math.sin(x / canvasW * Math.PI);
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
       }
-    }, 380);
+      ctx.stroke();
 
-    // Smooth deterministic progress driver (~1.8s duration)
+      // 2. Forest Ink Primary Wave
+      ctx.beginPath();
+      ctx.strokeStyle = '#1a3300';
+      ctx.lineWidth = 2.5;
+      ctx.lineCap = 'round';
+      for (let x = 0; x < canvasW; x += 3) {
+        const y = centerY + Math.sin(x * 0.035 - wavePhase) * 20 * Math.sin(x / canvasW * Math.PI);
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      wavePhase += 0.06;
+      animFrameId = requestAnimationFrame(renderWave);
+    }
+    renderWave();
+
+    // Kinetic Count-Up Driver (~2.2 seconds duration)
     const startTime = performance.now();
-    const duration = 1800;
+    const duration = 2100;
+    let lastDialectIdx = 0;
 
-    function stepProgress(now) {
+    function frame(now) {
       const elapsed = now - startTime;
-      const targetProgress = Math.min(100, Math.floor((elapsed / duration) * 100));
+      const progress = Math.min(1, elapsed / duration);
+      
+      // Luxury easeInOutExpo
+      const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+      const currentCount = Math.floor(eased * 100);
 
-      if (progress < targetProgress) {
-        progress = targetProgress;
-        progressBar.style.width = progress + '%';
-        percentLabel.innerText = progress + '%';
-        preloader.setAttribute('aria-valuenow', progress);
+      // Update Count
+      const formatted = currentCount < 10 ? '0' + currentCount : currentCount;
+      kineticCount.innerText = formatted;
+
+      // Expand Yellow Marker Wash behind number
+      if (markerWash) {
+        markerWash.style.width = (eased * 110) + '%';
       }
 
-      if (progress < 100) {
-        requestAnimationFrame(stepProgress);
-      } else {
-        clearInterval(phraseInterval);
-        if (phraseEl) {
-          phraseEl.innerText = phrases[phrases.length - 1];
-          phraseEl.classList.add('active');
-        }
+      // Update Bottom Ruler
+      if (rulerFill) {
+        rulerFill.style.width = (eased * 100) + '%';
+      }
 
-        // Smooth exit
+      // Update Dialect & Status
+      const dialectIdx = Math.max(0, Math.min(dialects.length - 1, Math.floor(progress * dialects.length)));
+      if (dialectIdx !== lastDialectIdx && dialects[dialectIdx]) {
+        lastDialectIdx = dialectIdx;
+        if (dialectChip) dialectChip.innerText = dialects[dialectIdx].chip;
+        if (dialectText) {
+          dialectText.style.opacity = '0';
+          dialectText.style.transform = 'translateY(4px)';
+          setTimeout(() => {
+            dialectText.innerText = dialects[dialectIdx].text;
+            dialectText.style.opacity = '1';
+            dialectText.style.transform = 'translateY(0)';
+          }, 100);
+        }
+        if (statusText) statusText.innerText = dialects[dialectIdx].status;
+      }
+
+      if (progress < 1) {
+        requestAnimationFrame(frame);
+      } else {
+        // Complete! Snap to 100%
+        kineticCount.innerText = "100";
+        if (rulerFill) rulerFill.style.width = "100%";
+        if (markerWash) markerWash.style.width = "110%";
+
+        // Trigger Curtain Slats Unveil
         setTimeout(() => {
-          preloader.classList.add('preloader-done');
+          preloader.classList.add('preloader-exit');
           document.body.classList.add('site-revealed');
 
           setTimeout(() => {
+            cancelAnimationFrame(animFrameId);
             if (preloader.parentNode) {
               preloader.parentNode.removeChild(preloader);
             }
-          }, 800);
-        }, 220);
+          }, 1100);
+        }, 320);
       }
     }
 
-    requestAnimationFrame(stepProgress);
+    requestAnimationFrame(frame);
   })();
 
-  // ---------- INTERACTIVE DEMO PIPELINE ----------
+  /* ==========================================================================
+     INTERACTIVE DEMO PIPELINE & AUDIO CAPTURE
+     ========================================================================== */
   let mediaRecorder;
   let audioChunks = [];
   let isRecording = false;
@@ -1670,7 +1928,14 @@
   const cropSelect = document.getElementById('cropSelect');
   const stateSelect = document.getElementById('stateSelect');
   const langPills = document.querySelectorAll('.lang-pill');
+  const avatarStage = document.getElementById('avatarStage');
   let selectedLanguage = null; // null = auto-detect from voice (default)
+
+  if (audioPlayer && avatarStage) {
+    audioPlayer.addEventListener('play', () => avatarStage.classList.add('avatar-speaking'));
+    audioPlayer.addEventListener('pause', () => avatarStage.classList.remove('avatar-speaking'));
+    audioPlayer.addEventListener('ended', () => avatarStage.classList.remove('avatar-speaking'));
+  }
 
   langPills.forEach(pill => {
     pill.addEventListener('click', () => {
@@ -1697,6 +1962,7 @@
       mediaRecorder.stream.getTracks().forEach(t => t.stop());
       isRecording = false;
       micBtn.classList.remove('recording');
+      if (avatarStage) avatarStage.classList.remove('avatar-listening');
       return;
     }
 
@@ -1708,6 +1974,7 @@
       mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
 
       mediaRecorder.onstop = async () => {
+        if (avatarStage) avatarStage.classList.remove('avatar-listening');
         recLabel.innerText = "Processing your question through pipeline...";
         setStage(2); // record + asr assumed starting
 
@@ -1760,6 +2027,7 @@
       mediaRecorder.start();
       isRecording = true;
       micBtn.classList.add('recording');
+      if (avatarStage) avatarStage.classList.add('avatar-listening');
       recLabel.innerText = "Recording... tap button again to stop";
       resultBox.style.display = 'none';
       langTag.style.display = 'none';
