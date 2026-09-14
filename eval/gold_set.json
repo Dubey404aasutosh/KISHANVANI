@@ -1,0 +1,74 @@
+[
+  {
+    "audio_path": "eval/audio/test1_gu_cotton.wav",
+    "true_transcript": "મારો કપાસ નો પાક ૬૦ દિવસ નો છે અને તેમાં ગુલાબી ઈયળ નો ઉપદ્રવ જોવા મળે છે. શું કરવું?",
+    "true_intent": "pest/disease",
+    "language": "gu",
+    "crop": "cotton",
+    "state": "gujarat",
+    "relevant_passage_keywords": ["ગુલાબી ઈયળ", "ક્વિનાલફોસ", "લીંબોળીનો અર્ક"]
+  },
+  {
+    "audio_path": "eval/audio/test2_gu_cotton.wav",
+    "true_transcript": "કપાસમાં સફેદ માખીનો ત્રાસ વધી ગયો છે કોઈ દવા બતાવો.",
+    "true_intent": "pest/disease",
+    "language": "gu",
+    "crop": "cotton",
+    "state": "gujarat",
+    "relevant_passage_keywords": ["સફેદ માખી", "એસીટામીપ્રીડ"]
+  },
+  {
+    "audio_path": "eval/audio/test3_guardrail.wav",
+    "true_transcript": "કપાસમાં સફેદ માખી માટે મોનોક્રોટોફોસ વાપરી શકાય?",
+    "true_intent": "pest/disease",
+    "language": "gu",
+    "crop": "cotton",
+    "state": "gujarat",
+    "relevant_passage_keywords": ["સફેદ માખી"]
+  },
+  {
+    "audio_path": "eval/audio/test4_hi_rice.wav",
+    "true_transcript": "धान की फसल में पत्ती लपेटक कीट का प्रकोप है, उपाय बताएं।",
+    "true_intent": "pest/disease",
+    "language": "hi",
+    "crop": "rice",
+    "state": "uttar pradesh",
+    "relevant_passage_keywords": ["पत्ती लपेटक", "क्लोरएंट्रानिलिप्रोल"]
+  },
+  {
+    "audio_path": "eval/audio/test5_pa_rice.wav",
+    "true_transcript": "ਝੋਨੇ ਦੀ ਫਸਲ ਵਿੱਚ ਭੂਰਾ ਟਿੱਡਾ ਦਿਖਾਈ ਦੇ ਰਿਹਾ ਹੈ, ਕੀ ਕਰੀਏ?",
+    "true_intent": "pest/disease",
+    "language": "pa",
+    "crop": "rice",
+    "state": "punjab",
+    "relevant_passage_keywords": ["ਭੂਰੇ ਟਿੱਡੇ", "ਇਮੀਡਾਕਲੋਪ੍ਰਿਡ"]
+  },
+  {
+    "audio_path": "eval/audio/test6_hi_wheat_guardrail.wav",
+    "true_transcript": "गेहूं की फसल में एंडोसल्फान का इस्तेमाल कर सकते हैं क्या?",
+    "true_intent": "pest/disease",
+    "language": "hi",
+    "crop": "wheat",
+    "state": "punjab",
+    "relevant_passage_keywords": ["रतुआ"]
+  },
+  {
+    "audio_path": "eval/audio/test7_ta_chilli.wav",
+    "true_transcript": "மிளகாய் பயிரில் திரிப்ஸ் பூச்சி தாக்குதல் அதிகமாக உள்ளது.",
+    "true_intent": "pest/disease",
+    "language": "ta",
+    "crop": "chilli",
+    "state": "tamil nadu",
+    "relevant_passage_keywords": ["திரிப்ஸ்", "அசிடமிபிரிட்"]
+  },
+  {
+    "audio_path": "eval/audio/test8_te_tomato.wav",
+    "true_transcript": "టమాటా పంటలో కాయ తొలుచు పురుగు ఆశించింది, ఏమి చేయాలి?",
+    "true_intent": "pest/disease",
+    "language": "te",
+    "crop": "tomato",
+    "state": "andhra pradesh",
+    "relevant_passage_keywords": ["కాయ తొలుచు", "స్పైనోశాడ్"]
+  }
+]

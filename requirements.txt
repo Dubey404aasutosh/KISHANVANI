@@ -1,0 +1,11 @@
+rank_bm25
+sentence-transformers
+openai-whisper
+transformers
+torch
+ollama
+fastapi
+uvicorn
+requests
+gtts
+python-multipart

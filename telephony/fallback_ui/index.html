@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KISANVANI</title>
+<style>
+  :root{
+    --ink:#0f2417;
+    --ink-soft:#3d5548;
+    --paper:#f6f4ee;
+    --card:#ffffff;
+    --brand:#1c7a4d;
+    --brand-dark:#155c3a;
+    --brand-soft:#e4f3ea;
+    --line:rgba(15,36,23,0.10);
+    --shadow:0 20px 50px -20px rgba(15,36,23,0.35);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans",Arial,sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+  }
+  a{color:inherit;}
+
+  /* ---------- NAV ---------- */
+  .nav{
+    position:sticky; top:0; z-index:50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 32px;
+    background:rgba(15,36,23,0.55);
+    backdrop-filter:blur(10px);
+    color:#fff;
+  }
+  .brand{display:flex; align-items:center; gap:10px; font-weight:700; font-size:19px;}
+  .brand .mark{
+    width:32px; height:32px; border-radius:9px;
+    background:var(--brand);
+    display:flex; align-items:center; justify-content:center; font-size:15px; font-weight:700; color:#fff;
+  }
+  .nav-links{display:flex; gap:28px; font-size:14.5px; opacity:0.92;}
+  .nav-links span{cursor:pointer;}
+  .nav-links span:hover{opacity:1; text-decoration:underline;}
+  .lang-pills{display:flex; align-items:center; gap:6px; background:rgba(255,255,255,0.12); padding:5px; border-radius:999px;}
+  .lang-pill{
+    padding:6px 12px; border-radius:999px; font-size:13px; cursor:pointer; border:none;
+    background:transparent; color:#fff; opacity:0.75;
+  }
+  .lang-pill.active{background:#fff; color:var(--ink); opacity:1; font-weight:600;}
+  @media (max-width: 860px){ .nav-links{display:none;} }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    min-height:92vh;
+    display:flex; align-items:center;
+    padding:60px 32px 80px;
+    overflow:hidden;
+  }
+  .hero-bg{
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(180deg, rgba(10,26,17,0.72) 0%, rgba(10,26,17,0.45) 45%, rgba(246,244,238,0.96) 100%),
+      url('https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=2000&q=80');
+    background-size:cover;
+    background-position:center 40%;
+    z-index:0;
+  }
+  .hero-inner{
+    position:relative; z-index:1;
+    max-width:1180px; margin:0 auto;
+    display:grid; grid-template-columns:1.15fr 0.9fr; gap:48px; align-items:center; width:100%;
+  }
+  @media (max-width: 980px){ .hero-inner{grid-template-columns:1fr;} }
+
+  .badge{
+    display:inline-flex; align-items:center; gap:8px;
+    background:rgba(255,255,255,0.9); color:var(--brand-dark);
+    padding:8px 16px; border-radius:999px; font-size:13.5px; font-weight:600;
+    margin-bottom:22px;
+  }
+  .badge .dot{width:8px; height:8px; border-radius:50%; background:var(--brand); display:inline-block;}
+  h1{
+    font-size:clamp(34px,4.6vw,56px);
+    line-height:1.08; letter-spacing:-0.02em;
+    margin:0 0 20px; color:#fff; font-weight:800;
+  }
+  h1 .accent{color:#8fe3b6;}
+  .lede{
+    font-size:17px; line-height:1.65; color:rgba(255,255,255,0.88);
+    max-width:540px; margin:0 0 32px;
+  }
+  .cta-row{display:flex; gap:14px; flex-wrap:wrap;}
+  .btn{
+    padding:14px 24px; border-radius:12px; font-size:15px; font-weight:600;
+    border:none; cursor:pointer; display:inline-flex; align-items:center; gap:8px;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover{transform:translateY(-1px);}
+  .btn-primary{background:var(--brand); color:#fff; box-shadow:0 10px 24px -8px rgba(28,122,77,0.6);}
+  .btn-primary:hover{background:var(--brand-dark);}
+  .btn-ghost{background:rgba(255,255,255,0.14); color:#fff; border:1px solid rgba(255,255,255,0.5);}
+  .btn-ghost:hover{background:rgba(255,255,255,0.24);}
+
+  .stat-row{display:flex; gap:28px; margin-top:40px; flex-wrap:wrap;}
+  .stat{color:#fff;}
+  .stat b{display:block; font-size:24px;}
+  .stat span{font-size:12.5px; opacity:0.75; text-transform:uppercase; letter-spacing:0.04em;}
+
+  /* ---------- FLOATING DEMO CARD ---------- */
+  .demo-card{
+    background:var(--card); border-radius:20px; box-shadow:var(--shadow);
+    padding:22px; border:1px solid var(--line);
+  }
+  .demo-card-header{display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;}
+  .demo-card-header .eyebrow{font-size:11.5px; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-soft); font-weight:700;}
+  .demo-card-header h3{margin:2px 0 0; font-size:19px;}
+  .pill-live{background:var(--brand-soft); color:var(--brand-dark); font-size:12px; font-weight:700; padding:5px 11px; border-radius:999px;}
+
+  .hint-row{display:flex; gap:8px; margin-bottom:14px;}
+  select{
+    flex:1; padding:10px 10px; font-size:13px; border-radius:10px; border:1px solid var(--line);
+    background:var(--paper); color:var(--ink);
+  }
+
+  .record-zone{
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:22px 10px; border-radius:16px; background:var(--paper); border:1px dashed var(--line);
+    margin-bottom:16px;
+  }
+  .mic-btn{
+    width:64px; height:64px; border-radius:50%; border:none; cursor:pointer;
+    background:var(--brand); color:#fff; font-size:26px;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 8px 20px -6px rgba(28,122,77,0.55);
+    transition:transform .15s ease, background .15s ease;
+  }
+  .mic-btn:hover{transform:scale(1.05);}
+  .mic-btn.recording{background:#d64545; animation:pulse 1.4s infinite;}
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(214,69,69,0.45);}
+    70%{box-shadow:0 0 0 16px rgba(214,69,69,0);}
+    100%{box-shadow:0 0 0 0 rgba(214,69,69,0);}
+  }
+  .rec-label{margin-top:12px; font-size:13.5px; color:var(--ink-soft); font-weight:500;}
+
+  .pipeline{display:flex; justify-content:space-between; margin-bottom:14px; gap:4px;}
+  .stage{flex:1; text-align:center; font-size:10.5px; color:#b8c2bb; font-weight:700; text-transform:uppercase; letter-spacing:0.02em; position:relative; padding-top:16px;}
+  .stage::before{
+    content:''; position:absolute; top:0; left:50%; transform:translateX(-50%);
+    width:10px; height:10px; border-radius:50%; background:#dfe6e1;
+  }
+  .stage.active::before{background:var(--brand);}
+  .stage.active{color:var(--brand-dark);}
+
+  .result-box{
+    background:var(--brand-soft); border-radius:14px; padding:14px 16px; font-size:14px;
+    line-height:1.55; color:var(--ink); display:none; margin-bottom:10px; max-height:160px; overflow-y:auto;
+  }
+  .lang-tag{
+    display:inline-block; font-size:11px; font-weight:700; color:var(--brand-dark);
+    background:#fff; padding:3px 9px; border-radius:999px; margin-bottom:8px;
+  }
+  audio{width:100%; margin-top:6px; display:none;}
+
+  /* ---------- SECTIONS ---------- */
+  .section{max-width:1180px; margin:0 auto; padding:80px 32px;}
+  .section-head{max-width:640px; margin-bottom:44px;}
+  .section-head .eyebrow{color:var(--brand); font-weight:700; font-size:13px; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:10px; display:block;}
+  .section-head h2{font-size:clamp(26px,3vw,36px); margin:0 0 12px; letter-spacing:-0.01em;}
+  .section-head p{color:var(--ink-soft); font-size:15.5px; line-height:1.6; margin:0;}
+
+  .grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:22px;}
+  @media (max-width:860px){ .grid-3{grid-template-columns:1fr;} }
+  .feature-card{
+    background:var(--card); border:1px solid var(--line); border-radius:18px; padding:28px;
+    transition:box-shadow .15s ease, transform .15s ease;
+  }
+  .feature-card:hover{box-shadow:0 16px 32px -18px rgba(15,36,23,0.22); transform:translateY(-2px);}
+  .feature-card .icon{
+    width:42px; height:42px; border-radius:11px; background:var(--brand-soft); color:var(--brand-dark);
+    display:flex; align-items:center; justify-content:center; font-size:18px; font-weight:600; margin-bottom:18px;
+  }
+  .feature-card h4{margin:0 0 8px; font-size:16.5px;}
+  .feature-card p{margin:0 0 18px; font-size:14px; color:var(--ink-soft); line-height:1.6;}
+  .feature-card .tag{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--brand-dark);
+    background:var(--brand-soft); padding:6px 12px; border-radius:999px;
+  }
+
+  .pipeline-strip{
+    display:flex; align-items:center; gap:10px; overflow-x:auto; padding:6px 2px 14px;
+  }
+  .pstep{
+    flex:0 0 auto; background:var(--card); border:1px solid var(--line); border-radius:14px;
+    padding:16px 18px; min-width:150px;
+  }
+  .pstep b{display:block; font-size:14px; margin-bottom:4px;}
+  .pstep span{font-size:12.5px; color:var(--ink-soft);}
+  .arrow{color:#c3cdc6; font-size:18px;}
+
+  footer{
+    padding:36px 32px; text-align:center; color:var(--ink-soft); font-size:13px;
+    border-top:1px solid var(--line);
+  }
+
+  /* ---------- PHONE SHOWCASE (video demo) ---------- */
+  .showcase{
+    background:var(--paper);
+    padding:100px 32px 120px;
+    text-align:center;
+  }
+  .showcase-head{max-width:680px; margin:0 auto 56px;}
+  .showcase-head h2{font-size:clamp(28px,3.6vw,42px); line-height:1.15; margin:0 0 16px; letter-spacing:-0.015em;}
+  .showcase-head p{color:var(--ink-soft); font-size:16px; line-height:1.65; margin:0;}
+
+  .phone-wrap{display:flex; justify-content:center;}
+  .phone{
+    position:relative;
+    width:min(360px, 82vw); aspect-ratio:9/18.5;
+    background:#0c0c0c; border-radius:46px;
+    padding:12px; box-shadow:0 50px 90px -35px rgba(15,36,23,0.4), 0 0 0 1px rgba(15,36,23,0.06);
+  }
+  .phone::before{
+    content:''; position:absolute; top:22px; left:50%; transform:translateX(-50%);
+    width:70px; height:20px; background:#0c0c0c; border-radius:12px; z-index:2;
+    display:flex; align-items:center; justify-content:flex-end; padding-right:10px;
+  }
+  .phone::after{
+    content:''; position:absolute; top:30px; left:50%; transform:translateX(6px);
+    width:7px; height:7px; background:var(--brand); border-radius:50%; z-index:3;
+  }
+  .phone-screen{
+    width:100%; height:100%; border-radius:36px; overflow:hidden; background:#000;
+    position:relative;
+  }
+  .phone-screen video{width:100%; height:100%; object-fit:cover; display:block;}
+  .showcase-points{
+    list-style:none; padding:0; margin:52px auto 0; max-width:920px;
+    display:grid; grid-template-columns:repeat(4,1fr); gap:28px; text-align:left;
+  }
+  @media (max-width:860px){ .showcase-points{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:520px){ .showcase-points{grid-template-columns:1fr;} }
+  .showcase-points li{font-size:13.5px; color:var(--ink-soft); line-height:1.55; padding-top:14px; border-top:2px solid var(--line);}
+  .showcase-points b{display:block; color:var(--ink); font-size:14.5px; margin-bottom:4px;}
+
+  /* ---------- STEPS ---------- */
+  .steps{display:grid; grid-template-columns:repeat(5,1fr); gap:18px;}
+  @media (max-width:940px){ .steps{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:560px){ .steps{grid-template-columns:1fr;} }
+  .step{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:22px 20px; position:relative;}
+  .step .num{
+    width:32px; height:32px; border-radius:50%; background:var(--brand); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; margin-bottom:14px;
+  }
+  .step h4{margin:0 0 6px; font-size:15px;}
+  .step p{margin:0; font-size:13px; color:var(--ink-soft); line-height:1.55;}
+</style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="brand"><span class="mark">K</span> KISANVANI</div>
+    <div class="nav-links">
+      <span onclick="document.getElementById('demo').scrollIntoView({behavior:'smooth'})">Try the Demo</span>
+      <span onclick="document.getElementById('showcase').scrollIntoView({behavior:'smooth'})">See it in Action</span>
+      <span onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">Features</span>
+      <span onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">How it Works</span>
+      <span onclick="document.getElementById('safety').scrollIntoView({behavior:'smooth'})">Safety</span>
+    </div>
+    <div class="lang-pills">
+      <button class="lang-pill active" data-lang="en">EN</button>
+      <button class="lang-pill" data-lang="hi">हिंदी</button>
+      <button class="lang-pill" data-lang="pa">ਪੰਜਾਬੀ</button>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-inner">
+      <div>
+        <div class="badge"><span class="dot"></span> Built for every farmer, in every Indian language</div>
+        <h1>Call in Hindi. <span class="accent">Get advice</span> that's grounded and safe.</h1>
+        <p class="lede">
+          KISANVANI is a voice-first agri-advisory line for feature phones. A farmer speaks their question
+          in any major Indian language — the system transcribes it, searches real Kisan Call Centre records,
+          and answers back out loud, in the same language, with a safety layer that blocks banned pesticides
+          and unsafe dosages before they're ever spoken.
+        </p>
+        <div class="cta-row">
+          <button class="btn btn-primary" onclick="document.getElementById('demo').scrollIntoView({behavior:'smooth'})">
+            Try the live demo →
+          </button>
+          <button class="btn btn-ghost" onclick="document.getElementById('showcase').scrollIntoView({behavior:'smooth'})">
+            Watch it in action
+          </button>
+        </div>
+        <div class="stat-row">
+          <div class="stat"><b>15+</b><span>Crops covered</span></div>
+          <div class="stat"><b>8</b><span>Languages</span></div>
+          <div class="stat"><b>13</b><span>States</span></div>
+          <div class="stat"><b>0₹</b><span>Cost per call*</span></div>
+        </div>
+      </div>
+
+      <div id="demo" class="demo-card">
+        <div class="demo-card-header">
+          <div>
+            <span class="eyebrow">Live pipeline</span>
+            <h3>Ask KISANVANI</h3>
+          </div>
+          <span class="pill-live">● Local model</span>
+        </div>
+
+        <div class="hint-row">
+          <select id="cropSelect">
+            <option value="">Any crop</option>
+            <option value="cotton">Cotton</option>
+            <option value="rice">Rice</option>
+            <option value="wheat">Wheat</option>
+            <option value="sugarcane">Sugarcane</option>
+            <option value="maize">Maize</option>
+            <option value="soybean">Soybean</option>
+            <option value="groundnut">Groundnut</option>
+            <option value="chilli">Chilli</option>
+            <option value="tomato">Tomato</option>
+            <option value="onion">Onion</option>
+            <option value="potato">Potato</option>
+            <option value="banana">Banana</option>
+            <option value="mustard">Mustard</option>
+            <option value="gram">Gram</option>
+            <option value="tea">Tea</option>
+          </select>
+          <select id="stateSelect">
+            <option value="">Any state</option>
+            <option value="gujarat">Gujarat</option>
+            <option value="maharashtra">Maharashtra</option>
+            <option value="punjab">Punjab</option>
+            <option value="uttar pradesh">Uttar Pradesh</option>
+            <option value="madhya pradesh">Madhya Pradesh</option>
+            <option value="karnataka">Karnataka</option>
+            <option value="tamil nadu">Tamil Nadu</option>
+            <option value="andhra pradesh">Andhra Pradesh</option>
+            <option value="west bengal">West Bengal</option>
+            <option value="bihar">Bihar</option>
+            <option value="rajasthan">Rajasthan</option>
+            <option value="haryana">Haryana</option>
+            <option value="assam">Assam</option>
+          </select>
+        </div>
+
+        <div class="pipeline">
+          <div class="stage" id="stage-record">Record</div>
+          <div class="stage" id="stage-asr">Transcribe</div>
+          <div class="stage" id="stage-retrieve">Retrieve</div>
+          <div class="stage" id="stage-generate">Generate</div>
+          <div class="stage" id="stage-guard">Guardrail</div>
+          <div class="stage" id="stage-speak">Speak</div>
+        </div>
+
+        <div class="record-zone">
+          <button id="micBtn" class="mic-btn">●</button>
+          <div class="rec-label" id="recLabel">Tap to ask a question</div>
+        </div>
+
+        <div id="langTag" class="lang-tag" style="display:none;"></div>
+        <div id="resultBox" class="result-box"></div>
+        <audio id="audioPlayer" controls></audio>
+      </div>
+    </div>
+  </header>
+
+  <section class="showcase" id="showcase">
+    <div class="showcase-head">
+      <span class="eyebrow" style="color:var(--brand);">See it in action</span>
+      <h2>Every Farmer Has a Question —<br>KISANVANI Has an Answer</h2>
+      <p>Watch how a farmer asks a real question out loud, in their own language, and hears back
+         grounded advice — no app, no menu, no typing.</p>
+    </div>
+
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="phone-screen">
+          <video src="/assets/videokisan.mp4" autoplay loop muted playsinline controls></video>
+        </div>
+      </div>
+    </div>
+
+    <ul class="showcase-points">
+      <li><b>No smartphone needed</b>Works over a basic voice call, on any feature phone.</li>
+      <li><b>Speaks naturally</b>Understands unscripted, everyday questions — not rigid keywords.</li>
+      <li><b>Answers in-language</b>Replies out loud in the same language the farmer used.</li>
+      <li><b>Checked before speaking</b>Every recommendation passes a safety check first.</li>
+    </ul>
+  </section>
+
+  <section class="section" id="features">
+    <div class="section-head">
+      <span class="eyebrow">Features</span>
+      <h2>Everything a farmer needs from one phone call</h2>
+      <p>Six capabilities working together behind a single voice conversation.</p>
+    </div>
+    <div class="grid-3">
+      <div class="feature-card">
+        <div class="icon">Aa</div>
+        <h4>Any Indian language</h4>
+        <p>Auto-detects the spoken language — Hindi, Gujarati, Punjabi, Marathi, Bengali, Tamil, Telugu, Kannada and more — no menu to pick a language first.</p>
+        <span class="tag">Speak naturally</span>
+      </div>
+      <div class="feature-card">
+        <div class="icon">✽</div>
+        <h4>Pest &amp; disease diagnosis</h4>
+        <p>Describe symptoms in your own words — the system matches them to real, resolved Kisan Call Centre cases for the same crop and problem.</p>
+        <span class="tag">Grounded in real cases</span>
+      </div>
+      <div class="feature-card">
+        <div class="icon">↗</div>
+        <h4>15+ major crops</h4>
+        <p>Cotton, rice, wheat, sugarcane, maize, soybean, groundnut, chilli, tomato and more — spanning 13 states, not tied to one region or crop.</p>
+        <span class="tag">National coverage</span>
+      </div>
+      <div class="feature-card">
+        <div class="icon">⛨</div>
+        <h4>Banned-chemical guardrail</h4>
+        <p>A deterministic safety check blocks Monocrotophos, Endosulfan and other banned pesticides — and unsafe dosages — before an answer is ever spoken.</p>
+        <span class="tag">Never skipped</span>
+      </div>
+      <div class="feature-card">
+        <div class="icon">◎</div>
+        <h4>Crop &amp; state aware</h4>
+        <p>Optionally narrow retrieval to the farmer's actual crop and state, so cotton advice from Gujarat doesn't get mixed with rice advice from Punjab.</p>
+        <span class="tag">Context matters</span>
+      </div>
+      <div class="feature-card">
+        <div class="icon">◇</div>
+        <h4>Private by default</h4>
+        <p>Caller IDs are hashed, raw voice recordings are deleted immediately after transcription, and every model runs locally — nothing sent to a third party.</p>
+        <span class="tag">On-device by design</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="how">
+    <div class="section-head">
+      <span class="eyebrow">How it works</span>
+      <h2>Five steps, from question to spoken answer</h2>
+      <p>The same flow whether it's a real phone call or this browser demo.</p>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="num">1</div><h4>Call in</h4><p>Farmer dials in (or, in this demo, taps the mic) and asks a question in their own language.</p></div>
+      <div class="step"><div class="num">2</div><h4>System listens</h4><p>Whisper transcribes the speech and detects which language was spoken.</p></div>
+      <div class="step"><div class="num">3</div><h4>Finds real answers</h4><p>Hybrid search pulls the closest matching resolved cases from the national KCC dataset.</p></div>
+      <div class="step"><div class="num">4</div><h4>Checked for safety</h4><p>The draft answer is screened against banned chemicals and unsafe dosage limits.</p></div>
+      <div class="step"><div class="num">5</div><h4>Spoken back</h4><p>The approved answer is read aloud to the farmer in the language they called in with.</p></div>
+    </div>
+  </section>
+
+  <section class="section" id="pipeline-detail">
+    <div class="section-head">
+      <span class="eyebrow">Under the hood</span>
+      <h2>Five open models working together</h2>
+      <p>Every step runs automatically between the farmer speaking and hearing an answer — no app, no literacy, no typing required.</p>
+    </div>
+    <div class="pipeline-strip">
+      <div class="pstep"><b>Whisper ASR</b><span>Transcribes speech and auto-detects the spoken language.</span></div>
+      <div class="arrow">→</div>
+      <div class="pstep"><b>Hybrid Retrieval</b><span>BM25 + multilingual embeddings search real KCC farmer Q&As.</span></div>
+      <div class="arrow">→</div>
+      <div class="pstep"><b>Llama 3.1</b><span>Drafts an answer grounded only in retrieved passages.</span></div>
+      <div class="arrow">→</div>
+      <div class="pstep"><b>Safety Guardrail</b><span>Blocks banned chemicals and unsafe dosages before they're spoken.</span></div>
+      <div class="arrow">→</div>
+      <div class="pstep"><b>Text-to-Speech</b><span>Answers back out loud, in the farmer's own language.</span></div>
+    </div>
+  </section>
+
+  <section class="section" id="safety">
+    <div class="section-head">
+      <span class="eyebrow">Trust &amp; safety</span>
+      <h2>Grounded answers. Nothing invented.</h2>
+      <p>Built with the same care a Krishi Vigyan Kendra expert would use on a phone call.</p>
+    </div>
+    <div class="grid-3">
+      <div class="feature-card">
+        <div class="icon">⛨</div>
+        <h4>Deterministic guardrail</h4>
+        <p>A rule-based safety layer checks every generated answer against an approved Package-of-Practices table — no banned pesticide or unsafe dosage is ever allowed through, regardless of what the model produces.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">◇</div>
+        <h4>Privacy by design</h4>
+        <p>Caller IDs are SHA-256 hashed before storage. Raw voice recordings are deleted immediately after transcription — never retained.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">✽</div>
+        <h4>Sourced from real data</h4>
+        <p>Answers are retrieved from actual Kisan Call Centre farmer queries and expert responses, sourced via data.gov.in — not invented by the model.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    *Compute cost only — runs on a local open-source LLM (Llama 3.1 via Ollama), no per-call API fees. Built for the UNLEASHLLM Innovation Challenge.
+  </footer>
+
+<script>
+  let mediaRecorder;
+  let audioChunks = [];
+  let isRecording = false;
+
+  const micBtn = document.getElementById('micBtn');
+  const recLabel = document.getElementById('recLabel');
+  const resultBox = document.getElementById('resultBox');
+  const langTag = document.getElementById('langTag');
+  const audioPlayer = document.getElementById('audioPlayer');
+  const cropSelect = document.getElementById('cropSelect');
+  const stateSelect = document.getElementById('stateSelect');
+  const langPills = document.querySelectorAll('.lang-pill');
+  let selectedLanguage = null; // null = auto-detect from voice (default)
+
+  langPills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      langPills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      selectedLanguage = pill.dataset.lang === 'en' ? null : pill.dataset.lang;
+    });
+  });
+
+  const stageIds = ['stage-record','stage-asr','stage-retrieve','stage-generate','stage-guard','stage-speak'];
+  function setStage(activeCount){
+    stageIds.forEach((id, i) => {
+      document.getElementById(id).classList.toggle('active', i < activeCount);
+    });
+  }
+  function resetStages(){ setStage(0); }
+
+  micBtn.addEventListener('click', async () => {
+    if (isRecording) {
+      mediaRecorder.stop();
+      mediaRecorder.stream.getTracks().forEach(t => t.stop());
+      isRecording = false;
+      micBtn.classList.remove('recording');
+      return;
+    }
+
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaRecorder = new MediaRecorder(stream);
+      audioChunks = [];
+
+      mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+
+      mediaRecorder.onstop = async () => {
+        recLabel.innerText = "Processing your question...";
+        setStage(2); // record + asr assumed starting
+
+        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+        const formData = new FormData();
+        formData.append('audio_file', audioBlob, 'query.webm');
+        if (cropSelect.value) formData.append('crop', cropSelect.value);
+        if (stateSelect.value) formData.append('state', stateSelect.value);
+        if (selectedLanguage) formData.append('language', selectedLanguage);
+
+        // Simulate stage progression while waiting for the real response
+        // (the backend runs these steps sequentially server-side).
+        let step = 2;
+        const stepTimer = setInterval(() => {
+          if (step < 5) { step++; setStage(step); }
+        }, 900);
+
+        try {
+          const response = await fetch('/process_audio', { method: 'POST', body: formData });
+          clearInterval(stepTimer);
+
+          if (response.ok) {
+            const data = await response.json();
+            setStage(6);
+            recLabel.innerText = "Tap to ask another question";
+
+            langTag.style.display = 'inline-block';
+            langTag.innerText = "Detected language: " + (data.detected_language || "unknown").toUpperCase();
+
+            resultBox.style.display = 'block';
+            resultBox.innerText = data.text;
+
+            if (data.audio_base64) {
+              audioPlayer.src = "data:audio/mpeg;base64," + data.audio_base64;
+              audioPlayer.style.display = 'block';
+              audioPlayer.play();
+            }
+          } else {
+            recLabel.innerText = "Error: " + response.statusText;
+          }
+        } catch (err) {
+          clearInterval(stepTimer);
+          recLabel.innerText = "Connection error — is the KISANVANI server running?";
+          console.error(err);
+        }
+      };
+
+      resetStages();
+      setStage(1);
+      audioChunks = [];
+      mediaRecorder.start();
+      isRecording = true;
+      micBtn.classList.add('recording');
+      recLabel.innerText = "Recording... tap again to stop";
+      resultBox.style.display = 'none';
+      langTag.style.display = 'none';
+      audioPlayer.style.display = 'none';
+
+    } catch (err) {
+      alert("Microphone access denied or not available.");
+      console.error(err);
+    }
+  });
+</script>
+</body>
+</html>
