@@ -593,30 +593,39 @@
      INTERACTIVE DEMO CARD & AVATAR SECTION
      ========================================================================== */
   .demo-section-wrapper {
-    max-width: 1240px;
+    max-width: 1400px;
     margin: 48px auto 80px;
-    padding: 0 24px;
+    padding: 0 32px;
     position: relative;
   }
 
   .demo-grid-layout {
     display: grid;
-    grid-template-columns: minmax(0, 1.25fr) minmax(300px, 0.75fr);
-    gap: 48px;
+    grid-template-columns: minmax(0, 1.15fr) minmax(360px, 0.85fr);
+    gap: 60px;
     align-items: center;
   }
 
-  @media (max-width: 1040px) {
+  @media (max-width: 1120px) {
     .demo-grid-layout {
-      grid-template-columns: minmax(0, 1.2fr) 280px;
-      gap: 32px;
+      grid-template-columns: minmax(0, 1.1fr) 350px;
+      gap: 36px;
     }
   }
 
   @media (max-width: 880px) {
+    .demo-section-wrapper {
+      padding: 0 20px;
+    }
     .demo-grid-layout {
       grid-template-columns: 1fr;
       gap: 40px;
+    }
+    .demo-avatar-column {
+      align-items: center !important;
+    }
+    .avatar-stage-wrap {
+      margin: 0 auto !important;
     }
   }
 
@@ -630,14 +639,15 @@
     width: 100%;
   }
 
-  /* Avatar Presentation on Right */
+  /* Avatar Presentation on Rightmost */
   .demo-avatar-column {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-end; /* Rightmost positioning */
     justify-content: center;
     position: relative;
     user-select: none;
+    width: 100%;
   }
 
   .avatar-stage-wrap {
@@ -647,6 +657,8 @@
     align-items: center;
     justify-content: center;
     width: 100%;
+    max-width: 480px;
+    margin-left: auto; /* Push to far right */
   }
 
   .avatar-blob-graphic {
@@ -654,13 +666,14 @@
     align-items: center;
     justify-content: center;
     animation: avatarFloat 4.2s ease-in-out infinite;
-    filter: drop-shadow(0 16px 32px rgba(47, 191, 160, 0.28));
+    filter: drop-shadow(0 20px 42px rgba(47, 191, 160, 0.32));
     transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    width: 100%;
   }
 
   .avatar-blob-graphic svg {
     width: 100%;
-    max-width: 310px;
+    max-width: 440px;
     height: auto;
     aspect-ratio: 1 / 1;
     display: block;
@@ -673,11 +686,13 @@
   }
 
   .avatar-floor-shadow {
-    width: 220px;
-    height: 20px;
+    width: 320px;
+    height: 26px;
     background: radial-gradient(ellipse at center, rgba(26, 51, 0, 0.22) 0%, rgba(26, 51, 0, 0) 70%);
     border-radius: 50%;
-    margin-top: 14px;
+    margin-top: 18px;
+    animation: avatarShadowBob 4.2s ease-in-out infinite;
+  }
     animation: avatarShadowBob 4.2s ease-in-out infinite;
   }
 
