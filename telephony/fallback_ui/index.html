@@ -593,39 +593,65 @@
      INTERACTIVE DEMO CARD & AVATAR SECTION
      ========================================================================== */
   .demo-section-wrapper {
-    max-width: 1400px;
-    margin: 48px auto 80px;
-    padding: 0 32px;
+    max-width: 100%;
+    margin: 24px 0 60px;
+    padding: 0;
     position: relative;
+    overflow: visible;   /* NEVER clip the avatar vertically */
+    min-height: 760px;
   }
 
   .demo-grid-layout {
-    display: grid;
-    grid-template-columns: minmax(0, 1.15fr) minmax(360px, 0.85fr);
-    gap: 60px;
+    display: flex;
     align-items: center;
+    justify-content: flex-start;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 48px;
+    position: relative;
+    z-index: 2;
+    min-height: 700px;
   }
 
   @media (max-width: 1120px) {
     .demo-grid-layout {
-      grid-template-columns: minmax(0, 1.1fr) 350px;
-      gap: 36px;
+      padding: 32px 24px;
+      flex-direction: column;
+      min-height: auto;
     }
   }
 
   @media (max-width: 880px) {
     .demo-section-wrapper {
-      padding: 0 20px;
+      min-height: auto;
+      overflow: visible;
+      margin: 24px 0 40px;
     }
     .demo-grid-layout {
-      grid-template-columns: 1fr;
+      flex-direction: column;
+      padding: 24px 20px;
       gap: 40px;
     }
     .demo-avatar-column {
+      position: relative !important;
+      right: auto !important;
+      top: auto !important;
+      height: auto !important;
+      width: 100% !important;
       align-items: center !important;
+      overflow: visible !important;
     }
     .avatar-stage-wrap {
-      margin: 0 auto !important;
+      position: relative !important;
+      transform: none !important;
+      right: auto !important;
+    }
+    .avatar-blob-graphic svg {
+      width: 300px !important;
+      height: 300px !important;
+    }
+    .demo-card {
+      max-width: 100% !important;
     }
   }
 
@@ -633,21 +659,32 @@
     background: var(--color-cream-paper);
     border: 1.5px solid var(--color-forest-ink);
     border-radius: var(--radius-cards);
-    padding: 32px;
+    padding: 36px;
     box-shadow: 4px 4px 0px var(--color-forest-ink);
     position: relative;
     width: 100%;
+    max-width: 720px;   /* Bigger dialog box */
+    z-index: 3;
+    flex-shrink: 0;
   }
 
-  /* Avatar Presentation on Rightmost */
+  /* ====================================================================
+     HERO-SCALE AVATAR — Bleeds off right edge only, fully visible vertically
+     ==================================================================== */
   .demo-avatar-column {
+    position: absolute;
+    right: -120px;       /* Bleed off the right viewport edge */
+    top: 50%;
+    transform: translateY(-50%);
     display: flex;
     flex-direction: column;
-    align-items: flex-end; /* Rightmost positioning */
+    align-items: center;
     justify-content: center;
-    position: relative;
     user-select: none;
-    width: 100%;
+    z-index: 1;
+    pointer-events: none;
+    width: auto;
+    height: auto;
   }
 
   .avatar-stage-wrap {
@@ -656,44 +693,38 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    max-width: 480px;
-    margin-left: auto; /* Push to far right */
   }
 
   .avatar-blob-graphic {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    animation: avatarFloat 4.2s ease-in-out infinite;
-    filter: drop-shadow(0 20px 42px rgba(47, 191, 160, 0.32));
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-    width: 100%;
+    animation: avatarFloat 5s ease-in-out infinite;
+    filter: drop-shadow(-30px 30px 60px rgba(47, 191, 160, 0.25));
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    pointer-events: auto;
   }
 
   .avatar-blob-graphic svg {
-    width: 100%;
-    max-width: 440px;
-    height: auto;
-    aspect-ratio: 1 / 1;
+    width: 700px;
+    height: 700px;
+    max-width: none; /* No limit — go huge */
     display: block;
-    transform: scaleX(-1); /* Eyes face left towards Ask KISANVANI card as in image.png */
+    transform: scaleX(-1); /* Eyes face left towards dialog */
     transition: transform 0.3s ease;
   }
 
   .avatar-blob-graphic:hover {
-    transform: translateY(-8px) scale(1.03);
+    transform: translateY(-12px) scale(1.02);
   }
 
   .avatar-floor-shadow {
-    width: 320px;
-    height: 26px;
-    background: radial-gradient(ellipse at center, rgba(26, 51, 0, 0.22) 0%, rgba(26, 51, 0, 0) 70%);
+    width: 420px;
+    height: 30px;
+    background: radial-gradient(ellipse at center, rgba(26, 51, 0, 0.18) 0%, rgba(26, 51, 0, 0) 70%);
     border-radius: 50%;
-    margin-top: 18px;
-    animation: avatarShadowBob 4.2s ease-in-out infinite;
-  }
-    animation: avatarShadowBob 4.2s ease-in-out infinite;
+    margin-top: 20px;
+    animation: avatarShadowBob 5s ease-in-out infinite;
   }
 
   @keyframes avatarFloat {
