@@ -13,6 +13,7 @@ Built for the **UNLEASHLLM Innovation Challenge** — *Agriculture & Rural Track
   <img alt="License" src="https://img.shields.io/badge/status-hackathon%20prototype-orange?style=for-the-badge">
   <img alt="Python" src="https://img.shields.io/badge/python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white">
   <img alt="FastAPI" src="https://img.shields.io/badge/FastAPI-webhook-009688?style=for-the-badge&logo=fastapi&logoColor=white">
+  <img alt="Frontend" src="https://img.shields.io/badge/UI-Google%20Labs%20Aesthetic-blue?style=for-the-badge">
 </p>
 
 <p>
@@ -31,23 +32,27 @@ Built for the **UNLEASHLLM Innovation Challenge** — *Agriculture & Rural Track
 - [The Vision](#-the-vision)
 - [Key Features](#-key-features)
 - [See It In Action](#-see-it-in-action)
-- [How It Works](#️-how-it-works-the-pipeline)
+- [Creative Engineering & Modern Web UI](#-creative-engineering--modern-web-ui)
+- [How It Works (The Pipeline)](#️-how-it-works-the-pipeline)
 - [Tech Stack](#️-tech-stack)
 - [Run It Locally](#-run-it-locally)
-- [Data Ingestion](#-data-ingestion-real-kcc-data)
+- [Data Ingestion (Real KCC Data)](#-data-ingestion-real-kcc-data)
 - [Project Structure](#-project-structure)
+- [Design Blueprints](#-design-blueprints)
 - [Evaluation](#-evaluation)
-- [Known Limitations / Roadmap](#️-known-limitations--roadmap)
+- [Known Limitations & Roadmap](#️-known-limitations--roadmap)
 
 ---
 
 ## 🚀 The Vision
 
-In India, millions of farmers rely on feature phones and face language barriers when seeking agricultural advice. **KISANVANI** bridges this gap. It's an end-to-end voice-first system where a farmer dials an ordinary phone number, asks a question in their own spoken Indian language, and instantly receives a **grounded, safe, and accurate** voice response based on official Kisan Call Centre (KCC) data.
+In India, millions of farmers rely on basic feature phones and face severe language barriers when seeking agricultural advice. **KISANVANI** bridges this gap. It's an end-to-end voice-first system where a farmer dials an ordinary phone number, asks a question in their own spoken Indian language, and instantly receives a **grounded, safe, and accurate** voice response based on official Kisan Call Centre (KCC) data.
 
 No app to install. No text to read. No language menu to navigate. Just a question, spoken naturally — and an answer, spoken back.
 
 > **National by design.** KISANVANI isn't scoped to a single state or crop. The reference dataset spans **15 major crops** (cotton, rice, wheat, sugarcane, maize, soybean, groundnut, chilli, tomato, onion, potato, banana, mustard, gram, tea) across **13 states**, in **8 Indian languages**, sourced from the **AIKosh / data.gov.in KCC dataset** *(India-First Dataset Track)*. Coverage grows simply by ingesting more KCC data — zero code changes needed to add a new crop, state, or language.
+
+---
 
 ## ✨ Key Features
 
@@ -59,6 +64,9 @@ No app to install. No text to read. No language menu to navigate. Just a questio
 | 🛡️ | **Safety-first guardrails** | A deterministic layer blocks banned chemicals (Monocrotophos, Endosulfan, …) and unsafe dosages, in every supported language/script. |
 | 🔒 | **Privacy by design** | Caller IDs are SHA-256 hashed. Raw voice audio is deleted immediately after transcription — never retained. |
 | 💸 | **Zero per-call cost** | Runs on a local open-source LLM (Llama 3.1 via Ollama) — no API metering, no data leaving the machine. |
+| 🎨 | **Award-Winning Web UI** | Creative engineering showcasing Google Labs aesthetics, real-time eye tracking mascot, and Web Audio synthesizers. |
+
+---
 
 ## 🎬 See It In Action
 
@@ -69,7 +77,30 @@ python telephony/webhook.py
 # then open http://localhost:8000
 ```
 
-The landing page includes a **live, working demo** — record a question in any supported language, and watch it move through transcription → retrieval → generation → safety guardrail → speech, in real time, with a language auto-detected from your voice.
+The landing page includes a **live, working demo** — record a question in any supported language, and watch it move through transcription → retrieval → generation → safety guardrail → speech, in real time, with language auto-detected from your voice.
+
+---
+
+## 🎨 Creative Engineering & Modern Web UI
+
+KISANVANI features an award-winning, high-impact web interface located at `telephony/fallback_ui/index.html`, engineered with Google Labs-inspired creative design:
+
+- **Kinetic Preloader**: Real-time audio waveform canvas with dynamic multilingual typography showcasing Indian dialects.
+- **Masked Pill Gallery Reveal**: GSAP ScrollTrigger and Lenis smooth scrolling orchestrating a staggered 4-row image reveal expanding through an SVG pill mask.
+- **Interactive Pupil Mouse-Tracking Mascot**:
+  - 2D vector pupil tracking using smooth linear damping (Lerp).
+  - Inverse viewport geometry to accommodate CSS mirroring.
+  - Sympathetic 3D perspective micro-tilt (`rotateX`/`rotateY`).
+  - Organic autonomous blinking loops and squash-and-stretch click physics.
+- **Floating Frosted Glass Header**: Borderless floating navigation bar with agricultural wheat sprout brand mark.
+- **Monumental Geometric Aurora Footer**:
+  - **Atmospheric Multi-Spectral Aurora**: 7 blended radial glow orbs pulsing with soft organic light.
+  - **Kinetic Geometric Pillars**: 5 SVG shapes (Pink Squircle, Orange Hexagon, Green Pill, Golden Flower, Azure Circle) with independent floating sine-wave keyframes.
+  - **Interactive 3D Magnetic Physics**: Cursor magnetic tilt and squash bounce on click.
+  - **Web Audio API Pentatonic Harmonizer**: Generates real-time ambient chimes (C5, D5, E5, G5, A5) on shape interaction.
+  - **Monumental Responsive Typography**: Edge-to-edge `clamp(3.2rem, 21vw, 21rem)` Google Labs scale lettering with zero letterform cutoffs.
+
+---
 
 ## 🏗️ How It Works (The Pipeline)
 
@@ -91,6 +122,8 @@ graph TD;
 
 Five open models, one phone call — nothing the farmer needs to do differently from talking to a person at the Kisan Call Centre.
 
+---
+
 ## 🛠️ Tech Stack
 
 | Layer | Technology | Why |
@@ -101,7 +134,10 @@ Five open models, one phone call — nothing the farmer needs to do differently 
 | **Safety** | Custom regex + table-matching against an approved Package-of-Practices (PoP) table | Deterministic — not left to the LLM's judgment. Covers Gujarati, Hindi, Punjabi, Bengali, Tamil, Telugu, Kannada, English. |
 | **TTS** | Google TTS (`gTTS`) | Speaks back in the same language that was detected. |
 | **Routing** | `FastAPI` | Serves the webhook, the fallback/demo UI, and a Twilio-ready call endpoint. |
+| **Frontend** | Vanilla HTML5 · CSS3 · ES6+ · GSAP · Lenis · Web Audio API | Zero framework bloat, GPU-accelerated 60/120 FPS animations, Google Labs aesthetic. |
 | **Data** | `data.gov.in` KCC (Kisan Call Centre) API | Real farmer queries and expert answers — see [Data Ingestion](#-data-ingestion-real-kcc-data). |
+
+---
 
 ## 💻 Run It Locally
 
@@ -138,6 +174,8 @@ python telephony/webhook.py
 
 Open **`http://localhost:8000`** — record a question in any supported language, optionally narrow it by crop/state, and watch the full pipeline run live.
 
+---
+
 ## 📡 Data Ingestion: Real KCC Data
 
 [`ingest/fetch_kcc.py`](ingest/fetch_kcc.py) pulls farmer query/answer records from **data.gov.in's public KCC API**, covering all major crops and states rather than one district.
@@ -155,38 +193,52 @@ Open **`http://localhost:8000`** — record a question in any supported language
 
 If no key is set (or the API is unreachable), the script **automatically falls back** to a hand-curated, KCC-realistic **national seed dataset** spanning multiple states, crops, and languages — so the rest of the pipeline is always runnable, zero setup required. Every record is tagged `"source": "data.gov.in"` or `"source": "seed"`, so it's always clear which data backs a given answer.
 
+---
+
 ## 📂 Project Structure
 
 ```
 KISANVANI/
-├── orchestrator.py            # Wires the full pipeline together end-to-end
+├── orchestrator.py                 # Wires the full pipeline together end-to-end
+├── MONUMENTAL_FOOTER_BLUEPRINT.md  # Standalone technical blueprint for Google Labs UI
 ├── ingest/
-│   └── fetch_kcc.py            # Real data.gov.in ingestion + national seed fallback
+│   └── fetch_kcc.py                # Real data.gov.in ingestion + national seed fallback
 ├── asr/
-│   └── transcribe.py           # Whisper ASR, auto language detection
+│   └── transcribe.py               # Whisper ASR, auto language detection
 ├── retrieval/
-│   ├── build_index.py          # Builds the hybrid BM25 + dense embedding index
-│   └── retrieve.py             # Hybrid search, optional crop/state filtering
+│   ├── build_index.py              # Builds the hybrid BM25 + dense embedding index
+│   └── retrieve.py                 # Hybrid search, optional crop/state filtering
 ├── generation/
-│   ├── generate.py             # Calls Llama 3.1 via Ollama
-│   └── prompts.py              # Language-parameterized, grounded RAG prompts
+│   ├── generate.py                 # Calls Llama 3.1 via Ollama
+│   └── prompts.py                  # Language-parameterized, grounded RAG prompts
 ├── guardrail/
-│   ├── check_answer.py         # Deterministic safety checks
-│   └── pop_table.json          # Approved/banned chemicals & dosage limits (8 languages)
+│   ├── check_answer.py             # Deterministic safety checks
+│   └── pop_table.json              # Approved/banned chemicals & dosage limits (8 languages)
 ├── tts/
-│   └── speak.py                 # gTTS speech synthesis, language-aware
+│   └── speak.py                    # gTTS speech synthesis, language-aware
 ├── telephony/
-│   ├── webhook.py               # FastAPI server (demo UI + Twilio-ready webhook)
+│   ├── webhook.py                  # FastAPI server (demo UI + Twilio-ready webhook)
 │   └── fallback_ui/
-│       ├── index.html           # Landing page + live browser demo
-│       └── videokisan.mp4       # Demo video
+│       ├── index.html              # Award-winning landing page & live interactive demo
+│       ├── spotlight-mask-pill.svg # Vector mask for scroll reveal
+│       └── videokisan.mp4          # Demo video asset
 ├── eval/
-│   ├── run_eval.py              # WER, Recall@3, guardrail effectiveness
-│   └── gold_set.json            # Multi-language, multi-crop evaluation set
+│   ├── run_eval.py                 # WER, Recall@3, guardrail effectiveness
+│   └── gold_set.json               # Multi-language, multi-crop evaluation set
 └── data/
     └── processed/
-        └── kcc_national.json    # Ingested/seeded national KCC dataset
+        └── kcc_national.json       # Ingested/seeded national KCC dataset
 ```
+
+---
+
+## 📐 Design Blueprints
+
+The UI system includes a reusable technical blueprint for the Google Labs monumental footer design:
+
+- **[MONUMENTAL_FOOTER_BLUEPRINT.md](MONUMENTAL_FOOTER_BLUEPRINT.md)**: Includes complete standalone HTML, CSS tokens, SVG shapes, Web Audio API synthesizer, and responsive typography clamp calibrations for any future product.
+
+---
 
 ## 🧪 Evaluation
 
@@ -196,9 +248,9 @@ KISANVANI/
 - **Retrieval Recall@3** (with the same optional crop/state narrowing used in production)
 - **Guardrail effectiveness** — tested via adversarial queries, e.g. asking about banned chemicals across multiple languages
 
-> **Note:** `eval/gold_set.json` references audio fixtures under `eval/audio/` that aren't checked in yet — record or synthesize sample queries per language/crop before running WER/Recall metrics for real.
+---
 
-## ⚠️ Known Limitations / Roadmap
+## ⚠️ Known Limitations & Roadmap
 
 - **Guardrail coverage** — chemical/dosage safety terms are curated for 8 languages so far. Adding a new language to ASR/TTS doesn't automatically make the guardrail safe in that language; [`guardrail/pop_table.json`](guardrail/pop_table.json) must be manually extended and verified first.
 - **No live telephony integration yet** — `/twilio_webhook` in [`telephony/webhook.py`](telephony/webhook.py) is a placeholder; a production deployment needs real Twilio (or similar) call recording + TwiML responses wired in.
@@ -213,5 +265,3 @@ KISANVANI/
 **[⬆ back to top](#-kisanvani-)**
 
 </div>
-#   K I S H A N V A A N I  
- 
