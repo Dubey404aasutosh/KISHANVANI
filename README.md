@@ -13,7 +13,6 @@ Built for the **UNLEASHLLM Innovation Challenge** — *Agriculture & Rural Track
   <img alt="License" src="https://img.shields.io/badge/status-hackathon%20prototype-orange?style=for-the-badge">
   <img alt="Python" src="https://img.shields.io/badge/python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white">
   <img alt="FastAPI" src="https://img.shields.io/badge/FastAPI-webhook-009688?style=for-the-badge&logo=fastapi&logoColor=white">
-  <img alt="Frontend" src="https://img.shields.io/badge/UI-Google%20Labs%20Aesthetic-blue?style=for-the-badge">
 </p>
 
 <p>
@@ -32,13 +31,11 @@ Built for the **UNLEASHLLM Innovation Challenge** — *Agriculture & Rural Track
 - [The Vision](#-the-vision)
 - [Key Features](#-key-features)
 - [See It In Action](#-see-it-in-action)
-- [Creative Engineering & Modern Web UI](#-creative-engineering--modern-web-ui)
 - [How It Works (The Pipeline)](#️-how-it-works-the-pipeline)
 - [Tech Stack](#️-tech-stack)
 - [Run It Locally](#-run-it-locally)
 - [Data Ingestion (Real KCC Data)](#-data-ingestion-real-kcc-data)
 - [Project Structure](#-project-structure)
-- [Design Blueprints](#-design-blueprints)
 - [Evaluation](#-evaluation)
 - [Known Limitations & Roadmap](#️-known-limitations--roadmap)
 
@@ -64,7 +61,6 @@ No app to install. No text to read. No language menu to navigate. Just a questio
 | 🛡️ | **Safety-first guardrails** | A deterministic layer blocks banned chemicals (Monocrotophos, Endosulfan, …) and unsafe dosages, in every supported language/script. |
 | 🔒 | **Privacy by design** | Caller IDs are SHA-256 hashed. Raw voice audio is deleted immediately after transcription — never retained. |
 | 💸 | **Zero per-call cost** | Runs on a local open-source LLM (Llama 3.1 via Ollama) — no API metering, no data leaving the machine. |
-| 🎨 | **Award-Winning Web UI** | Creative engineering showcasing Google Labs aesthetics, real-time eye tracking mascot, and Web Audio synthesizers. |
 
 ---
 
@@ -78,27 +74,6 @@ python telephony/webhook.py
 ```
 
 The landing page includes a **live, working demo** — record a question in any supported language, and watch it move through transcription → retrieval → generation → safety guardrail → speech, in real time, with language auto-detected from your voice.
-
----
-
-## 🎨 Creative Engineering & Modern Web UI
-
-KISANVANI features an award-winning, high-impact web interface located at `telephony/fallback_ui/index.html`, engineered with Google Labs-inspired creative design:
-
-- **Kinetic Preloader**: Real-time audio waveform canvas with dynamic multilingual typography showcasing Indian dialects.
-- **Masked Pill Gallery Reveal**: GSAP ScrollTrigger and Lenis smooth scrolling orchestrating a staggered 4-row image reveal expanding through an SVG pill mask.
-- **Interactive Pupil Mouse-Tracking Mascot**:
-  - 2D vector pupil tracking using smooth linear damping (Lerp).
-  - Inverse viewport geometry to accommodate CSS mirroring.
-  - Sympathetic 3D perspective micro-tilt (`rotateX`/`rotateY`).
-  - Organic autonomous blinking loops and squash-and-stretch click physics.
-- **Floating Frosted Glass Header**: Borderless floating navigation bar with agricultural wheat sprout brand mark.
-- **Monumental Geometric Aurora Footer**:
-  - **Atmospheric Multi-Spectral Aurora**: 7 blended radial glow orbs pulsing with soft organic light.
-  - **Kinetic Geometric Pillars**: 5 SVG shapes (Pink Squircle, Orange Hexagon, Green Pill, Golden Flower, Azure Circle) with independent floating sine-wave keyframes.
-  - **Interactive 3D Magnetic Physics**: Cursor magnetic tilt and squash bounce on click.
-  - **Web Audio API Pentatonic Harmonizer**: Generates real-time ambient chimes (C5, D5, E5, G5, A5) on shape interaction.
-  - **Monumental Responsive Typography**: Edge-to-edge `clamp(3.2rem, 21vw, 21rem)` Google Labs scale lettering with zero letterform cutoffs.
 
 ---
 
@@ -134,7 +109,6 @@ Five open models, one phone call — nothing the farmer needs to do differently 
 | **Safety** | Custom regex + table-matching against an approved Package-of-Practices (PoP) table | Deterministic — not left to the LLM's judgment. Covers Gujarati, Hindi, Punjabi, Bengali, Tamil, Telugu, Kannada, English. |
 | **TTS** | Google TTS (`gTTS`) | Speaks back in the same language that was detected. |
 | **Routing** | `FastAPI` | Serves the webhook, the fallback/demo UI, and a Twilio-ready call endpoint. |
-| **Frontend** | Vanilla HTML5 · CSS3 · ES6+ · GSAP · Lenis · Web Audio API | Zero framework bloat, GPU-accelerated 60/120 FPS animations, Google Labs aesthetic. |
 | **Data** | `data.gov.in` KCC (Kisan Call Centre) API | Real farmer queries and expert answers — see [Data Ingestion](#-data-ingestion-real-kcc-data). |
 
 ---
@@ -200,7 +174,6 @@ If no key is set (or the API is unreachable), the script **automatically falls b
 ```
 KISANVANI/
 ├── orchestrator.py                 # Wires the full pipeline together end-to-end
-├── MONUMENTAL_FOOTER_BLUEPRINT.md  # Standalone technical blueprint for Google Labs UI
 ├── ingest/
 │   └── fetch_kcc.py                # Real data.gov.in ingestion + national seed fallback
 ├── asr/
@@ -219,7 +192,7 @@ KISANVANI/
 ├── telephony/
 │   ├── webhook.py                  # FastAPI server (demo UI + Twilio-ready webhook)
 │   └── fallback_ui/
-│       ├── index.html              # Award-winning landing page & live interactive demo
+│       ├── index.html              # Landing page & live interactive demo
 │       ├── spotlight-mask-pill.svg # Vector mask for scroll reveal
 │       └── videokisan.mp4          # Demo video asset
 ├── eval/
@@ -229,14 +202,6 @@ KISANVANI/
     └── processed/
         └── kcc_national.json       # Ingested/seeded national KCC dataset
 ```
-
----
-
-## 📐 Design Blueprints
-
-The UI system includes a reusable technical blueprint for the Google Labs monumental footer design:
-
-- **[MONUMENTAL_FOOTER_BLUEPRINT.md](MONUMENTAL_FOOTER_BLUEPRINT.md)**: Includes complete standalone HTML, CSS tokens, SVG shapes, Web Audio API synthesizer, and responsive typography clamp calibrations for any future product.
 
 ---
 
