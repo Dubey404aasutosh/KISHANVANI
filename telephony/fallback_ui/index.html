@@ -3,336 +3,1313 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KISANVANI</title>
+<title>KISANVANI — Voice-First Agri-Advisory for Indian Farmers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --ink:#0f2417;
-    --ink-soft:#3d5548;
-    --paper:#f6f4ee;
-    --card:#ffffff;
-    --brand:#1c7a4d;
-    --brand-dark:#155c3a;
-    --brand-soft:#e4f3ea;
-    --line:rgba(15,36,23,0.10);
-    --shadow:0 20px 50px -20px rgba(15,36,23,0.35);
-  }
-  *{box-sizing:border-box;}
-  body{
-    margin:0;
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans",Arial,sans-serif;
-    background:var(--paper);
-    color:var(--ink);
-  }
-  a{color:inherit;}
+  :root {
+    /* Colors */
+    --color-forest-ink: #1a3300;
+    --color-highlighter-yellow: #ffe95c;
+    --color-cream-paper: #fcfaf5;
+    --color-pencil-gray: #b6b6b6;
+    --color-whisper-gray: #f1f1f1;
+    --color-sticky-note-teal: #a8e5e5;
+    --color-sticky-note-mint: #d5f5c2;
+    --color-sticky-note-blush: #f6d0ff;
+    --color-terracotta: #cb5521;
 
-  /* ---------- NAV ---------- */
-  .nav{
-    position:sticky; top:0; z-index:50;
-    display:flex; align-items:center; justify-content:space-between;
-    padding:16px 32px;
-    background:rgba(15,36,23,0.55);
-    backdrop-filter:blur(10px);
-    color:#fff;
-  }
-  .brand{display:flex; align-items:center; gap:10px; font-weight:700; font-size:19px;}
-  .brand .mark{
-    width:32px; height:32px; border-radius:9px;
-    background:var(--brand);
-    display:flex; align-items:center; justify-content:center; font-size:15px; font-weight:700; color:#fff;
-  }
-  .nav-links{display:flex; gap:28px; font-size:14.5px; opacity:0.92;}
-  .nav-links span{cursor:pointer;}
-  .nav-links span:hover{opacity:1; text-decoration:underline;}
-  .lang-pills{display:flex; align-items:center; gap:6px; background:rgba(255,255,255,0.12); padding:5px; border-radius:999px;}
-  .lang-pill{
-    padding:6px 12px; border-radius:999px; font-size:13px; cursor:pointer; border:none;
-    background:transparent; color:#fff; opacity:0.75;
-  }
-  .lang-pill.active{background:#fff; color:var(--ink); opacity:1; font-weight:600;}
-  @media (max-width: 860px){ .nav-links{display:none;} }
+    /* Typography */
+    --font-bricolage-grotesque: 'Bricolage Grotesque', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-inter: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-roboto-mono: 'Roboto Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
-  /* ---------- HERO ---------- */
-  .hero{
-    position:relative;
-    min-height:92vh;
-    display:flex; align-items:center;
-    padding:60px 32px 80px;
-    overflow:hidden;
-  }
-  .hero-bg{
-    position:absolute; inset:0;
-    background-image:
-      linear-gradient(180deg, rgba(10,26,17,0.72) 0%, rgba(10,26,17,0.45) 45%, rgba(246,244,238,0.96) 100%),
-      url('https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=2000&q=80');
-    background-size:cover;
-    background-position:center 40%;
-    z-index:0;
-  }
-  .hero-inner{
-    position:relative; z-index:1;
-    max-width:1180px; margin:0 auto;
-    display:grid; grid-template-columns:1.15fr 0.9fr; gap:48px; align-items:center; width:100%;
-  }
-  @media (max-width: 980px){ .hero-inner{grid-template-columns:1fr;} }
+    /* Spacing */
+    --spacing-8: 8px;
+    --spacing-16: 16px;
+    --spacing-24: 24px;
+    --spacing-32: 32px;
+    --spacing-40: 40px;
+    --spacing-48: 48px;
+    --spacing-64: 64px;
+    --spacing-80: 80px;
 
-  .badge{
-    display:inline-flex; align-items:center; gap:8px;
-    background:rgba(255,255,255,0.9); color:var(--brand-dark);
-    padding:8px 16px; border-radius:999px; font-size:13.5px; font-weight:600;
-    margin-bottom:22px;
-  }
-  .badge .dot{width:8px; height:8px; border-radius:50%; background:var(--brand); display:inline-block;}
-  h1{
-    font-size:clamp(34px,4.6vw,56px);
-    line-height:1.08; letter-spacing:-0.02em;
-    margin:0 0 20px; color:#fff; font-weight:800;
-  }
-  h1 .accent{color:#8fe3b6;}
-  .lede{
-    font-size:17px; line-height:1.65; color:rgba(255,255,255,0.88);
-    max-width:540px; margin:0 0 32px;
-  }
-  .cta-row{display:flex; gap:14px; flex-wrap:wrap;}
-  .btn{
-    padding:14px 24px; border-radius:12px; font-size:15px; font-weight:600;
-    border:none; cursor:pointer; display:inline-flex; align-items:center; gap:8px;
-    transition:transform .15s ease, box-shadow .15s ease;
-  }
-  .btn:hover{transform:translateY(-1px);}
-  .btn-primary{background:var(--brand); color:#fff; box-shadow:0 10px 24px -8px rgba(28,122,77,0.6);}
-  .btn-primary:hover{background:var(--brand-dark);}
-  .btn-ghost{background:rgba(255,255,255,0.14); color:#fff; border:1px solid rgba(255,255,255,0.5);}
-  .btn-ghost:hover{background:rgba(255,255,255,0.24);}
+    /* Radii */
+    --radius-nav: 16px;
+    --radius-tags: 9999px;
+    --radius-cards: 12px;
+    --radius-buttons: 6px;
 
-  .stat-row{display:flex; gap:28px; margin-top:40px; flex-wrap:wrap;}
-  .stat{color:#fff;}
-  .stat b{display:block; font-size:24px;}
-  .stat span{font-size:12.5px; opacity:0.75; text-transform:uppercase; letter-spacing:0.04em;}
-
-  /* ---------- FLOATING DEMO CARD ---------- */
-  .demo-card{
-    background:var(--card); border-radius:20px; box-shadow:var(--shadow);
-    padding:22px; border:1px solid var(--line);
-  }
-  .demo-card-header{display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;}
-  .demo-card-header .eyebrow{font-size:11.5px; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-soft); font-weight:700;}
-  .demo-card-header h3{margin:2px 0 0; font-size:19px;}
-  .pill-live{background:var(--brand-soft); color:var(--brand-dark); font-size:12px; font-weight:700; padding:5px 11px; border-radius:999px;}
-
-  .hint-row{display:flex; gap:8px; margin-bottom:14px;}
-  select{
-    flex:1; padding:10px 10px; font-size:13px; border-radius:10px; border:1px solid var(--line);
-    background:var(--paper); color:var(--ink);
+    /* Shadows */
+    --shadow-subtle: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+    --shadow-subtle-2: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px;
+    --shadow-xl: rgba(255, 235, 90, 0.01) 0px 527px 211px 0px,
+                rgba(255, 235, 90, 0.05) 0px 297px 178px 0px,
+                rgba(255, 235, 90, 0.09) 0px 132px 132px 0px,
+                rgba(255, 235, 90, 0.15) 0px 20px 48px 0px;
   }
 
-  .record-zone{
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
-    padding:22px 10px; border-radius:16px; background:var(--paper); border:1px dashed var(--line);
-    margin-bottom:16px;
-  }
-  .mic-btn{
-    width:64px; height:64px; border-radius:50%; border:none; cursor:pointer;
-    background:var(--brand); color:#fff; font-size:26px;
-    display:flex; align-items:center; justify-content:center;
-    box-shadow:0 8px 20px -6px rgba(28,122,77,0.55);
-    transition:transform .15s ease, background .15s ease;
-  }
-  .mic-btn:hover{transform:scale(1.05);}
-  .mic-btn.recording{background:#d64545; animation:pulse 1.4s infinite;}
-  @keyframes pulse{
-    0%{box-shadow:0 0 0 0 rgba(214,69,69,0.45);}
-    70%{box-shadow:0 0 0 16px rgba(214,69,69,0);}
-    100%{box-shadow:0 0 0 0 rgba(214,69,69,0);}
-  }
-  .rec-label{margin-top:12px; font-size:13.5px; color:var(--ink-soft); font-weight:500;}
-
-  .pipeline{display:flex; justify-content:space-between; margin-bottom:14px; gap:4px;}
-  .stage{flex:1; text-align:center; font-size:10.5px; color:#b8c2bb; font-weight:700; text-transform:uppercase; letter-spacing:0.02em; position:relative; padding-top:16px;}
-  .stage::before{
-    content:''; position:absolute; top:0; left:50%; transform:translateX(-50%);
-    width:10px; height:10px; border-radius:50%; background:#dfe6e1;
-  }
-  .stage.active::before{background:var(--brand);}
-  .stage.active{color:var(--brand-dark);}
-
-  .result-box{
-    background:var(--brand-soft); border-radius:14px; padding:14px 16px; font-size:14px;
-    line-height:1.55; color:var(--ink); display:none; margin-bottom:10px; max-height:160px; overflow-y:auto;
-  }
-  .lang-tag{
-    display:inline-block; font-size:11px; font-weight:700; color:var(--brand-dark);
-    background:#fff; padding:3px 9px; border-radius:999px; margin-bottom:8px;
-  }
-  audio{width:100%; margin-top:6px; display:none;}
-
-  /* ---------- SECTIONS ---------- */
-  .section{max-width:1180px; margin:0 auto; padding:80px 32px;}
-  .section-head{max-width:640px; margin-bottom:44px;}
-  .section-head .eyebrow{color:var(--brand); font-weight:700; font-size:13px; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:10px; display:block;}
-  .section-head h2{font-size:clamp(26px,3vw,36px); margin:0 0 12px; letter-spacing:-0.01em;}
-  .section-head p{color:var(--ink-soft); font-size:15.5px; line-height:1.6; margin:0;}
-
-  .grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:22px;}
-  @media (max-width:860px){ .grid-3{grid-template-columns:1fr;} }
-  .feature-card{
-    background:var(--card); border:1px solid var(--line); border-radius:18px; padding:28px;
-    transition:box-shadow .15s ease, transform .15s ease;
-  }
-  .feature-card:hover{box-shadow:0 16px 32px -18px rgba(15,36,23,0.22); transform:translateY(-2px);}
-  .feature-card .icon{
-    width:42px; height:42px; border-radius:11px; background:var(--brand-soft); color:var(--brand-dark);
-    display:flex; align-items:center; justify-content:center; font-size:18px; font-weight:600; margin-bottom:18px;
-  }
-  .feature-card h4{margin:0 0 8px; font-size:16.5px;}
-  .feature-card p{margin:0 0 18px; font-size:14px; color:var(--ink-soft); line-height:1.6;}
-  .feature-card .tag{
-    display:inline-block; font-size:12px; font-weight:600; color:var(--brand-dark);
-    background:var(--brand-soft); padding:6px 12px; border-radius:999px;
+  * {
+    box-sizing: border-box;
   }
 
-  .pipeline-strip{
-    display:flex; align-items:center; gap:10px; overflow-x:auto; padding:6px 2px 14px;
-  }
-  .pstep{
-    flex:0 0 auto; background:var(--card); border:1px solid var(--line); border-radius:14px;
-    padding:16px 18px; min-width:150px;
-  }
-  .pstep b{display:block; font-size:14px; margin-bottom:4px;}
-  .pstep span{font-size:12.5px; color:var(--ink-soft);}
-  .arrow{color:#c3cdc6; font-size:18px;}
-
-  footer{
-    padding:36px 32px; text-align:center; color:var(--ink-soft); font-size:13px;
-    border-top:1px solid var(--line);
+  html {
+    scroll-behavior: smooth;
   }
 
-  /* ---------- PHONE SHOWCASE (video demo) ---------- */
-  .showcase{
-    background:var(--paper);
-    padding:100px 32px 120px;
-    text-align:center;
+  body {
+    margin: 0;
+    font-family: var(--font-inter);
+    background-color: var(--color-cream-paper);
+    color: var(--color-forest-ink);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(rgba(26, 51, 0, 0.04) 1px, transparent 1px);
+    background-size: 24px 24px;
   }
-  .showcase-head{max-width:680px; margin:0 auto 56px;}
-  .showcase-head h2{font-size:clamp(28px,3.6vw,42px); line-height:1.15; margin:0 0 16px; letter-spacing:-0.015em;}
-  .showcase-head p{color:var(--ink-soft); font-size:16px; line-height:1.65; margin:0;}
 
-  .phone-wrap{display:flex; justify-content:center;}
-  .phone{
-    position:relative;
-    width:min(360px, 82vw); aspect-ratio:9/18.5;
-    background:#0c0c0c; border-radius:46px;
-    padding:12px; box-shadow:0 50px 90px -35px rgba(15,36,23,0.4), 0 0 0 1px rgba(15,36,23,0.06);
+  a {
+    color: var(--color-forest-ink);
+    text-decoration: none;
   }
-  .phone::before{
-    content:''; position:absolute; top:22px; left:50%; transform:translateX(-50%);
-    width:70px; height:20px; background:#0c0c0c; border-radius:12px; z-index:2;
-    display:flex; align-items:center; justify-content:flex-end; padding-right:10px;
-  }
-  .phone::after{
-    content:''; position:absolute; top:30px; left:50%; transform:translateX(6px);
-    width:7px; height:7px; background:var(--brand); border-radius:50%; z-index:3;
-  }
-  .phone-screen{
-    width:100%; height:100%; border-radius:36px; overflow:hidden; background:#000;
-    position:relative;
-  }
-  .phone-screen video{width:100%; height:100%; object-fit:cover; display:block;}
-  .showcase-points{
-    list-style:none; padding:0; margin:52px auto 0; max-width:920px;
-    display:grid; grid-template-columns:repeat(4,1fr); gap:28px; text-align:left;
-  }
-  @media (max-width:860px){ .showcase-points{grid-template-columns:repeat(2,1fr);} }
-  @media (max-width:520px){ .showcase-points{grid-template-columns:1fr;} }
-  .showcase-points li{font-size:13.5px; color:var(--ink-soft); line-height:1.55; padding-top:14px; border-top:2px solid var(--line);}
-  .showcase-points b{display:block; color:var(--ink); font-size:14.5px; margin-bottom:4px;}
 
-  /* ---------- STEPS ---------- */
-  .steps{display:grid; grid-template-columns:repeat(5,1fr); gap:18px;}
-  @media (max-width:940px){ .steps{grid-template-columns:repeat(2,1fr);} }
-  @media (max-width:560px){ .steps{grid-template-columns:1fr;} }
-  .step{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:22px 20px; position:relative;}
-  .step .num{
-    width:32px; height:32px; border-radius:50%; background:var(--brand); color:#fff;
-    display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; margin-bottom:14px;
+  /* ---------- PRELOADER (SAY BRIEFLY SKETCHBOOK) ---------- */
+  #preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+    background-color: var(--color-cream-paper);
+    background-image: radial-gradient(rgba(26, 51, 0, 0.08) 1.5px, transparent 1.5px);
+    background-size: 24px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    transition: transform 0.75s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.5s ease;
+    will-change: transform, opacity;
   }
-  .step h4{margin:0 0 6px; font-size:15px;}
-  .step p{margin:0; font-size:13px; color:var(--ink-soft); line-height:1.55;}
+
+  #preloader.preloader-done {
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .preloader-card {
+    background: #ffffff;
+    border: 2px solid var(--color-forest-ink);
+    border-radius: var(--radius-cards);
+    padding: 36px 32px 28px;
+    width: min(450px, 92vw);
+    box-shadow: 6px 6px 0px var(--color-forest-ink);
+    position: relative;
+    text-align: center;
+    transform: translateY(0);
+    animation: memoEntrance 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  @keyframes memoEntrance {
+    0% { transform: translateY(24px) scale(0.96); opacity: 0; }
+    100% { transform: translateY(0) scale(1); opacity: 1; }
+  }
+
+  /* Yellow Tape on Top of Memo */
+  .preloader-tape {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%) rotate(-1.2deg);
+    width: 96px;
+    height: 28px;
+    background: rgba(255, 233, 92, 0.88);
+    border: 1px dashed rgba(26, 51, 0, 0.35);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    pointer-events: none;
+  }
+
+  /* Preloader Header / Audio Waves */
+  .preloader-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 18px;
+  }
+
+  .preloader-logo-badge {
+    width: 44px;
+    height: 44px;
+    background: var(--color-highlighter-yellow);
+    border: 1.5px solid var(--color-forest-ink);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-bricolage-grotesque);
+    font-weight: 800;
+    font-size: 20px;
+    color: var(--color-forest-ink);
+    transform: rotate(-2deg);
+    box-shadow: 2px 2px 0px var(--color-forest-ink);
+  }
+
+  /* Voice Audio Wave Bars */
+  .preloader-waveform {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    height: 38px;
+    padding: 0 6px;
+  }
+
+  .wave-bar {
+    width: 4px;
+    background: var(--color-forest-ink);
+    border-radius: 4px;
+    animation: wavePulse 1.2s ease-in-out infinite alternate;
+  }
+
+  .wave-bar:nth-child(1) { height: 10px; animation-delay: 0.1s; }
+  .wave-bar:nth-child(2) { height: 22px; animation-delay: 0.3s; }
+  .wave-bar:nth-child(3) { height: 34px; animation-delay: 0.2s; }
+  .wave-bar:nth-child(4) { height: 16px; animation-delay: 0.4s; }
+  .wave-bar:nth-child(5) { height: 28px; animation-delay: 0.15s; }
+  .wave-bar:nth-child(6) { height: 12px; animation-delay: 0.35s; }
+  .wave-bar:nth-child(7) { height: 20px; animation-delay: 0.25s; }
+
+  @keyframes wavePulse {
+    0% { transform: scaleY(0.3); }
+    100% { transform: scaleY(1); }
+  }
+
+  .preloader-title {
+    font-family: var(--font-bricolage-grotesque);
+    font-weight: 800;
+    font-size: 32px;
+    line-height: 1.1;
+    letter-spacing: 0.04em;
+    color: var(--color-forest-ink);
+    margin: 0 0 10px;
+  }
+
+  .preloader-marker {
+    position: relative;
+    display: inline-block;
+    padding: 0 6px;
+    z-index: 1;
+  }
+
+  .preloader-marker::before {
+    content: '';
+    position: absolute;
+    inset: 15% 0 10% 0;
+    background: var(--color-highlighter-yellow);
+    z-index: -1;
+    border-radius: 2px;
+    transform-origin: left;
+    animation: markerDraw 0.8s 0.3s cubic-bezier(0.25, 1, 0.5, 1) both;
+  }
+
+  @keyframes markerDraw {
+    0% { transform: scaleX(0); }
+    100% { transform: scaleX(1); }
+  }
+
+  /* Cycling Regional Status Message */
+  .preloader-phrase-box {
+    min-height: 26px;
+    margin-bottom: 22px;
+  }
+
+  .preloader-phrase {
+    font-family: var(--font-inter);
+    font-size: 14.5px;
+    font-weight: 500;
+    color: #435b39;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+
+  .preloader-phrase.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Progress Bar Container */
+  .preloader-progress-wrap {
+    margin-bottom: 18px;
+  }
+
+  .preloader-progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-roboto-mono);
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--color-forest-ink);
+    margin-bottom: 8px;
+  }
+
+  .preloader-progress-track {
+    width: 100%;
+    height: 14px;
+    background: #f4f0e4;
+    border: 1.5px solid var(--color-forest-ink);
+    border-radius: var(--radius-buttons);
+    overflow: hidden;
+    position: relative;
+    padding: 1px;
+  }
+
+  .preloader-progress-bar {
+    height: 100%;
+    width: 0%;
+    background: repeating-linear-gradient(
+      -45deg,
+      var(--color-highlighter-yellow),
+      var(--color-highlighter-yellow) 8px,
+      #f5de43 8px,
+      #f5de43 16px
+    );
+    border-radius: 3px;
+    transition: width 0.15s cubic-bezier(0.2, 0.8, 0.4, 1);
+  }
+
+  .preloader-footer-meta {
+    font-family: var(--font-roboto-mono);
+    font-size: 11px;
+    color: #72856a;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Smooth reveal for page content when preloader exits */
+  .nav-wrapper, .hero {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  body.site-revealed .nav-wrapper,
+  body.site-revealed .hero {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ---------- FLOATING PILL NAVIGATION ---------- */
+  .nav-wrapper {
+    position: sticky;
+    top: 16px;
+    z-index: 100;
+    padding: 0 16px;
+    max-width: 1140px;
+    margin: 0 auto;
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--color-cream-paper);
+    border: 1px solid var(--color-pencil-gray);
+    border-radius: var(--radius-nav);
+    padding: 8px 18px;
+    box-shadow: var(--shadow-xl), 0 4px 16px rgba(26, 51, 0, 0.06);
+    backdrop-filter: blur(8px);
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+  }
+
+  .brand-logo-mark {
+    width: 38px;
+    height: 38px;
+    background: var(--color-highlighter-yellow);
+    border: 1px solid var(--color-forest-ink);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-bricolage-grotesque);
+    font-weight: 800;
+    font-size: 18px;
+    color: var(--color-forest-ink);
+    letter-spacing: -0.02em;
+    transform: rotate(-1.5deg);
+    box-shadow: 1px 1px 0px var(--color-forest-ink);
+  }
+
+  .brand-title {
+    font-family: var(--font-inter);
+    font-weight: 700;
+    font-size: 19px;
+    letter-spacing: -0.01em;
+    color: var(--color-forest-ink);
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .nav-links span {
+    cursor: pointer;
+    transition: opacity 0.15s ease, color 0.15s ease;
+    color: var(--color-forest-ink);
+  }
+
+  .nav-links span:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .lang-pills {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(26, 51, 0, 0.05);
+    padding: 3px;
+    border-radius: var(--radius-tags);
+    border: 1px solid rgba(182, 182, 182, 0.6);
+  }
+
+  .lang-pill {
+    padding: 4px 10px;
+    border-radius: var(--radius-tags);
+    font-size: 12px;
+    font-family: var(--font-roboto-mono);
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    color: var(--color-forest-ink);
+    opacity: 0.75;
+    transition: all 0.15s ease;
+  }
+
+  .lang-pill.active {
+    background: var(--color-forest-ink);
+    color: var(--color-cream-paper);
+    opacity: 1;
+    font-weight: 600;
+  }
+
+  .nav-btn-demo {
+    padding: 8px 16px;
+    border-radius: var(--radius-buttons);
+    font-size: 14px;
+    font-weight: 500;
+    border: 1px solid var(--color-forest-ink);
+    background: transparent;
+    color: var(--color-forest-ink);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .nav-btn-demo:hover {
+    background: var(--color-forest-ink);
+    color: var(--color-cream-paper);
+  }
+
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+  }
+
+  /* ---------- HERO SECTION ---------- */
+  .hero {
+    position: relative;
+    padding: 72px 24px 64px;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .tagline-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--color-highlighter-yellow);
+    border: 1px solid var(--color-forest-ink);
+    color: var(--color-forest-ink);
+    padding: 5px 14px;
+    border-radius: var(--radius-buttons);
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    box-shadow: 1px 1px 0px var(--color-forest-ink);
+  }
+
+  .tagline-badge .badge-icon {
+    font-size: 13px;
+    color: var(--color-forest-ink);
+  }
+
+  .display-headline {
+    font-family: var(--font-bricolage-grotesque);
+    font-weight: 800;
+    font-size: clamp(38px, 5.5vw, 72px);
+    line-height: 1.04;
+    letter-spacing: 0.045em;
+    color: var(--color-forest-ink);
+    margin: 0 auto 24px;
+    max-width: 960px;
+  }
+
+  /* Highlighter Yellow Marker Stroke */
+  .marker {
+    background-color: var(--color-highlighter-yellow);
+    color: var(--color-forest-ink);
+    padding: 0 8px;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+    display: inline;
+    border-radius: 2px;
+  }
+
+  .subhead-paragraph {
+    font-size: 19px;
+    line-height: 1.55;
+    color: var(--color-forest-ink);
+    max-width: 680px;
+    margin: 0 auto 36px;
+    font-weight: 400;
+    opacity: 0.92;
+  }
+
+  .cta-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+
+  .btn {
+    border-radius: var(--radius-buttons);
+    font-size: 16px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    text-decoration: none;
+  }
+
+  .btn-primary {
+    background: var(--color-forest-ink);
+    color: var(--color-cream-paper);
+    padding: 16px 36px;
+    box-shadow: var(--shadow-subtle);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-subtle-2);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--color-forest-ink);
+    border: 1px solid var(--color-forest-ink);
+    padding: 15px 32px;
+  }
+
+  .btn-outline:hover {
+    background: rgba(26, 51, 0, 0.05);
+    transform: translateY(-2px);
+  }
+
+  .reassurance-caption {
+    font-size: 13.5px;
+    color: #6b7d60;
+    font-family: var(--font-inter);
+    margin-top: 6px;
+    margin-bottom: 40px;
+  }
+
+  /* Backed-by strip */
+  .backed-by-strip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding-top: 16px;
+    border-top: 1px solid rgba(182, 182, 182, 0.4);
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  .backed-by-label {
+    font-size: 12px;
+    font-family: var(--font-roboto-mono);
+    color: var(--color-pencil-gray);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .backed-tag {
+    font-size: 12.5px;
+    font-family: var(--font-roboto-mono);
+    color: var(--color-forest-ink);
+    background: rgba(26, 51, 0, 0.04);
+    border: 1px solid rgba(182, 182, 182, 0.6);
+    padding: 4px 10px;
+    border-radius: var(--radius-buttons);
+  }
+
+  /* ---------- INTERACTIVE DEMO CARD ---------- */
+  .demo-section-wrapper {
+    max-width: 860px;
+    margin: 48px auto 80px;
+    padding: 0 20px;
+  }
+
+  .demo-card {
+    background: var(--color-cream-paper);
+    border: 1.5px solid var(--color-forest-ink);
+    border-radius: var(--radius-cards);
+    padding: 32px;
+    box-shadow: 4px 4px 0px var(--color-forest-ink);
+    position: relative;
+  }
+
+  .demo-card::after {
+    /* Hand-drawn tape accent at top center */
+    content: '';
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%) rotate(-0.5deg);
+    width: 80px;
+    height: 24px;
+    background: rgba(255, 233, 92, 0.7);
+    border: 1px dashed rgba(26, 51, 0, 0.3);
+    pointer-events: none;
+  }
+
+  .demo-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .demo-card-header .eyebrow {
+    font-family: var(--font-roboto-mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: #556b50;
+    font-weight: 500;
+  }
+
+  .demo-card-header h3 {
+    margin: 4px 0 0;
+    font-family: var(--font-bricolage-grotesque);
+    font-weight: 800;
+    font-size: 26px;
+    letter-spacing: 0.03em;
+  }
+
+  .pill-live {
+    background: var(--color-sticky-note-mint);
+    border: 1px solid var(--color-forest-ink);
+    color: var(--color-forest-ink);
+    font-size: 12px;
+    font-weight: 600;
+    font-family: var(--font-roboto-mono);
+    padding: 6px 12px;
+    border-radius: var(--radius-buttons);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .hint-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  @media (max-width: 600px) {
+    .hint-row { grid-template-columns: 1fr; }
+  }
+
+  .select-group label {
+    display: block;
+    font-size: 12px;
+    font-family: var(--font-roboto-mono);
+    color: #4b6140;
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+
+  select {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 14px;
+    font-family: var(--font-inter);
+    border-radius: var(--radius-buttons);
+    border: 1px solid var(--color-forest-ink);
+    background: #ffffff;
+    color: var(--color-forest-ink);
+    cursor: pointer;
+    outline: none;
+    box-shadow: 2px 2px 0px rgba(26, 51, 0, 0.1);
+  }
+
+  select:focus {
+    border-color: var(--color-forest-ink);
+    box-shadow: 2px 2px 0px var(--color-forest-ink);
+  }
+
+  /* Pipeline Stage Strip */
+  .pipeline {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+    margin-bottom: 24px;
+    background: rgba(26, 51, 0, 0.03);
+    padding: 12px;
+    border-radius: var(--radius-buttons);
+    border: 1px solid rgba(182, 182, 182, 0.6);
+  }
+
+  @media (max-width: 640px) {
+    .pipeline {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+  }
+
+  .stage {
+    text-align: center;
+    font-size: 11px;
+    font-family: var(--font-roboto-mono);
+    color: var(--color-pencil-gray);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 6px 4px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+  }
+
+  .stage.active {
+    background: var(--color-forest-ink);
+    color: var(--color-highlighter-yellow);
+  }
+
+  /* Record Zone */
+  .record-zone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 16px;
+    border-radius: var(--radius-cards);
+    background: #ffffff;
+    border: 1.5px dashed var(--color-pencil-gray);
+    margin-bottom: 20px;
+    transition: border-color 0.2s ease;
+  }
+
+  .mic-btn {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    border: 2px solid var(--color-forest-ink);
+    cursor: pointer;
+    background: var(--color-forest-ink);
+    color: var(--color-cream-paper);
+    font-size: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 3px 3px 0px var(--color-forest-ink);
+    transition: transform 0.15s ease, background 0.15s ease;
+  }
+
+  .mic-btn:hover {
+    transform: scale(1.05);
+  }
+
+  .mic-btn.recording {
+    background: #c53030;
+    border-color: #741d1d;
+    box-shadow: 3px 3px 0px #741d1d;
+    animation: pulse 1.3s infinite;
+  }
+
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(197, 48, 48, 0.4); }
+    70% { box-shadow: 0 0 0 16px rgba(197, 48, 48, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(197, 48, 48, 0); }
+  }
+
+  .rec-label {
+    margin-top: 14px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-forest-ink);
+  }
+
+  /* Result Box - Sticky Note Style */
+  .result-box {
+    background: var(--color-sticky-note-mint);
+    border: 1.5px solid var(--color-forest-ink);
+    border-radius: var(--radius-cards);
+    padding: 20px 24px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--color-forest-ink);
+    display: none;
+    margin-bottom: 16px;
+    box-shadow: 3px 3px 0px var(--color-forest-ink);
+    max-height: 220px;
+    overflow-y: auto;
+  }
+
+  .lang-tag {
+    display: inline-block;
+    font-size: 12px;
+    font-family: var(--font-roboto-mono);
+    font-weight: 600;
+    color: var(--color-forest-ink);
+    background: var(--color-highlighter-yellow);
+    border: 1px solid var(--color-forest-ink);
+    padding: 4px 10px;
+    border-radius: var(--radius-buttons);
+    margin-bottom: 12px;
+  }
+
+  audio {
+    width: 100%;
+    margin-top: 12px;
+    display: none;
+  }
+
+  /* ---------- SHOWCASE (VIDEO DEMO) ---------- */
+  .showcase {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 24px 96px;
+    border-top: 1px solid var(--color-pencil-gray);
+  }
+
+  .section-head {
+    max-width: 680px;
+    margin: 0 auto 48px;
+    text-align: center;
+  }
+
+  .section-head .eyebrow {
+    font-family: var(--font-roboto-mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-forest-ink);
+    background: var(--color-highlighter-yellow);
+    border: 1px solid var(--color-forest-ink);
+    padding: 4px 10px;
+    border-radius: var(--radius-buttons);
+    display: inline-block;
+    margin-bottom: 14px;
+    font-weight: 600;
+  }
+
+  .section-head h2 {
+    font-family: var(--font-bricolage-grotesque);
+    font-weight: 800;
+    font-size: clamp(30px, 3.8vw, 44px);
+    line-height: 1.08;
+    letter-spacing: 0.04em;
+    margin: 0 0 16px;
+  }
+
+  .section-head p {
+    font-size: 17px;
+    color: var(--color-forest-ink);
+    opacity: 0.88;
+    margin: 0;
+  }
+
+  .phone-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 48px;
+  }
+
+  .phone {
+    position: relative;
+    width: min(340px, 84vw);
+    aspect-ratio: 9/18.5;
+    background: #111e15;
+    border-radius: 36px;
+    padding: 10px;
+    box-shadow: 6px 6px 0px var(--color-forest-ink), 0 20px 40px rgba(26, 51, 0, 0.15);
+    border: 2px solid var(--color-forest-ink);
+  }
+
+  .phone-screen {
+    width: 100%;
+    height: 100%;
+    border-radius: 28px;
+    overflow: hidden;
+    background: #000;
+  }
+
+  .phone-screen video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .showcase-points {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    max-width: 1040px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+
+  @media (max-width: 900px) {
+    .showcase-points { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 520px) {
+    .showcase-points { grid-template-columns: 1fr; }
+  }
+
+  .showcase-card {
+    background: #ffffff;
+    border: 1px solid var(--color-pencil-gray);
+    border-radius: var(--radius-cards);
+    padding: 20px;
+    box-shadow: 2px 2px 0px rgba(26, 51, 0, 0.08);
+  }
+
+  .showcase-card b {
+    display: block;
+    font-family: var(--font-inter);
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: var(--color-forest-ink);
+  }
+
+  .showcase-card p {
+    margin: 0;
+    font-size: 14px;
+    color: #4b6140;
+    line-height: 1.5;
+  }
+
+  /* ---------- FEATURES SECTION (STICKY NOTE PALETTE) ---------- */
+  .features-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 24px;
+    border-top: 1px solid var(--color-pencil-gray);
+  }
+
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  @media (max-width: 900px) {
+    .grid-3 { grid-template-columns: 1fr; }
+  }
+
+  .feature-card {
+    border-radius: var(--radius-cards);
+    padding: 28px;
+    border: 1.5px solid var(--color-forest-ink);
+    box-shadow: 3px 3px 0px var(--color-forest-ink);
+    transition: transform 0.15s ease;
+  }
+
+  .feature-card:hover {
+    transform: translateY(-2px);
+  }
+
+  /* Pastel Surface Accents */
+  .card-mint { background-color: var(--color-sticky-note-mint); }
+  .card-cream { background-color: #ffffff; }
+  .card-teal { background-color: var(--color-sticky-note-teal); }
+  .card-blush { background-color: var(--color-sticky-note-blush); }
+
+  .feature-card .icon-badge {
+    width: 38px;
+    height: 38px;
+    border-radius: var(--radius-buttons);
+    background: #ffffff;
+    border: 1px solid var(--color-forest-ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 18px;
+    box-shadow: 1px 1px 0px var(--color-forest-ink);
+  }
+
+  .feature-card h4 {
+    margin: 0 0 10px;
+    font-family: var(--font-inter);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--color-forest-ink);
+  }
+
+  .feature-card p {
+    margin: 0 0 20px;
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--color-forest-ink);
+    opacity: 0.9;
+  }
+
+  .feature-card .tag {
+    display: inline-block;
+    font-size: 12px;
+    font-family: var(--font-roboto-mono);
+    font-weight: 600;
+    color: var(--color-forest-ink);
+    background: #ffffff;
+    border: 1px solid var(--color-forest-ink);
+    padding: 4px 10px;
+    border-radius: var(--radius-tags);
+  }
+
+  /* ---------- HOW IT WORKS (5 STEPS) ---------- */
+  .how-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 24px;
+    border-top: 1px solid var(--color-pencil-gray);
+  }
+
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+  }
+
+  @media (max-width: 980px) {
+    .steps-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 560px) {
+    .steps-grid { grid-template-columns: 1fr; }
+  }
+
+  .step-card {
+    background: #ffffff;
+    border: 1px solid var(--color-pencil-gray);
+    border-radius: var(--radius-cards);
+    padding: 22px 18px;
+    box-shadow: 2px 2px 0px rgba(26, 51, 0, 0.08);
+    position: relative;
+  }
+
+  .step-card .num-badge {
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-buttons);
+    background: var(--color-forest-ink);
+    color: var(--color-cream-paper);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-roboto-mono);
+    font-weight: 700;
+    font-size: 13px;
+    margin-bottom: 14px;
+  }
+
+  .step-card h4 {
+    margin: 0 0 6px;
+    font-family: var(--font-inter);
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .step-card p {
+    margin: 0;
+    font-size: 13px;
+    color: #4b6140;
+    line-height: 1.5;
+  }
+
+  /* ---------- UNDER THE HOOD (PIPELINE) ---------- */
+  .tech-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 24px;
+    border-top: 1px solid var(--color-pencil-gray);
+  }
+
+  .pipeline-strip {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    overflow-x: auto;
+    padding: 10px 4px 20px;
+  }
+
+  .pstep {
+    flex: 1 1 180px;
+    background: #ffffff;
+    border: 1px solid var(--color-forest-ink);
+    border-radius: var(--radius-cards);
+    padding: 18px;
+    box-shadow: 2px 2px 0px var(--color-forest-ink);
+  }
+
+  .pstep-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+
+  .pstep-badge {
+    font-family: var(--font-roboto-mono);
+    font-size: 11px;
+    font-weight: 600;
+    background: var(--color-highlighter-yellow);
+    border: 1px solid var(--color-forest-ink);
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+
+  .pstep b {
+    display: block;
+    font-size: 14.5px;
+    font-weight: 700;
+    color: var(--color-forest-ink);
+  }
+
+  .pstep span {
+    font-size: 12.5px;
+    color: #556b50;
+    line-height: 1.45;
+    display: block;
+  }
+
+  .arrow-indicator {
+    color: var(--color-forest-ink);
+    font-size: 20px;
+    font-weight: 700;
+    user-select: none;
+  }
+
+  /* ---------- TRUST & SAFETY ---------- */
+  .safety-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 24px;
+    border-top: 1px solid var(--color-pencil-gray);
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer {
+    border-top: 1px solid var(--color-pencil-gray);
+    padding: 48px 24px 56px;
+    background: #f7f3e8;
+    text-align: center;
+    color: #586a51;
+    font-size: 13.5px;
+    line-height: 1.6;
+  }
+
+  footer .footer-inner {
+    max-width: 820px;
+    margin: 0 auto;
+  }
+
+  footer b {
+    color: var(--color-forest-ink);
+  }
 </style>
 </head>
 <body>
 
-  <nav class="nav">
-    <div class="brand"><span class="mark">K</span> KISANVANI</div>
-    <div class="nav-links">
-      <span onclick="document.getElementById('demo').scrollIntoView({behavior:'smooth'})">Try the Demo</span>
-      <span onclick="document.getElementById('showcase').scrollIntoView({behavior:'smooth'})">See it in Action</span>
-      <span onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">Features</span>
-      <span onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">How it Works</span>
-      <span onclick="document.getElementById('safety').scrollIntoView({behavior:'smooth'})">Safety</span>
-    </div>
-    <div class="lang-pills">
-      <button class="lang-pill active" data-lang="en">EN</button>
-      <button class="lang-pill" data-lang="hi">हिंदी</button>
-      <button class="lang-pill" data-lang="pa">ਪੰਜਾਬੀ</button>
-    </div>
-  </nav>
+  <!-- PRELOADER (SAY BRIEFLY SKETCHBOOK AESTHETIC) -->
+  <div id="preloader" role="progressbar" aria-label="Loading KISANVANI voice lines" aria-valuemin="0" aria-valuemax="100">
+    <div class="preloader-card">
+      <div class="preloader-tape"></div>
 
-  <header class="hero">
-    <div class="hero-bg"></div>
-    <div class="hero-inner">
-      <div>
-        <div class="badge"><span class="dot"></span> Built for every farmer, in every Indian language</div>
-        <h1>Call in Hindi. <span class="accent">Get advice</span> that's grounded and safe.</h1>
-        <p class="lede">
-          KISANVANI is a voice-first agri-advisory line for feature phones. A farmer speaks their question
-          in any major Indian language — the system transcribes it, searches real Kisan Call Centre records,
-          and answers back out loud, in the same language, with a safety layer that blocks banned pesticides
-          and unsafe dosages before they're ever spoken.
-        </p>
-        <div class="cta-row">
-          <button class="btn btn-primary" onclick="document.getElementById('demo').scrollIntoView({behavior:'smooth'})">
-            Try the live demo →
-          </button>
-          <button class="btn btn-ghost" onclick="document.getElementById('showcase').scrollIntoView({behavior:'smooth'})">
-            Watch it in action
-          </button>
-        </div>
-        <div class="stat-row">
-          <div class="stat"><b>15+</b><span>Crops covered</span></div>
-          <div class="stat"><b>8</b><span>Languages</span></div>
-          <div class="stat"><b>13</b><span>States</span></div>
-          <div class="stat"><b>0₹</b><span>Cost per call*</span></div>
+      <div class="preloader-header">
+        <div class="preloader-logo-badge">KV</div>
+        <div class="preloader-waveform" aria-hidden="true">
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
         </div>
       </div>
 
-      <div id="demo" class="demo-card">
-        <div class="demo-card-header">
-          <div>
-            <span class="eyebrow">Live pipeline</span>
-            <h3>Ask KISANVANI</h3>
-          </div>
-          <span class="pill-live">● Local model</span>
+      <h2 class="preloader-title">
+        KISAN<span class="preloader-marker">VANI</span>
+      </h2>
+
+      <div class="preloader-phrase-box">
+        <div id="preloaderPhrase" class="preloader-phrase active">Connecting rural voice network...</div>
+      </div>
+
+      <div class="preloader-progress-wrap">
+        <div class="preloader-progress-header">
+          <span class="preloader-status">INITIALIZING</span>
+          <span id="preloaderPercent" class="preloader-percent">0%</span>
+        </div>
+        <div class="preloader-progress-track">
+          <div id="preloaderProgressBar" class="preloader-progress-bar"></div>
+        </div>
+      </div>
+
+      <div class="preloader-footer-meta">
+        0₹ Toll-Free · 8 Languages · 15+ Crops
+      </div>
+    </div>
+  </div>
+
+  <!-- FLOATING PILL NAVIGATION -->
+  <div class="nav-wrapper">
+    <nav class="nav">
+      <div class="brand" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+        <div class="brand-logo-mark">KV</div>
+        <span class="brand-title">KISANVANI</span>
+      </div>
+
+      <div class="nav-links">
+        <span onclick="document.getElementById('demo').scrollIntoView({behavior:'smooth'})">Try Demo</span>
+        <span onclick="document.getElementById('showcase').scrollIntoView({behavior:'smooth'})">In Action</span>
+        <span onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">Features</span>
+        <span onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">How It Works</span>
+        <span onclick="document.getElementById('safety').scrollIntoView({behavior:'smooth'})">Trust &amp; Safety</span>
+      </div>
+
+      <div class="nav-actions">
+        <div class="lang-pills">
+          <button class="lang-pill active" data-lang="en">EN</button>
+          <button class="lang-pill" data-lang="hi">हिंदी</button>
+          <button class="lang-pill" data-lang="pa">ਪੰਜਾਬੀ</button>
+        </div>
+        <button class="nav-btn-demo" onclick="document.getElementById('demo').scrollIntoView({behavior:'smooth'})">
+          Try Demo →
+        </button>
+      </div>
+    </nav>
+  </div>
+
+  <!-- HERO SECTION -->
+  <header class="hero">
+    <div class="tagline-badge">
+      <span class="badge-icon">★</span>
+      <span>Built for every farmer in every Indian language</span>
+    </div>
+
+    <h1 class="display-headline">
+      Call in Hindi. <mark class="marker">Get advice</mark> that is grounded and safe.
+    </h1>
+
+    <p class="subhead-paragraph">
+      KISANVANI is a voice-first agri-advisory line for feature phones. A farmer speaks their question
+      in any major Indian language — the system transcribes it, searches real Kisan Call Centre records,
+      and answers back out loud, with an ironclad safety layer that blocks banned pesticides and unsafe dosages.
+    </p>
+
+    <div class="cta-row">
+      <button class="btn btn-primary" onclick="document.getElementById('demo').scrollIntoView({behavior:'smooth'})">
+        Try the Live Demo →
+      </button>
+      <button class="btn btn-outline" onclick="document.getElementById('showcase').scrollIntoView({behavior:'smooth'})">
+        Watch Demo Video
+      </button>
+    </div>
+
+    <div class="reassurance-caption">
+      Basic phone compatible • 0₹ call cost • Grounded in real KCC records • No app required
+    </div>
+
+    <div class="backed-by-strip">
+      <span class="backed-by-label">Grounded by:</span>
+      <span class="backed-tag">data.gov.in KCC Records</span>
+      <span class="backed-tag">Whisper ASR</span>
+      <span class="backed-tag">Llama 3.1</span>
+      <span class="backed-tag">ICAR PoP Safety Table</span>
+      <span class="backed-tag">FastAPI + Ollama</span>
+    </div>
+  </header>
+
+  <!-- INTERACTIVE DEMO SECTION -->
+  <section class="demo-section-wrapper" id="demo">
+    <div class="demo-card">
+      <div class="demo-card-header">
+        <div>
+          <span class="eyebrow">[LIVE PIPELINE DEMO]</span>
+          <h3>Ask KISANVANI</h3>
+        </div>
+        <span class="pill-live">● Local Model Ready</span>
+      </div>
+
+      <div class="hint-row">
+        <div class="select-group">
+          <label for="cropSelect">FILTER BY CROP (OPTIONAL)</label>
+          <select id="cropSelect">
+            <option value="">Any crop (National)</option>
+            <option value="cotton">Cotton (कपास)</option>
+            <option value="rice">Rice (धान / चावल)</option>
+            <option value="wheat">Wheat (गेहूं)</option>
+            <option value="sugarcane">Sugarcane (गन्ना)</option>
+            <option value="maize">Maize (मक्का)</option>
+            <option value="soybean">Soybean (सोयाबीन)</option>
+            <option value="groundnut">Groundnut (मूंगफली)</option>
+            <option value="chilli">Chilli (मिर्च)</option>
+            <option value="tomato">Tomato (टमाटर)</option>
+            <option value="onion">Onion (प्याज)</option>
+            <option value="potato">Potato (आलू)</option>
+            <option value="banana">Banana (केला)</option>
+            <option value="mustard">Mustard (सरसों)</option>
+            <option value="gram">Gram (चना)</option>
+            <option value="tea">Tea (चाय)</option>
+          </select>
         </div>
 
-        <div class="hint-row">
-          <select id="cropSelect">
-            <option value="">Any crop</option>
-            <option value="cotton">Cotton</option>
-            <option value="rice">Rice</option>
-            <option value="wheat">Wheat</option>
-            <option value="sugarcane">Sugarcane</option>
-            <option value="maize">Maize</option>
-            <option value="soybean">Soybean</option>
-            <option value="groundnut">Groundnut</option>
-            <option value="chilli">Chilli</option>
-            <option value="tomato">Tomato</option>
-            <option value="onion">Onion</option>
-            <option value="potato">Potato</option>
-            <option value="banana">Banana</option>
-            <option value="mustard">Mustard</option>
-            <option value="gram">Gram</option>
-            <option value="tea">Tea</option>
-          </select>
+        <div class="select-group">
+          <label for="stateSelect">FILTER BY STATE (OPTIONAL)</label>
           <select id="stateSelect">
             <option value="">Any state</option>
             <option value="gujarat">Gujarat</option>
@@ -350,34 +1327,34 @@
             <option value="assam">Assam</option>
           </select>
         </div>
-
-        <div class="pipeline">
-          <div class="stage" id="stage-record">Record</div>
-          <div class="stage" id="stage-asr">Transcribe</div>
-          <div class="stage" id="stage-retrieve">Retrieve</div>
-          <div class="stage" id="stage-generate">Generate</div>
-          <div class="stage" id="stage-guard">Guardrail</div>
-          <div class="stage" id="stage-speak">Speak</div>
-        </div>
-
-        <div class="record-zone">
-          <button id="micBtn" class="mic-btn">●</button>
-          <div class="rec-label" id="recLabel">Tap to ask a question</div>
-        </div>
-
-        <div id="langTag" class="lang-tag" style="display:none;"></div>
-        <div id="resultBox" class="result-box"></div>
-        <audio id="audioPlayer" controls></audio>
       </div>
-    </div>
-  </header>
 
+      <div class="pipeline">
+        <div class="stage" id="stage-record">01 Record</div>
+        <div class="stage" id="stage-asr">02 Transcribe</div>
+        <div class="stage" id="stage-retrieve">03 Retrieve</div>
+        <div class="stage" id="stage-generate">04 Generate</div>
+        <div class="stage" id="stage-guard">05 Guardrail</div>
+        <div class="stage" id="stage-speak">06 Speak</div>
+      </div>
+
+      <div class="record-zone">
+        <button id="micBtn" class="mic-btn" title="Click to record voice">●</button>
+        <div class="rec-label" id="recLabel">Tap microphone to speak your question</div>
+      </div>
+
+      <div id="langTag" class="lang-tag" style="display:none;"></div>
+      <div id="resultBox" class="result-box"></div>
+      <audio id="audioPlayer" controls></audio>
+    </div>
+  </section>
+
+  <!-- PHONE SHOWCASE (VIDEO DEMO) -->
   <section class="showcase" id="showcase">
-    <div class="showcase-head">
-      <span class="eyebrow" style="color:var(--brand);">See it in action</span>
-      <h2>Every Farmer Has a Question —<br>KISANVANI Has an Answer</h2>
-      <p>Watch how a farmer asks a real question out loud, in their own language, and hears back
-         grounded advice — no app, no menu, no typing.</p>
+    <div class="section-head">
+      <span class="eyebrow">FIELD DEMONSTRATION</span>
+      <h2>Every Farmer Has a Question — KISANVANI Has an Answer</h2>
+      <p>Watch how a farmer speaks out loud in their regional tongue and receives immediate, grounded voice advice — no app, no keypad typing.</p>
     </div>
 
     <div class="phone-wrap">
@@ -389,123 +1366,298 @@
     </div>
 
     <ul class="showcase-points">
-      <li><b>No smartphone needed</b>Works over a basic voice call, on any feature phone.</li>
-      <li><b>Speaks naturally</b>Understands unscripted, everyday questions — not rigid keywords.</li>
-      <li><b>Answers in-language</b>Replies out loud in the same language the farmer used.</li>
-      <li><b>Checked before speaking</b>Every recommendation passes a safety check first.</li>
+      <li class="showcase-card">
+        <b>No Smartphone Needed</b>
+        <p>Works seamlessly over a basic telecom voice call on ordinary 2G/3G feature phones.</p>
+      </li>
+      <li class="showcase-card">
+        <b>Speaks Naturally</b>
+        <p>Understands regional farmer dialects and symptom descriptions — not strict keyword prompts.</p>
+      </li>
+      <li class="showcase-card">
+        <b>Replies In-Language</b>
+        <p>Speaks back audibly in the exact same Indian language the caller used.</p>
+      </li>
+      <li class="showcase-card">
+        <b>Checked Before Speaking</b>
+        <p>Deterministic checks block banned pesticides (e.g. Monocrotophos) and unsafe dosage amounts.</p>
+      </li>
     </ul>
   </section>
 
-  <section class="section" id="features">
+  <!-- FEATURES (STICKY NOTE ACCENTS) -->
+  <section class="features-section" id="features">
     <div class="section-head">
-      <span class="eyebrow">Features</span>
-      <h2>Everything a farmer needs from one phone call</h2>
-      <p>Six capabilities working together behind a single voice conversation.</p>
+      <span class="eyebrow">CORE CAPABILITIES</span>
+      <h2>Built for the reality of Indian Agriculture</h2>
+      <p>Six specialized systems working quietly together on every single phone call.</p>
     </div>
+
     <div class="grid-3">
-      <div class="feature-card">
-        <div class="icon">Aa</div>
-        <h4>Any Indian language</h4>
-        <p>Auto-detects the spoken language — Hindi, Gujarati, Punjabi, Marathi, Bengali, Tamil, Telugu, Kannada and more — no menu to pick a language first.</p>
-        <span class="tag">Speak naturally</span>
+      <div class="feature-card card-mint">
+        <div class="icon-badge">Aa</div>
+        <h4>Any Indian Language</h4>
+        <p>Zero language menus required. Automatically recognizes Hindi, Gujarati, Punjabi, Marathi, Bengali, Tamil, Telugu, and Kannada directly from speech.</p>
+        <span class="tag">Auto-Detected</span>
       </div>
-      <div class="feature-card">
-        <div class="icon">✽</div>
-        <h4>Pest &amp; disease diagnosis</h4>
-        <p>Describe symptoms in your own words — the system matches them to real, resolved Kisan Call Centre cases for the same crop and problem.</p>
-        <span class="tag">Grounded in real cases</span>
+
+      <div class="feature-card card-cream">
+        <div class="icon-badge">✽</div>
+        <h4>Pest &amp; Disease Diagnosis</h4>
+        <p>Describe crop symptoms in everyday language. The hybrid engine maps them against thousands of resolved official Kisan Call Centre advisory cases.</p>
+        <span class="tag">Grounded Retrieval</span>
       </div>
-      <div class="feature-card">
-        <div class="icon">↗</div>
-        <h4>15+ major crops</h4>
-        <p>Cotton, rice, wheat, sugarcane, maize, soybean, groundnut, chilli, tomato and more — spanning 13 states, not tied to one region or crop.</p>
-        <span class="tag">National coverage</span>
+
+      <div class="feature-card card-teal">
+        <div class="icon-badge">↗</div>
+        <h4>15+ Major Cash &amp; Food Crops</h4>
+        <p>From cotton, rice, and wheat to sugarcane, soybean, groundnut, and chili across 13 major agricultural states nationwide.</p>
+        <span class="tag">National Coverage</span>
       </div>
-      <div class="feature-card">
-        <div class="icon">⛨</div>
-        <h4>Banned-chemical guardrail</h4>
-        <p>A deterministic safety check blocks Monocrotophos, Endosulfan and other banned pesticides — and unsafe dosages — before an answer is ever spoken.</p>
-        <span class="tag">Never skipped</span>
+
+      <div class="feature-card card-blush">
+        <div class="icon-badge">⛨</div>
+        <h4>Banned-Chemical Guardrail</h4>
+        <p>An uncompromising rule-based layer catches Monocrotophos, Endosulfan, and over-concentrated doses before anything is spoken to the farmer.</p>
+        <span class="tag">Zero Halucinations</span>
       </div>
-      <div class="feature-card">
-        <div class="icon">◎</div>
-        <h4>Crop &amp; state aware</h4>
-        <p>Optionally narrow retrieval to the farmer's actual crop and state, so cotton advice from Gujarat doesn't get mixed with rice advice from Punjab.</p>
-        <span class="tag">Context matters</span>
+
+      <div class="feature-card card-cream">
+        <div class="icon-badge">◎</div>
+        <h4>Crop &amp; State Spatial Awareness</h4>
+        <p>Filters and isolates localized context so pest advice for cotton in Gujarat is never conflated with wheat practices in Punjab.</p>
+        <span class="tag">Context Aware</span>
       </div>
-      <div class="feature-card">
-        <div class="icon">◇</div>
-        <h4>Private by default</h4>
-        <p>Caller IDs are hashed, raw voice recordings are deleted immediately after transcription, and every model runs locally — nothing sent to a third party.</p>
-        <span class="tag">On-device by design</span>
+
+      <div class="feature-card card-mint">
+        <div class="icon-badge">◇</div>
+        <h4>Private &amp; Local by Design</h4>
+        <p>Caller IDs are irreversibly SHA-256 hashed. Voice audio is purged immediately post-transcription. The entire stack runs on local models.</p>
+        <span class="tag">Privacy First</span>
       </div>
     </div>
   </section>
 
-  <section class="section" id="how">
+  <!-- HOW IT WORKS -->
+  <section class="how-section" id="how">
     <div class="section-head">
-      <span class="eyebrow">How it works</span>
-      <h2>Five steps, from question to spoken answer</h2>
-      <p>The same flow whether it's a real phone call or this browser demo.</p>
+      <span class="eyebrow">WORKFLOW</span>
+      <h2>Five Steps from Question to Spoken Answer</h2>
+      <p>Consistent, transparent execution whether triggered by a phone call or this browser sandbox.</p>
     </div>
-    <div class="steps">
-      <div class="step"><div class="num">1</div><h4>Call in</h4><p>Farmer dials in (or, in this demo, taps the mic) and asks a question in their own language.</p></div>
-      <div class="step"><div class="num">2</div><h4>System listens</h4><p>Whisper transcribes the speech and detects which language was spoken.</p></div>
-      <div class="step"><div class="num">3</div><h4>Finds real answers</h4><p>Hybrid search pulls the closest matching resolved cases from the national KCC dataset.</p></div>
-      <div class="step"><div class="num">4</div><h4>Checked for safety</h4><p>The draft answer is screened against banned chemicals and unsafe dosage limits.</p></div>
-      <div class="step"><div class="num">5</div><h4>Spoken back</h4><p>The approved answer is read aloud to the farmer in the language they called in with.</p></div>
+
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="num-badge">1</div>
+        <h4>Call In</h4>
+        <p>Farmer dials the helpline number (or taps the mic here) and speaks naturally.</p>
+      </div>
+
+      <div class="step-card">
+        <div class="num-badge">2</div>
+        <h4>Transcribe</h4>
+        <p>Whisper ASR converts voice to text while determining regional language tags.</p>
+      </div>
+
+      <div class="step-card">
+        <div class="num-badge">3</div>
+        <h4>Retrieve</h4>
+        <p>Hybrid BM25 + dense neural search matches the query to verified KCC resolved records.</p>
+      </div>
+
+      <div class="step-card">
+        <div class="num-badge">4</div>
+        <h4>Guardrail</h4>
+        <p>The generated response is validated against the ICAR Package-of-Practices table.</p>
+      </div>
+
+      <div class="step-card">
+        <div class="num-badge">5</div>
+        <h4>Speak Out Loud</h4>
+        <p>TTS converts the verified text back into clean audio in the farmer's mother tongue.</p>
+      </div>
     </div>
   </section>
 
-  <section class="section" id="pipeline-detail">
+  <!-- UNDER THE HOOD / PIPELINE -->
+  <section class="tech-section" id="pipeline-detail">
     <div class="section-head">
-      <span class="eyebrow">Under the hood</span>
-      <h2>Five open models working together</h2>
-      <p>Every step runs automatically between the farmer speaking and hearing an answer — no app, no literacy, no typing required.</p>
+      <span class="eyebrow">SYSTEM ARCHITECTURE</span>
+      <h2>Five Open Models Working in Harmony</h2>
+      <p>Designed to operate with low compute latency without third-party vendor lock-in.</p>
     </div>
+
     <div class="pipeline-strip">
-      <div class="pstep"><b>Whisper ASR</b><span>Transcribes speech and auto-detects the spoken language.</span></div>
-      <div class="arrow">→</div>
-      <div class="pstep"><b>Hybrid Retrieval</b><span>BM25 + multilingual embeddings search real KCC farmer Q&As.</span></div>
-      <div class="arrow">→</div>
-      <div class="pstep"><b>Llama 3.1</b><span>Drafts an answer grounded only in retrieved passages.</span></div>
-      <div class="arrow">→</div>
-      <div class="pstep"><b>Safety Guardrail</b><span>Blocks banned chemicals and unsafe dosages before they're spoken.</span></div>
-      <div class="arrow">→</div>
-      <div class="pstep"><b>Text-to-Speech</b><span>Answers back out loud, in the farmer's own language.</span></div>
+      <div class="pstep">
+        <div class="pstep-header">
+          <span class="pstep-badge">ASR</span>
+        </div>
+        <b>Whisper ASR</b>
+        <span>Transcribes audio &amp; auto-detects Indian language dialect.</span>
+      </div>
+
+      <div class="arrow-indicator">→</div>
+
+      <div class="pstep">
+        <div class="pstep-header">
+          <span class="pstep-badge">SEARCH</span>
+        </div>
+        <b>Hybrid Retrieval</b>
+        <span>Combines BM25 lexical search with multilingual sentence embeddings.</span>
+      </div>
+
+      <div class="arrow-indicator">→</div>
+
+      <div class="pstep">
+        <div class="pstep-header">
+          <span class="pstep-badge">LLM</span>
+        </div>
+        <b>Llama 3.1</b>
+        <span>Synthesizes concise advice grounded strictly in retrieved records.</span>
+      </div>
+
+      <div class="arrow-indicator">→</div>
+
+      <div class="pstep">
+        <div class="pstep-header">
+          <span class="pstep-badge">SAFETY</span>
+        </div>
+        <b>Deterministic Guard</b>
+        <span>Screens against banned pesticides &amp; unsafe chemical concentrations.</span>
+      </div>
+
+      <div class="arrow-indicator">→</div>
+
+      <div class="pstep">
+        <div class="pstep-header">
+          <span class="pstep-badge">VOICE</span>
+        </div>
+        <b>Text-to-Speech</b>
+        <span>Speaks back the verified advisory aloud in the farmer's language.</span>
+      </div>
     </div>
   </section>
 
-  <section class="section" id="safety">
+  <!-- TRUST & SAFETY -->
+  <section class="safety-section" id="safety">
     <div class="section-head">
-      <span class="eyebrow">Trust &amp; safety</span>
-      <h2>Grounded answers. Nothing invented.</h2>
-      <p>Built with the same care a Krishi Vigyan Kendra expert would use on a phone call.</p>
+      <span class="eyebrow">ETHICAL AI</span>
+      <h2>Grounded Answers. Nothing Invented.</h2>
+      <p>Engineered with the safety standards of a certified Krishi Vigyan Kendra agronomist.</p>
     </div>
+
     <div class="grid-3">
-      <div class="feature-card">
-        <div class="icon">⛨</div>
-        <h4>Deterministic guardrail</h4>
-        <p>A rule-based safety layer checks every generated answer against an approved Package-of-Practices table — no banned pesticide or unsafe dosage is ever allowed through, regardless of what the model produces.</p>
+      <div class="feature-card card-cream">
+        <div class="icon-badge">⛨</div>
+        <h4>Deterministic Safety Enforcement</h4>
+        <p>Language models can occasionally suggest obsolete or restricted chemicals. KISANVANI applies a hard deterministic lookup against the government Package-of-Practices table to reject unverified recommendations.</p>
+        <span class="tag">Hard Filter</span>
       </div>
-      <div class="feature-card">
-        <div class="icon">◇</div>
-        <h4>Privacy by design</h4>
-        <p>Caller IDs are SHA-256 hashed before storage. Raw voice recordings are deleted immediately after transcription — never retained.</p>
+
+      <div class="feature-card card-mint">
+        <div class="icon-badge">◇</div>
+        <h4>Strict Privacy Safeguards</h4>
+        <p>Phone numbers are SHA-256 encrypted before any database reference. Audio recordings are held in volatile memory only for the duration of the transcription.</p>
+        <span class="tag">Ephemeral Voice</span>
       </div>
-      <div class="feature-card">
-        <div class="icon">✽</div>
-        <h4>Sourced from real data</h4>
-        <p>Answers are retrieved from actual Kisan Call Centre farmer queries and expert responses, sourced via data.gov.in — not invented by the model.</p>
+
+      <div class="feature-card card-teal">
+        <div class="icon-badge">✽</div>
+        <h4>Empirical Knowledge Base</h4>
+        <p>Advisories are retrieved directly from verified public Kisan Call Centre cases logged on data.gov.in — preserving genuine historical solutions provided by real agricultural scientists.</p>
+        <span class="tag">Official Data</span>
       </div>
     </div>
   </section>
 
+  <!-- FOOTER -->
   <footer>
-    *Compute cost only — runs on a local open-source LLM (Llama 3.1 via Ollama), no per-call API fees. Built for the UNLEASHLLM Innovation Challenge.
+    <div class="footer-inner">
+      <p>
+        <b>KISANVANI</b> — Built for the UNLEASHLLM Innovation Challenge.<br>
+        Runs entirely on open weights (Whisper + Llama 3.1 via Ollama) with 0₹ per-call external API fees.<br>
+        Dedicated to empowering every Indian farmer with safe, accessible voice intelligence.
+      </p>
+    </div>
   </footer>
 
 <script>
+  // ---------- PRELOADER LOGIC ----------
+  (function initPreloader() {
+    const preloader = document.getElementById('preloader');
+    const progressBar = document.getElementById('preloaderProgressBar');
+    const percentLabel = document.getElementById('preloaderPercent');
+    const phraseEl = document.getElementById('preloaderPhrase');
+    if (!preloader || !progressBar || !percentLabel) return;
+
+    const phrases = [
+      "Connecting rural voice network...",
+      "🌾 किसानवाणी · खेत से खलिहान तक",
+      "🎙️ ਕਿਸਾਨਾਂ ਦੀ ਆਪਣੀ ਆਵਾਜ਼",
+      "🌱 ખેતી સલાહ, તમારી ભાષામાં",
+      "🛡️ ICAR Package-of-Practices Ready",
+      "✨ Welcome to KISANVANI"
+    ];
+
+    let progress = 0;
+    let phraseIndex = 0;
+
+    // Change greeting phrase dynamically as progress climbs
+    const phraseInterval = setInterval(() => {
+      if (progress < 90 && phraseIndex < phrases.length - 1) {
+        phraseIndex++;
+        if (phraseEl) {
+          phraseEl.classList.remove('active');
+          setTimeout(() => {
+            phraseEl.innerText = phrases[phraseIndex];
+            phraseEl.classList.add('active');
+          }, 140);
+        }
+      }
+    }, 380);
+
+    // Smooth deterministic progress driver (~1.8s duration)
+    const startTime = performance.now();
+    const duration = 1800;
+
+    function stepProgress(now) {
+      const elapsed = now - startTime;
+      const targetProgress = Math.min(100, Math.floor((elapsed / duration) * 100));
+
+      if (progress < targetProgress) {
+        progress = targetProgress;
+        progressBar.style.width = progress + '%';
+        percentLabel.innerText = progress + '%';
+        preloader.setAttribute('aria-valuenow', progress);
+      }
+
+      if (progress < 100) {
+        requestAnimationFrame(stepProgress);
+      } else {
+        clearInterval(phraseInterval);
+        if (phraseEl) {
+          phraseEl.innerText = phrases[phrases.length - 1];
+          phraseEl.classList.add('active');
+        }
+
+        // Smooth exit
+        setTimeout(() => {
+          preloader.classList.add('preloader-done');
+          document.body.classList.add('site-revealed');
+
+          setTimeout(() => {
+            if (preloader.parentNode) {
+              preloader.parentNode.removeChild(preloader);
+            }
+          }, 800);
+        }, 220);
+      }
+    }
+
+    requestAnimationFrame(stepProgress);
+  })();
+
+  // ---------- INTERACTIVE DEMO PIPELINE ----------
   let mediaRecorder;
   let audioChunks = [];
   let isRecording = false;
@@ -531,7 +1683,10 @@
   const stageIds = ['stage-record','stage-asr','stage-retrieve','stage-generate','stage-guard','stage-speak'];
   function setStage(activeCount){
     stageIds.forEach((id, i) => {
-      document.getElementById(id).classList.toggle('active', i < activeCount);
+      const el = document.getElementById(id);
+      if (el) {
+        el.classList.toggle('active', i < activeCount);
+      }
     });
   }
   function resetStages(){ setStage(0); }
@@ -553,7 +1708,7 @@
       mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
 
       mediaRecorder.onstop = async () => {
-        recLabel.innerText = "Processing your question...";
+        recLabel.innerText = "Processing your question through pipeline...";
         setStage(2); // record + asr assumed starting
 
         const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
@@ -564,7 +1719,6 @@
         if (selectedLanguage) formData.append('language', selectedLanguage);
 
         // Simulate stage progression while waiting for the real response
-        // (the backend runs these steps sequentially server-side).
         let step = 2;
         const stepTimer = setInterval(() => {
           if (step < 5) { step++; setStage(step); }
@@ -577,10 +1731,10 @@
           if (response.ok) {
             const data = await response.json();
             setStage(6);
-            recLabel.innerText = "Tap to ask another question";
+            recLabel.innerText = "Question answered. Tap microphone to ask again.";
 
             langTag.style.display = 'inline-block';
-            langTag.innerText = "Detected language: " + (data.detected_language || "unknown").toUpperCase();
+            langTag.innerText = "Language: " + (data.detected_language || "unknown").toUpperCase();
 
             resultBox.style.display = 'block';
             resultBox.innerText = data.text;
@@ -595,7 +1749,7 @@
           }
         } catch (err) {
           clearInterval(stepTimer);
-          recLabel.innerText = "Connection error — is the KISANVANI server running?";
+          recLabel.innerText = "Connection error — ensure KISANVANI server is running.";
           console.error(err);
         }
       };
@@ -606,13 +1760,13 @@
       mediaRecorder.start();
       isRecording = true;
       micBtn.classList.add('recording');
-      recLabel.innerText = "Recording... tap again to stop";
+      recLabel.innerText = "Recording... tap button again to stop";
       resultBox.style.display = 'none';
       langTag.style.display = 'none';
       audioPlayer.style.display = 'none';
 
     } catch (err) {
-      alert("Microphone access denied or not available.");
+      alert("Microphone access was denied or is unavailable on this device.");
       console.error(err);
     }
   });
