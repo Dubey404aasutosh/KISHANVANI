@@ -6,7 +6,10 @@
 <title>KISANVANI — Voice-First Agri-Advisory for Indian Farmers</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;0,900;1,700;1,800;1,900&family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- GSAP 3 & ScrollTrigger for Masked Reveal Animation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <style>
   :root {
     /* Colors */
@@ -614,7 +617,7 @@
     border-radius: var(--radius-tags);
     font-size: 12px;
     font-family: var(--font-roboto-mono);
-    cursor: none;
+    cursor: pointer;
     border: none;
     background: transparent;
     color: var(--color-forest-ink);
@@ -643,7 +646,7 @@
     border: 1px solid var(--color-forest-ink);
     background: transparent;
     color: var(--color-forest-ink);
-    cursor: none;
+    cursor: pointer;
     transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
     position: relative;
     overflow: hidden;
@@ -752,7 +755,7 @@
     font-size: 16px;
     font-weight: 500;
     border: none;
-    cursor: none;
+    cursor: pointer;
     display: inline-flex;
     align-items: center;
     gap: 10px;
@@ -1271,19 +1274,22 @@
   }
 
   /* ==========================================================================
-     SHOWCASE (VIDEO DEMO)
+     SHOWCASE: MASKED VIDEO REVEAL SCROLL ANIMATION (masked-image-reveal-scroll-v4)
+     Stack: GSAP 3 (ScrollTrigger) · Clean Y-Prong SVG Masking · 4-Row Gallery
      ========================================================================== */
   .showcase {
-    max-width: 1200px;
+    width: 100%;
     margin: 0 auto;
-    padding: 80px 24px 96px;
+    padding: 70px 0 96px;
     border-top: 1px solid var(--color-pencil-gray);
+    position: relative;
   }
 
-  .section-head {
-    max-width: 680px;
-    margin: 0 auto 48px;
+  .showcase .section-head {
+    max-width: 760px;
+    margin: 0 auto 36px;
     text-align: center;
+    padding: 0 24px;
   }
 
   .section-head .eyebrow {
@@ -1317,61 +1323,169 @@
     margin: 0;
   }
 
-  .video-theater-wrap {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 48px;
-  }
-
-  .video-theater-card {
+  .spotlight {
     position: relative;
-    width: min(1000px, 95vw);
-    background: #ffffff;
-    border-radius: var(--radius-cards);
-    padding: 14px;
-    box-shadow: 6px 6px 0px var(--color-forest-ink), 0 20px 40px rgba(26, 51, 0, 0.12);
-    border: 2px solid var(--color-forest-ink);
+    width: 100vw;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 100vh;
+    height: 100svh;
+    background-color: #0d1409;
+    color: #ffffff;
+    overflow: hidden;
+    margin: 20px 0 60px;
+    box-shadow: inset 0 20px 40px rgba(0,0,0,0.6), inset 0 -20px 40px rgba(0,0,0,0.6);
   }
 
-  .video-theater-card::before {
-    content: '';
+  /* Ambient Header behind unmasked area */
+  .spotlight > .header {
     position: absolute;
-    top: -10px;
-    left: 40px;
-    width: 76px;
-    height: 22px;
-    background: rgba(255, 233, 92, 0.88);
-    border: 1px dashed rgba(26, 51, 0, 0.35);
-    transform: rotate(-1.5deg);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 80%;
+    max-width: 900px;
+    z-index: 2;
     pointer-events: none;
   }
 
-  .video-theater-topbar {
+  .spotlight > .header h1 {
+    text-transform: uppercase;
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: clamp(3.2rem, 7vw, 6.2rem);
+    font-weight: 900;
+    line-height: 0.88;
+    letter-spacing: -0.02em;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 4px 30px rgba(0, 0, 0, 0.9);
+  }
+
+  .spotlight-images {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 300svh;
     display: flex;
-    align-items: center;
+    flex-direction: column;
     justify-content: space-between;
-    padding: 4px 8px 12px;
-    font-family: var(--font-roboto-mono);
-    font-size: 11.5px;
-    color: var(--color-forest-ink);
-    font-weight: 600;
-    letter-spacing: 0.04em;
+    transform: translateY(5%);
+    will-change: transform;
+    z-index: 1;
+    pointer-events: none;
   }
 
-  .video-theater-screen {
+  .spotlight .row {
     width: 100%;
-    aspect-ratio: 16 / 9;
-    border-radius: 8px;
-    overflow: hidden;
-    background: #000000;
-    border: 1px solid rgba(26, 51, 0, 0.25);
+    padding: 1.5rem 2.5rem;
+    display: flex;
+    gap: 2rem;
   }
 
-  .video-theater-screen video {
+  .spotlight .img {
+    flex: 1;
+    aspect-ratio: 5 / 7;
+    overflow: hidden;
+    border-radius: 0.75rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.55);
+  }
+
+  .spotlight .img img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
     display: block;
+    filter: saturate(1.15) brightness(0.85);
+  }
+
+  /* Expanding SVG Mask Layer */
+  .mask-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    -webkit-mask-image: url("/assets/spotlight-mask-pill.svg");
+    mask-image: url("/assets/spotlight-mask-pill.svg");
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: 0%;
+    mask-size: 0%;
+    overflow: hidden;
+    z-index: 10;
+    background-color: #000000;
+  }
+
+  .mask-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    will-change: transform;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000;
+  }
+
+  .mask-img video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .mask-container .header {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 85%;
+    max-width: 960px;
+    z-index: 15;
+    pointer-events: none;
+  }
+
+  .mask-container .header h1 {
+    text-transform: uppercase;
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: clamp(3rem, 6.8vw, 6rem);
+    font-weight: 900;
+    line-height: 0.88;
+    letter-spacing: -0.01em;
+    color: #ffffff;
+    text-shadow: 0 4px 30px rgba(0, 0, 0, 0.95), 0 0 50px rgba(0, 0, 0, 0.7);
+  }
+
+  .spotlight-word {
+    display: inline-block;
+    margin: 0 0.18em;
+    opacity: 0;
+    transform: translateY(18px);
+    will-change: opacity, transform;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+  }
+
+  .spotlight .img:empty {
+    display: none;
+  }
+
+  @media (max-width: 1000px) {
+    .spotlight > .header h1,
+    .mask-container .header h1 {
+      font-size: clamp(2.4rem, 8vw, 4rem);
+    }
+    .spotlight-images {
+      width: 180vw;
+      left: -25vw;
+    }
   }
 
   .showcase-points {
@@ -1635,25 +1749,144 @@
   }
 
   /* ==========================================================================
-     FOOTER
+     MONUMENTAL FOOTER (GOOGLE LABS DESIGN SYSTEM)
      ========================================================================== */
-  footer {
-    border-top: 1px solid var(--color-pencil-gray);
-    padding: 48px 24px 56px;
-    background: #f7f3e8;
-    text-align: center;
-    color: #586a51;
-    font-size: 13.5px;
-    line-height: 1.6;
+  .monumental-footer {
+    width: 100%;
+    background-color: var(--color-cream-paper);
+    padding: 70px 0 0;
+    overflow: hidden;
+    position: relative;
   }
 
-  footer .footer-inner {
-    max-width: 820px;
+  .footer-shapes-row {
+    max-width: 1360px;
     margin: 0 auto;
+    padding: 0 48px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 28px;
+    height: 150px;
   }
 
-  footer b {
+  .footer-shape {
+    flex: 1;
+    max-width: 220px;
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s ease;
+  }
+
+  .footer-shape:hover {
+    transform: translateY(-10px) scale(1.04);
+    filter: brightness(1.06);
+  }
+
+  .footer-shape svg {
+    width: 100%;
+    height: 100%;
+    max-height: 140px;
+    display: block;
+  }
+
+  .footer-divider-line {
+    width: 100%;
+    height: 1.5px;
+    background-color: rgba(26, 51, 0, 0.22);
+  }
+
+  .footer-content-wrap {
+    max-width: 1380px;
+    margin: 0 auto;
+    padding: 28px 48px 0;
+  }
+
+  .footer-sub-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 18px;
+    margin-bottom: 16px;
+  }
+
+  .footer-sublabel {
+    font-family: var(--font-inter), sans-serif;
+    font-size: 15.5px;
+    font-weight: 500;
+    color: #4b5563;
+    letter-spacing: -0.01em;
+  }
+
+  .footer-links {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    flex-wrap: wrap;
+  }
+
+  .footer-links a {
+    font-family: var(--font-inter), sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: #4b5563;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .footer-links a:hover {
     color: var(--color-forest-ink);
+  }
+
+  .footer-brand-monument {
+    width: 100%;
+    padding: 16px 0 0;
+    overflow: hidden;
+    user-select: none;
+  }
+
+  .footer-brand-monument h1 {
+    font-family: var(--font-inter), sans-serif;
+    font-size: clamp(4.5rem, 16vw, 17rem);
+    font-weight: 700;
+    line-height: 0.84;
+    letter-spacing: -0.04em;
+    color: #1a3300;
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+    display: block;
+    transform: translateY(3%);
+  }
+
+  @media (max-width: 960px) {
+    .footer-shapes-row {
+      height: 96px;
+      gap: 12px;
+      padding: 0 24px;
+      margin-bottom: 18px;
+    }
+    .footer-shape {
+      height: 96px;
+    }
+    .footer-content-wrap {
+      padding: 20px 24px 0;
+    }
+    .footer-sub-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .footer-links {
+      gap: 18px;
+    }
+    .footer-brand-monument h1 {
+      font-size: clamp(3.2rem, 18vw, 7.5rem);
+    }
   }
 </style>
 </head>
@@ -1915,14 +2148,80 @@
       <p>Watch how a farmer speaks out loud in their regional tongue and receives immediate, grounded voice advice — no app, no keypad typing.</p>
     </div>
 
-    <div class="video-theater-wrap reveal from-scale">
-      <div class="video-theater-card">
-        <div class="video-theater-topbar">
-          <span>● HD FIELD DEMONSTRATION // LIVE TEST</span>
-          <span>1280 × 720 WIDESCREEN</span>
+    <!-- Pinned Masked Video Reveal Section (Clean Y-Prong Edition) -->
+    <div class="spotlight">
+      <div class="header">
+        <h1>Awaken the Voice</h1>
+      </div>
+
+      <div class="spotlight-images">
+        <div class="row">
+          <div class="img">
+            <img src="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?q=80&w=800&auto=format&fit=crop" alt="Indian Lush Farm Field" />
+          </div>
+          <div class="img">
+            <img src="https://images.unsplash.com/photo-1592982537447-7440770cbfc9?q=80&w=800&auto=format&fit=crop" alt="Farmer in Mustard Field" />
+          </div>
+          <div class="img">
+            <img src="https://images.unsplash.com/photo-1560493676-04071c5f467b?q=80&w=800&auto=format&fit=crop" alt="Golden Wheat Harvest" />
+          </div>
+          <div class="img">
+            <img src="https://images.unsplash.com/photo-1574943320219-553eb213f72d?q=80&w=800&auto=format&fit=crop" alt="Agricultural Crops in Sunlight" />
+          </div>
         </div>
-        <div class="video-theater-screen">
-          <video src="/assets/viddeo.mp4" autoplay loop muted playsinline controls preload="metadata"></video>
+
+        <div class="row">
+          <div class="img">
+            <img src="https://images.unsplash.com/photo-1586771107445-d3ca888129ff?q=80&w=800&auto=format&fit=crop" alt="Rural Agricultural Terraces" />
+          </div>
+          <div class="img">
+            <img src="https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?q=80&w=800&auto=format&fit=crop" alt="Fresh Organic Crops" />
+          </div>
+          <div class="img">
+            <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?q=80&w=800&auto=format&fit=crop" alt="Modern Crop Management" />
+          </div>
+          <div class="img">
+            <img src="https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?q=80&w=800&auto=format&fit=crop" alt="Farmer in Lush Crop Field" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="img">
+            <img src="https://images.unsplash.com/photo-1595974482597-4b8da8879bc5?q=80&w=800&auto=format&fit=crop" alt="Indian Rural Landscape" />
+          </div>
+          <div class="img">
+            <img src="https://images.unsplash.com/photo-1597916829826-02e5bb4a54e0?q=80&w=800&auto=format&fit=crop" alt="Rice Paddy Plantation" />
+          </div>
+          <div class="img">
+            <img src="https://images.unsplash.com/photo-1563514227147-6d2ff665a6a0?q=80&w=800&auto=format&fit=crop" alt="Golden Wheat Grain" />
+          </div>
+          <div class="img">
+            <img src="https://images.unsplash.com/photo-1605000797499-95a51c5269ae?q=80&w=800&auto=format&fit=crop" alt="Farmer Examining Soil" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="img">
+            <img src="https://images.unsplash.com/photo-1615811361523-6bd03d7748e7?q=80&w=800&auto=format&fit=crop" alt="Farmer Sowing Seeds" />
+          </div>
+          <div class="img">
+            <img src="https://images.unsplash.com/photo-1589923188900-85dae523342b?q=80&w=800&auto=format&fit=crop" alt="Agri Soil & Seedlings" />
+          </div>
+          <div class="img">
+            <img src="https://images.unsplash.com/photo-1500651230702-0e2d8a49d4ad?q=80&w=800&auto=format&fit=crop" alt="Sunset Wheat Field" />
+          </div>
+          <div class="img">
+            <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=800&auto=format&fit=crop" alt="Sunlit Agricultural Countryside" />
+          </div>
+        </div>
+      </div>
+
+      <div class="mask-container">
+        <div class="mask-img">
+          <video id="spotlightVideo" src="/assets/viddeo.mp4" autoplay loop muted playsinline controls preload="metadata"></video>
+        </div>
+        <div class="header">
+          <h1>Where Voice Meets The Soil</h1>
         </div>
       </div>
     </div>
@@ -2132,14 +2431,54 @@
     </div>
   </section>
 
-  <!-- FOOTER -->
-  <footer>
-    <div class="footer-inner">
-      <p>
-        <b>KISANVANI</b> — Built for the UNLEASHLLM Innovation Challenge.<br>
-        Runs entirely on open weights (Whisper + Llama 3.1 via Ollama) with 0₹ per-call external API fees.<br>
-        Dedicated to empowering every Indian farmer with safe, accessible voice intelligence.
-      </p>
+  <!-- REDESIGNED MONUMENTAL FOOTER (GOOGLE LABS DESIGN SYSTEM) -->
+  <footer class="monumental-footer">
+    <!-- Playful Colorful Geometric Shape Accents (Google Labs Signature) -->
+    <div class="footer-shapes-row" aria-hidden="true">
+      <div class="footer-shape shape-squircle" title="Multilingual ASR">
+        <svg viewBox="0 0 100 100" fill="none">
+          <rect x="5" y="5" width="90" height="90" rx="30" fill="#f5c2ff" />
+        </svg>
+      </div>
+      <div class="footer-shape shape-hexagon" title="ICAR Knowledge Retrieval">
+        <svg viewBox="0 0 100 100" fill="none">
+          <polygon points="50,8 88,28 88,72 50,92 12,72 12,28" fill="#f97316" stroke="#f97316" stroke-width="8" stroke-linejoin="round" />
+        </svg>
+      </div>
+      <div class="footer-shape shape-pill" title="Deterministic Guardrails">
+        <svg viewBox="0 0 100 100" fill="none">
+          <rect x="6" y="10" width="88" height="80" rx="38" fill="#22c55e" />
+        </svg>
+      </div>
+      <div class="footer-shape shape-flower" title="Dialect Audio Synthesis">
+        <svg viewBox="0 0 100 100" fill="none">
+          <path d="M50 14 C62 0 86 10 86 28 C100 38 100 62 86 72 C86 90 62 100 50 86 C38 100 14 90 14 72 C0 62 0 38 14 28 C14 10 38 0 50 14 Z" fill="#facc15" />
+        </svg>
+      </div>
+      <div class="footer-shape shape-circle" title="Zero External API Fees">
+        <svg viewBox="0 0 100 100" fill="none">
+          <circle cx="50" cy="50" r="44" fill="#3b82f6" />
+        </svg>
+      </div>
+    </div>
+
+    <div class="footer-divider-line"></div>
+
+    <div class="footer-content-wrap">
+      <div class="footer-sub-row">
+        <div class="footer-sublabel">Voice intelligence for Indian agriculture</div>
+        <nav class="footer-links">
+          <a href="#demo" onclick="scrollToSection('demo'); return false;">Try Demo</a>
+          <a href="#showcase" onclick="scrollToSection('showcase'); return false;">In Action</a>
+          <a href="#features" onclick="scrollToSection('features'); return false;">Features</a>
+          <a href="#how-it-works" onclick="scrollToSection('how-it-works'); return false;">How It Works</a>
+          <a href="#safety" onclick="scrollToSection('safety'); return false;">Trust & Safety</a>
+        </nav>
+      </div>
+
+      <div class="footer-brand-monument">
+        <h1>KRISHVANI</h1>
+      </div>
     </div>
   </footer>
 
@@ -2482,45 +2821,7 @@
   })();
 
   /* ==========================================================================
-     4. CUSTOM CURSOR FOLLOWER WITH LERP PHYSICS
-     ========================================================================== */
-  (function initCustomCursor() {
-    const dot = document.getElementById('cursorDot');
-    const ring = document.getElementById('cursorRing');
-    if (!dot || !ring) return;
-
-    if (!window.matchMedia('(pointer: fine)').matches) {
-      dot.style.display = 'none';
-      ring.style.display = 'none';
-      return;
-    }
-
-    let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
-    let ringX = mouseX, ringY = mouseY;
-
-    window.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      dot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
-    }, { passive: true });
-
-    function renderCursor() {
-      ringX += (mouseX - ringX) * 0.18;
-      ringY += (mouseY - ringY) * 0.18;
-      ring.style.transform = `translate(${ringX}px, ${ringY}px)`;
-      requestAnimationFrame(renderCursor);
-    }
-    requestAnimationFrame(renderCursor);
-
-    const hoverTargets = 'a, button, select, input, textarea, .feature-card, .step-card, .showcase-card, .pstep, .brand, .lang-pill, .tag, .mic-btn, .backed-tag, [role="button"]';
-    document.querySelectorAll(hoverTargets).forEach(el => {
-      el.addEventListener('mouseenter', () => ring.classList.add('hovering'));
-      el.addEventListener('mouseleave', () => ring.classList.remove('hovering'));
-    });
-  })();
-
-  /* ==========================================================================
-     5. MAGNETIC BUTTON HOVER EFFECT
+     4. MAGNETIC BUTTON HOVER EFFECT
      ========================================================================== */
   (function initMagneticButtons() {
     const btns = document.querySelectorAll('.magnetic-btn, .btn, .nav-btn-demo, .mic-btn');
@@ -2568,6 +2869,132 @@
           s.style.marginTop = '0px';
         });
       });
+    }
+  })();
+
+  /* ==========================================================================
+     7. MASKED VIDEO REVEAL SCROLL ANIMATION (masked-image-reveal-scroll-v4)
+     Clean Y-Prong Edition · GSAP 3 ScrollTrigger · Parallax & Word Reveal
+     ========================================================================== */
+  (function initMaskedVideoReveal() {
+    function setupScrollReveal() {
+      if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+        setTimeout(setupScrollReveal, 80);
+        return;
+      }
+
+      gsap.registerPlugin(ScrollTrigger);
+
+      const spotlightSection = document.querySelector(".spotlight");
+      const spotlightImages = document.querySelector(".spotlight-images");
+      const maskContainer = document.querySelector(".mask-container");
+      const maskImage = document.querySelector(".mask-img");
+      const maskHeader = document.querySelector(".mask-container .header h1");
+      const video = document.getElementById("spotlightVideo");
+
+      if (!spotlightSection) return;
+
+      // Lock in Pill Mask SVG
+      if (maskContainer) {
+        maskContainer.style.setProperty("-webkit-mask-image", "url('/assets/spotlight-mask-pill.svg')");
+        maskContainer.style.setProperty("mask-image", "url('/assets/spotlight-mask-pill.svg')");
+      }
+
+      // Auto-play video silently on loop
+      if (video) {
+        video.muted = true;
+        video.play().catch(() => {});
+      }
+
+      // Word-by-word setup
+      let headerWords = [];
+      if (maskHeader) {
+        const text = maskHeader.textContent.trim();
+        const words = text.split(/\s+/);
+        maskHeader.innerHTML = "";
+        words.forEach((wordText) => {
+          const span = document.createElement("span");
+          span.className = "spotlight-word";
+          span.textContent = wordText;
+          maskHeader.appendChild(span);
+          headerWords.push(span);
+        });
+        gsap.set(headerWords, { opacity: 0, y: 18 });
+      }
+
+      // Pin and Scrub Timeline
+      ScrollTrigger.create({
+        trigger: ".spotlight",
+        start: "top top",
+        end: () => "+=" + (window.innerHeight * 2.8) + "px",
+        pin: true,
+        pinSpacing: true,
+        scrub: 0.5,
+        onUpdate: (self) => {
+          const progress = self.progress;
+
+          // Phase 1 [0.0 - 0.52]: Multi-Row Image Gallery Shift
+          if (progress <= 0.52 && spotlightImages) {
+            const imagesMoveProgress = Math.min(1, progress / 0.5);
+            const containerH = spotlightImages.offsetHeight || (window.innerHeight * 3);
+            const totalH = containerH + (containerH * 0.05) + window.innerHeight;
+            const startY = 5;
+            const endY = -(totalH / Math.max(1, containerH)) * 100;
+            const currentY = startY + (endY - startY) * imagesMoveProgress;
+            gsap.set(spotlightImages, { y: `${currentY}%` });
+          }
+
+          // Phase 2 [0.18 - 0.82]: Pill SVG Mask Expansion (0% -> 550%)
+          // Phase 3 [0.18 - 0.82]: Video Parallax Counter-Scale (1.35x -> 1.0x)
+          if (maskContainer && maskImage) {
+            if (progress >= 0.18 && progress <= 0.82) {
+              const maskProgress = (progress - 0.18) / 0.64;
+              const maskSize = `${maskProgress * 550}%`;
+              const imageScale = 1.35 - maskProgress * 0.35;
+
+              maskContainer.style.setProperty("-webkit-mask-size", maskSize);
+              maskContainer.style.setProperty("mask-size", maskSize);
+
+              gsap.set(maskImage, { scale: imageScale });
+            } else if (progress < 0.18) {
+              maskContainer.style.setProperty("-webkit-mask-size", "0%");
+              maskContainer.style.setProperty("mask-size", "0%");
+              gsap.set(maskImage, { scale: 1.35 });
+            } else if (progress > 0.82) {
+              maskContainer.style.setProperty("-webkit-mask-size", "550%");
+              maskContainer.style.setProperty("mask-size", "550%");
+              gsap.set(maskImage, { scale: 1.0 });
+            }
+          }
+
+          // Phase 4 [0.72 - 0.95]: Word-by-Word Spotlight Text Reveal
+          if (headerWords && headerWords.length > 0) {
+            if (progress >= 0.72 && progress <= 0.95) {
+              const textProgress = (progress - 0.72) / 0.23;
+              const totalWords = headerWords.length;
+
+              headerWords.forEach((word, index) => {
+                const wordRevealProgress = index / totalWords;
+                const isRevealed = textProgress >= wordRevealProgress;
+                gsap.set(word, {
+                  opacity: isRevealed ? 1 : 0,
+                  y: isRevealed ? 0 : 18,
+                });
+              });
+            } else if (progress < 0.72) {
+              gsap.set(headerWords, { opacity: 0, y: 18 });
+            } else if (progress > 0.95) {
+              gsap.set(headerWords, { opacity: 1, y: 0 });
+            }
+          }
+        },
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', setupScrollReveal);
+    } else {
+      setupScrollReveal();
     }
   })();
 </script>
