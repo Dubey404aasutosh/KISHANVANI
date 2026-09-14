@@ -541,16 +541,16 @@
     background: rgba(247, 245, 240, 0.72);
     backdrop-filter: blur(24px) saturate(180%) contrast(92%);
     -webkit-backdrop-filter: blur(24px) saturate(180%) contrast(92%);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
-    transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    border: none;
+    box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.03);
+    transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   /* When scrolling, slight enrichment */
   .nav-wrapper.scrolled {
-    background: rgba(247, 245, 240, 0.84);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+    background: rgba(247, 245, 240, 0.88);
+    border: none;
+    box-shadow: 0 4px 25px -2px rgba(0, 0, 0, 0.06);
   }
 
   .nav {
@@ -582,39 +582,26 @@
     transform: translateY(-0.5px);
   }
 
-  .brand-flask-icon {
+  .brand-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #202124;
+    color: #1a3300;
     transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.2s ease;
   }
 
-  .brand:hover .brand-flask-icon {
-    transform: rotate(-10deg) scale(1.1);
-    color: var(--color-forest-ink);
+  .brand:hover .brand-icon {
+    transform: rotate(8deg) scale(1.1);
+    color: #2fbfa0;
   }
 
   .brand-title {
     font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
-    font-weight: 600;
-    font-size: 16.5px;
-    letter-spacing: -0.02em;
-    color: #202124;
-    transition: color 0.2s ease;
-  }
-
-  .brand-labs-badge {
-    font-family: var(--font-roboto-mono), monospace;
-    font-size: 10.5px;
     font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    background: rgba(26, 51, 0, 0.08);
-    color: var(--color-forest-ink);
-    padding: 2px 7px;
-    border-radius: 999px;
-    border: 1px solid rgba(26, 51, 0, 0.12);
+    font-size: 17px;
+    letter-spacing: -0.02em;
+    color: #1a3300;
+    transition: color 0.2s ease;
   }
 
   /* Center: Minimalist Google Labs Links */
@@ -645,40 +632,6 @@
     display: flex;
     align-items: center;
     gap: 14px;
-  }
-
-  .nav-social-group {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  /* Circular Glass Icon Buttons (Google Labs Signature) */
-  .nav-circle-btn {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(255, 255, 255, 0.55);
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    color: #374151;
-    text-decoration: none;
-    transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
-  }
-
-  .nav-circle-btn:hover {
-    background: #ffffff;
-    color: #111827;
-    border-color: rgba(0, 0, 0, 0.18);
-    transform: translateY(-1.5px) scale(1.06);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
-  }
-
-  .nav-circle-btn:active {
-    transform: scale(0.95);
   }
 
   /* Language Switcher Pill */
@@ -744,12 +697,10 @@
 
   @media (max-width: 1040px) {
     .nav-links { display: none; }
-    .nav-social-group { display: none; }
   }
 
   @media (max-width: 640px) {
     .lang-pills { display: none; }
-    .brand-labs-badge { display: none; }
   }
 
   /* ==========================================================================
@@ -2251,7 +2202,7 @@
   .footer-brand-monument {
     width: 100%;
     overflow: visible; /* CRITICAL: Never clip or hide overflow */
-    padding: 14px 0 0;
+    padding: 14px 0 24px;
     user-select: none;
     display: flex;
     align-items: flex-end;
@@ -2262,7 +2213,7 @@
 
   .footer-brand-monument h1 {
     font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
-    font-size: clamp(3.6rem, 16.5vw, 18.8rem);
+    font-size: clamp(3.2rem, 21vw, 21rem);
     font-weight: 700;
     line-height: 0.82;
     letter-spacing: -0.04em;
@@ -2396,17 +2347,17 @@
   <!-- GOOGLE LABS SIGNATURE FROSTED GLASS NAVIGATION BAR -->
   <header class="nav-wrapper" id="mainNavbar">
     <nav class="nav">
-      <!-- Left: Brand with Google Labs Beaker Icon & Labs Badge -->
+      <!-- Left: Brand with Agricultural Sprout Icon -->
       <div class="brand" onclick="scrollToSection('top')" role="button" tabindex="0" aria-label="Back to top">
-        <div class="brand-flask-icon" aria-hidden="true">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M10 2v7.31a2 2 0 0 1-.298 1.054L4.85 19.34A1.2 1.2 0 0 0 5.88 21h12.24a1.2 1.2 0 0 0 1.03-1.66l-4.85-8.976A2 2 0 0 1 14 9.31V2"/>
-            <path d="M8.5 2h7"/>
-            <path d="M7 16h10"/>
+        <div class="brand-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22V8"/>
+            <path d="M12 8C12 4.5 9.5 2 6 2C6 5.5 8.5 8 12 8Z" fill="#2fbfa0" fill-opacity="0.35"/>
+            <path d="M12 13C12 9.5 14.5 7 18 7C18 10.5 15.5 13 12 13Z" fill="#2fbfa0" fill-opacity="0.35"/>
+            <path d="M12 18C12 15 10 13 7 13C7 16 9 18 12 18Z" fill="#2fbfa0" fill-opacity="0.35"/>
           </svg>
         </div>
         <span class="brand-title">KISANVANI</span>
-        <span class="brand-labs-badge">Labs</span>
       </div>
 
       <!-- Center: Clean Minimalist Navigation Links -->
@@ -2418,31 +2369,8 @@
         <span onclick="scrollToSection('safety')">Trust &amp; Safety</span>
       </div>
 
-      <!-- Right: Circular Social Glass Buttons, Language Selector & CTA -->
+      <!-- Right: Language Selector & CTA -->
       <div class="nav-actions">
-        <div class="nav-social-group">
-          <!-- Discord Circle Glass Button -->
-          <a href="https://discord.com" target="_blank" rel="noopener noreferrer" class="nav-circle-btn" title="Community Discord" aria-label="Discord">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.929 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.894.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
-            </svg>
-          </a>
-
-          <!-- Reddit Circle Glass Button -->
-          <a href="https://reddit.com" target="_blank" rel="noopener noreferrer" class="nav-circle-btn" title="Reddit Discussions" aria-label="Reddit">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.703zM9.25 12C8.56 12 8 12.56 8 13.25c0 .69.56 1.25 1.25 1.25.69 0 1.25-.56 1.25-1.25 0-.69-.56-1.25-1.25-1.25zm5.5 0c-.69 0-1.25.56-1.25 1.25 0 .69.56 1.25 1.25 1.25.69 0 1.25-.56 1.25-1.25 0-.69-.56-1.25-1.25-1.25zm-5.465 3.99a.327.327 0 0 0-.231.096.327.327 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.197-2.512-.73a.326.326 0 0 0-.232-.096z"/>
-            </svg>
-          </a>
-
-          <!-- X / Twitter Circle Glass Button -->
-          <a href="https://x.com" target="_blank" rel="noopener noreferrer" class="nav-circle-btn" title="Follow on X" aria-label="X (Twitter)">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-            </svg>
-          </a>
-        </div>
-
         <!-- Dialect Language Selector -->
         <div class="lang-pills">
           <button class="lang-pill active" data-lang="en">EN</button>
