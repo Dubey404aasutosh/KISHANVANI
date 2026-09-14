@@ -70,6 +70,215 @@
     overflow-x: hidden;
   }
 
+  /* ==========================================================================
+     SCROLL-TRIGGERED REVEAL ANIMATIONS
+     ========================================================================== */
+  .reveal {
+    opacity: 0;
+    transform: translateY(60px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+  }
+
+  .reveal.from-left {
+    transform: translateX(-60px);
+  }
+
+  .reveal.from-right {
+    transform: translateX(60px);
+  }
+
+  .reveal.from-scale {
+    transform: scale(0.92);
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0) translateX(0) scale(1);
+  }
+
+  /* Stagger children */
+  .stagger-children .reveal:nth-child(1) { transition-delay: 0s; }
+  .stagger-children .reveal:nth-child(2) { transition-delay: 0.08s; }
+  .stagger-children .reveal:nth-child(3) { transition-delay: 0.16s; }
+  .stagger-children .reveal:nth-child(4) { transition-delay: 0.24s; }
+  .stagger-children .reveal:nth-child(5) { transition-delay: 0.32s; }
+  .stagger-children .reveal:nth-child(6) { transition-delay: 0.40s; }
+
+  /* Hero Entrance Stagger with Preloader Exit */
+  .hero .reveal {
+    opacity: 0;
+    transform: translateY(35px);
+    transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .site-revealed .hero .reveal {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .site-revealed .hero .tagline-badge { transition-delay: 0.08s; }
+  .site-revealed .hero .display-headline { transition-delay: 0.15s; }
+  .site-revealed .hero .subhead-paragraph { transition-delay: 0.25s; }
+  .site-revealed .hero .cta-row { transition-delay: 0.35s; }
+  .site-revealed .hero .reassurance-caption { transition-delay: 0.45s; }
+  .site-revealed .hero .marquee-wrapper { transition-delay: 0.55s; }
+
+  /* ==========================================================================
+     PARALLAX FLOATING DECORATIVE SVG SHAPES
+     ========================================================================== */
+  .deco-shape {
+    position: absolute;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.12;
+    will-change: transform;
+  }
+
+  .deco-shape svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .deco-blob-1 {
+    width: 280px;
+    height: 280px;
+    top: -60px;
+    right: 10%;
+  }
+
+  .deco-blob-2 {
+    width: 200px;
+    height: 200px;
+    bottom: 5%;
+    left: -40px;
+    opacity: 0.08;
+  }
+
+  .deco-blob-3 {
+    width: 160px;
+    height: 160px;
+    top: 40%;
+    right: -30px;
+    opacity: 0.06;
+  }
+
+  .deco-cross {
+    width: 40px;
+    height: 40px;
+    opacity: 0.15;
+  }
+
+  .deco-cross-1 { top: 20%; left: 8%; }
+  .deco-cross-2 { top: 60%; right: 12%; }
+  .deco-cross-3 { bottom: 15%; left: 20%; }
+
+  /* ==========================================================================
+     TEXT GRADIENT SHIMMER ON SECTION HEADINGS
+     ========================================================================== */
+  .shimmer-text {
+    background: linear-gradient(
+      120deg,
+      var(--color-forest-ink) 0%,
+      var(--color-forest-ink) 40%,
+      #4a7c10 50%,
+      var(--color-forest-ink) 60%,
+      var(--color-forest-ink) 100%
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmerSlide 4s ease-in-out infinite;
+  }
+
+  @keyframes shimmerSlide {
+    0%, 100% { background-position: 200% center; }
+    50% { background-position: -200% center; }
+  }
+
+  /* ==========================================================================
+     MAGNETIC BUTTON EFFECT
+     ========================================================================== */
+  .magnetic-btn {
+    position: relative;
+    transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  /* ==========================================================================
+     INFINITE MARQUEE SCROLL (BACKED-BY STRIP)
+     ========================================================================== */
+  .marquee-track {
+    display: flex;
+    animation: marqueeScroll 25s linear infinite;
+    gap: 16px;
+    width: max-content;
+  }
+
+  .marquee-wrapper {
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  }
+
+  @keyframes marqueeScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .marquee-track:hover {
+    animation-play-state: paused;
+  }
+
+  /* ==========================================================================
+     SPLIT TEXT ANIMATION & ENHANCED SPRING HOVER PHYSICS
+     ========================================================================== */
+  .split-word {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+    margin-right: 0.24em;
+  }
+
+  .split-char {
+    display: inline-block;
+    transform: translateY(115%) rotate(3deg);
+    opacity: 0;
+    transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.85s ease;
+    will-change: transform, opacity;
+  }
+
+  .site-revealed .split-char {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+
+  /* Enhanced Spring Hover Physics on Cards */
+  .feature-card, .step-card, .showcase-card, .pstep {
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s ease !important;
+    will-change: transform, box-shadow;
+  }
+
+  .feature-card:hover {
+    transform: translateY(-8px) scale(1.02) !important;
+    box-shadow: 4px 12px 24px rgba(26, 51, 0, 0.12) !important;
+  }
+
+  .step-card:hover {
+    transform: translateY(-6px) scale(1.02) !important;
+    box-shadow: 3px 10px 20px rgba(26, 51, 0, 0.1) !important;
+  }
+
+  .showcase-card:hover {
+    transform: translateY(-6px) scale(1.02) !important;
+    box-shadow: 4px 10px 20px rgba(26, 51, 0, 0.1) !important;
+  }
+
+  .pstep:hover {
+    transform: translateY(-6px) scale(1.03) !important;
+    box-shadow: 3px 8px 18px rgba(26, 51, 0, 0.08) !important;
+  }
+
   a {
     color: var(--color-forest-ink);
     text-decoration: none;
@@ -405,12 +614,18 @@
     border-radius: var(--radius-tags);
     font-size: 12px;
     font-family: var(--font-roboto-mono);
-    cursor: pointer;
+    cursor: none;
     border: none;
     background: transparent;
     color: var(--color-forest-ink);
     opacity: 0.75;
-    transition: all 0.15s ease;
+    transition: all 0.25s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .lang-pill:hover {
+    opacity: 1;
+    background: rgba(26, 51, 0, 0.06);
+    transform: translateY(-1px);
   }
 
   .lang-pill.active {
@@ -428,13 +643,32 @@
     border: 1px solid var(--color-forest-ink);
     background: transparent;
     color: var(--color-forest-ink);
-    cursor: pointer;
-    transition: all 0.15s ease;
+    cursor: none;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .nav-btn-demo::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--color-forest-ink);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    z-index: -1;
   }
 
   .nav-btn-demo:hover {
-    background: var(--color-forest-ink);
     color: var(--color-cream-paper);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(26, 51, 0, 0.15);
+  }
+
+  .nav-btn-demo:hover::before {
+    transform: scaleX(1);
+    transform-origin: left;
   }
 
   @media (max-width: 900px) {
@@ -518,36 +752,66 @@
     font-size: 16px;
     font-weight: 500;
     border: none;
-    cursor: pointer;
+    cursor: none;
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    transition: transform 0.35s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.35s cubic-bezier(0.23, 1, 0.32, 1), background 0.3s ease;
     text-decoration: none;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn::after {
+    content: '';
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,233,92,0.3) 0%, transparent 60%);
+    top: var(--mouse-y, 50%);
+    left: var(--mouse-x, 50%);
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+
+  .btn:hover::after {
+    opacity: 1;
   }
 
   .btn-primary {
     background: var(--color-forest-ink);
     color: var(--color-cream-paper);
     padding: 16px 36px;
-    box-shadow: var(--shadow-subtle);
+    box-shadow: 4px 4px 0px rgba(26, 51, 0, 0.3);
   }
 
   .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-subtle-2);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 6px 8px 0px rgba(26, 51, 0, 0.2);
+  }
+
+  .btn-primary:active {
+    transform: translateY(0px) scale(0.98);
+    box-shadow: 2px 2px 0px rgba(26, 51, 0, 0.4);
   }
 
   .btn-outline {
     background: transparent;
     color: var(--color-forest-ink);
-    border: 1px solid var(--color-forest-ink);
+    border: 1.5px solid var(--color-forest-ink);
     padding: 15px 32px;
   }
 
   .btn-outline:hover {
-    background: rgba(26, 51, 0, 0.05);
-    transform: translateY(-2px);
+    background: rgba(26, 51, 0, 0.04);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 4px 6px 0px rgba(26, 51, 0, 0.08);
+  }
+
+  .btn-outline:active {
+    transform: translateY(0px) scale(0.98);
   }
 
   .reassurance-caption {
@@ -558,17 +822,18 @@
     margin-bottom: 40px;
   }
 
-  /* Backed-by strip */
+  /* Backed-by strip — Infinite marquee */
   .backed-by-strip {
     display: flex;
     align-items: center;
-    justify-content: center;
     gap: 16px;
-    flex-wrap: wrap;
     padding-top: 16px;
     border-top: 1px solid rgba(182, 182, 182, 0.4);
     max-width: 860px;
     margin: 0 auto;
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
   }
 
   .backed-by-label {
@@ -577,6 +842,18 @@
     color: var(--color-pencil-gray);
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    flex-shrink: 0;
+  }
+
+  .backed-tags-marquee {
+    display: flex;
+    gap: 12px;
+    animation: marqueeScroll 20s linear infinite;
+    width: max-content;
+  }
+
+  .backed-tags-marquee:hover {
+    animation-play-state: paused;
   }
 
   .backed-tag {
@@ -587,6 +864,15 @@
     border: 1px solid rgba(182, 182, 182, 0.6);
     padding: 4px 10px;
     border-radius: var(--radius-buttons);
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+  }
+
+  .backed-tag:hover {
+    background: var(--color-highlighter-yellow);
+    border-color: var(--color-forest-ink);
+    transform: translateY(-1px);
   }
 
   /* ==========================================================================
@@ -1373,6 +1659,32 @@
 </head>
 <body>
 
+  <!-- FLOATING ORGANIC DECORATIVE SVG BLOBS & ACCENTS (PARALLAX) -->
+  <div class="deco-shape deco-blob-1" data-parallax="0.08" aria-hidden="true">
+    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <path fill="#2fbfa0" d="M44.7,-76.4C58.8,-69.2,71.8,-59.1,79.6,-45.8C87.4,-32.6,90,-16.3,88.5,-0.9C87,14.6,81.4,29.2,73.1,42.2C64.8,55.3,53.8,66.8,40.6,73.5C27.4,80.2,12,82.1,-3.2,87.6C-18.4,93.2,-33.5,102.4,-46.3,98.6C-59.2,94.8,-69.9,78,-77.7,62.8C-85.4,47.6,-90.3,34,-89.9,20.8C-89.5,7.6,-83.8,-5.2,-78.4,-18.2C-73,-31.2,-67.9,-44.4,-58.3,-52.8C-48.7,-61.2,-34.6,-64.8,-21.2,-72.5C-7.8,-80.1,4.9,-91.8,19.2,-93.4C33.6,-95,49.5,-86.5,44.7,-76.4Z" transform="translate(100 100)" />
+    </svg>
+  </div>
+  <div class="deco-shape deco-blob-2" data-parallax="-0.07" aria-hidden="true">
+    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <path fill="#ffe95c" d="M38.1,-63.9C51.6,-57.4,66.3,-50.2,74.5,-38.3C82.7,-26.4,84.4,-9.8,81.8,5.7C79.2,21.3,72.2,35.8,62.7,47.8C53.2,59.8,41.2,69.3,27.5,74.7C13.8,80.1,-1.6,81.4,-16.9,78.3C-32.2,75.2,-47.4,67.7,-59.2,56.4C-71,45.1,-79.4,30,-81.7,14.3C-84,-1.4,-80.2,-17.7,-72.9,-31.9C-65.7,-46.1,-55.1,-58.2,-42.2,-64.9C-29.3,-71.6,-14.7,-72.9,0.1,-73.1C14.8,-73.2,24.6,-70.4,38.1,-63.9Z" transform="translate(100 100)" />
+    </svg>
+  </div>
+  <div class="deco-shape deco-blob-3" data-parallax="0.06" aria-hidden="true">
+    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <path fill="#cb5521" d="M41.7,-68.8C54.1,-62.4,64.3,-51.5,70.5,-38.7C76.7,-25.9,78.9,-11.2,77.5,3C76.1,17.2,71.1,30.9,63.1,42.6C55.1,54.3,44.1,64,31.3,69.8C18.5,75.6,3.9,77.5,-10.8,76.5C-25.5,75.5,-40.3,71.6,-51.6,62.8C-62.9,54,-70.7,40.3,-75.1,25.6C-79.5,10.9,-80.5,-4.8,-76.3,-19.1C-72.1,-33.4,-62.7,-46.3,-50.7,-52.8C-38.7,-59.3,-24.1,-59.4,-10.5,-63.2C3.1,-67,29.3,-75.2,41.7,-68.8Z" transform="translate(100 100)" />
+    </svg>
+  </div>
+  <div class="deco-shape deco-cross deco-cross-1" data-parallax="0.11" aria-hidden="true">
+    <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M12 4v16m-8-8h16"/></svg>
+  </div>
+  <div class="deco-shape deco-cross deco-cross-2" data-parallax="-0.09" aria-hidden="true">
+    <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M12 4v16m-8-8h16"/></svg>
+  </div>
+  <div class="deco-shape deco-cross deco-cross-3" data-parallax="0.08" aria-hidden="true">
+    <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M12 4v16m-8-8h16"/></svg>
+  </div>
+
   <!-- AWPRINT-LEVEL KINETIC SHUTTER PRELOADER -->
   <div id="preloader" role="progressbar" aria-label="Loading KISANVANI voice intelligence" aria-valuemin="0" aria-valuemax="100">
     <!-- 5 Staggered Paper Slats -->
@@ -1426,17 +1738,17 @@
   <!-- FLOATING PILL NAVIGATION -->
   <div class="nav-wrapper">
     <nav class="nav">
-      <div class="brand" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+      <div class="brand" onclick="scrollToSection('top')">
         <div class="brand-logo-mark">KV</div>
         <span class="brand-title">KISANVANI</span>
       </div>
 
       <div class="nav-links">
-        <span onclick="document.getElementById('demo').scrollIntoView({behavior:'smooth'})">Try Demo</span>
-        <span onclick="document.getElementById('showcase').scrollIntoView({behavior:'smooth'})">In Action</span>
-        <span onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">Features</span>
-        <span onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">How It Works</span>
-        <span onclick="document.getElementById('safety').scrollIntoView({behavior:'smooth'})">Trust &amp; Safety</span>
+        <span onclick="scrollToSection('demo')">Try Demo</span>
+        <span onclick="scrollToSection('showcase')">In Action</span>
+        <span onclick="scrollToSection('features')">Features</span>
+        <span onclick="scrollToSection('how')">How It Works</span>
+        <span onclick="scrollToSection('safety')">Trust &amp; Safety</span>
       </div>
 
       <div class="nav-actions">
@@ -1445,7 +1757,7 @@
           <button class="lang-pill" data-lang="hi">हिंदी</button>
           <button class="lang-pill" data-lang="pa">ਪੰਜਾਬੀ</button>
         </div>
-        <button class="nav-btn-demo" onclick="document.getElementById('demo').scrollIntoView({behavior:'smooth'})">
+        <button class="nav-btn-demo magnetic-btn" onclick="scrollToSection('demo')">
           Try Demo →
         </button>
       </div>
@@ -1453,42 +1765,57 @@
   </div>
 
   <!-- HERO SECTION -->
-  <header class="hero">
-    <div class="tagline-badge">
+  <header class="hero" id="top">
+    <div class="tagline-badge reveal">
       <span class="badge-icon">★</span>
       <span>Built for every farmer in every Indian language</span>
     </div>
 
-    <h1 class="display-headline">
+    <h1 class="display-headline reveal" id="heroHeadline">
       Call in Hindi. <mark class="marker">Get advice</mark> that is grounded and safe.
     </h1>
 
-    <p class="subhead-paragraph">
+    <p class="subhead-paragraph reveal">
       KISANVANI is a voice-first agri-advisory line for feature phones. A farmer speaks their question
       in any major Indian language — the system transcribes it, searches real Kisan Call Centre records,
       and answers back out loud, with an ironclad safety layer that blocks banned pesticides and unsafe dosages.
     </p>
 
-    <div class="cta-row">
-      <button class="btn btn-primary" onclick="document.getElementById('demo').scrollIntoView({behavior:'smooth'})">
+    <div class="cta-row reveal">
+      <button class="btn btn-primary magnetic-btn" onclick="scrollToSection('demo')">
         Try the Live Demo →
       </button>
-      <button class="btn btn-outline" onclick="document.getElementById('showcase').scrollIntoView({behavior:'smooth'})">
+      <button class="btn btn-outline magnetic-btn" onclick="scrollToSection('showcase')">
         Watch Demo Video
       </button>
     </div>
 
-    <div class="reassurance-caption">
+    <div class="reassurance-caption reveal">
       Basic phone compatible • 0₹ call cost • Grounded in real KCC records • No app required
     </div>
 
-    <div class="backed-by-strip">
-      <span class="backed-by-label">Grounded by:</span>
-      <span class="backed-tag">data.gov.in KCC Records</span>
-      <span class="backed-tag">Whisper ASR</span>
-      <span class="backed-tag">Llama 3.1</span>
-      <span class="backed-tag">ICAR PoP Safety Table</span>
-      <span class="backed-tag">FastAPI + Ollama</span>
+    <div class="marquee-wrapper reveal" style="margin-top: 36px;">
+      <div class="marquee-track">
+        <span class="backed-tag">🌾 data.gov.in KCC Records</span>
+        <span class="backed-tag">🎙 Whisper Multilingual ASR</span>
+        <span class="backed-tag">🦙 Meta Llama 3.1</span>
+        <span class="backed-tag">🛡 ICAR PoP Safety Table</span>
+        <span class="backed-tag">⚡ FastAPI + Local Ollama</span>
+        <span class="backed-tag">🇮🇳 22 Official Indian Languages</span>
+        <span class="backed-tag">📞 0₹ Basic Phone IVR</span>
+        <span class="backed-tag">🔒 Irreversible SHA-256 Caller Privacy</span>
+        <span class="backed-tag">🧪 Zero Banned Chemicals</span>
+        <!-- Infinite marquee duplicate copy -->
+        <span class="backed-tag">🌾 data.gov.in KCC Records</span>
+        <span class="backed-tag">🎙 Whisper Multilingual ASR</span>
+        <span class="backed-tag">🦙 Meta Llama 3.1</span>
+        <span class="backed-tag">🛡 ICAR PoP Safety Table</span>
+        <span class="backed-tag">⚡ FastAPI + Local Ollama</span>
+        <span class="backed-tag">🇮🇳 22 Official Indian Languages</span>
+        <span class="backed-tag">📞 0₹ Basic Phone IVR</span>
+        <span class="backed-tag">🔒 Irreversible SHA-256 Caller Privacy</span>
+        <span class="backed-tag">🧪 Zero Banned Chemicals</span>
+      </div>
     </div>
   </header>
 
@@ -1496,7 +1823,7 @@
   <section class="demo-section-wrapper" id="demo">
     <div class="demo-grid-layout">
       <!-- LEFT: Ask KISANVANI dialog box -->
-      <div class="demo-card">
+      <div class="demo-card reveal from-left">
         <div class="demo-card-header">
           <div>
             <span class="eyebrow">[LIVE PIPELINE DEMO]</span>
@@ -1569,7 +1896,7 @@
       </div>
 
       <!-- RIGHT: Avatar Companion -->
-      <div class="demo-avatar-column">
+      <div class="demo-avatar-column reveal from-right">
         <div class="avatar-stage-wrap" id="avatarStage">
           <div class="avatar-blob-graphic">
             <svg width="250" height="250" viewBox="-125 -125 250 250" role="img" aria-label="Animated bloub avatar" xmlns="http://www.w3.org/2000/svg"><defs><mask id="bot-mask-rk5gr0" maskUnits="userSpaceOnUse" x="-158" y="-158" width="316" height="316"><path d="M100.31 0.12C100.31 3.4 100.15 6.69 99.83 9.96C99.51 13.22 99.02 16.49 98.39 19.7C97.75 22.92 96.95 26.12 96 29.26C95.05 32.4 93.95 35.51 92.7 38.54C91.45 41.57 90.04 44.55 88.5 47.44C86.96 50.33 85.27 53.16 83.46 55.89C81.64 58.62 79.68 61.27 77.61 63.81C75.54 66.34 73.33 68.79 71.02 71.11C68.71 73.42 66.27 75.64 63.75 77.72C61.22 79.8 58.58 81.77 55.87 83.59C53.15 85.41 50.33 87.11 47.45 88.66C44.57 90.2 41.6 91.61 38.58 92.87C35.56 94.12 32.46 95.23 29.34 96.19C26.21 97.14 23.02 97.94 19.82 98.58C16.61 99.22 13.36 99.7 10.11 100.03C6.86 100.35 3.58 100.51 0.31 100.51C-2.96 100.51 -6.24 100.35 -9.49 100.03C-12.74 99.7 -16 99.22 -19.2 98.58C-22.4 97.94 -25.59 97.14 -28.72 96.19C-31.85 95.23 -34.94 94.12 -37.96 92.87C-40.98 91.61 -43.95 90.2 -46.83 88.66C-49.71 87.11 -52.53 85.41 -55.25 83.59C-57.96 81.77 -60.6 79.8 -63.13 77.72C-65.66 75.64 -68.09 73.42 -70.4 71.11C-72.71 68.79 -74.92 66.34 -76.99 63.81C-79.06 61.27 -81.02 58.62 -82.84 55.89C-84.65 53.16 -86.34 50.33 -87.88 47.44C-89.42 44.55 -90.83 41.57 -92.08 38.54C-93.33 35.51 -94.44 32.4 -95.39 29.26C-96.33 26.12 -97.13 22.92 -97.77 19.7C-98.41 16.49 -98.89 13.22 -99.21 9.96C-99.53 6.69 -99.69 3.4 -99.69 0.12C-99.69 -3.16 -99.53 -6.46 -99.21 -9.72C-98.89 -12.99 -98.41 -16.25 -97.77 -19.47C-97.13 -22.68 -96.33 -25.89 -95.39 -29.02C-94.44 -32.16 -93.33 -35.27 -92.08 -38.3C-90.83 -41.33 -89.42 -44.31 -87.88 -47.21C-86.34 -50.1 -84.65 -52.93 -82.84 -55.66C-81.02 -58.38 -79.06 -61.03 -76.99 -63.57C-74.92 -66.11 -72.71 -68.55 -70.4 -70.87C-68.09 -73.19 -65.66 -75.41 -63.13 -77.49C-60.6 -79.57 -57.96 -81.53 -55.25 -83.35C-52.53 -85.18 -49.71 -86.87 -46.83 -88.42C-43.95 -89.97 -40.98 -91.38 -37.96 -92.63C-34.94 -93.89 -31.85 -95 -28.72 -95.95C-25.59 -96.9 -22.4 -97.7 -19.2 -98.34C-16 -98.98 -12.74 -99.47 -9.49 -99.79C-6.24 -100.11 -2.96 -100.27 0.31 -100.27C3.58 -100.27 6.86 -100.11 10.11 -99.79C13.36 -99.47 16.61 -98.98 19.82 -98.34C23.02 -97.7 26.21 -96.9 29.34 -95.95C32.46 -95 35.56 -93.89 38.58 -92.63C41.6 -91.38 44.57 -89.97 47.45 -88.42C50.33 -86.87 53.15 -85.18 55.87 -83.35C58.58 -81.53 61.22 -79.57 63.75 -77.49C66.27 -75.41 68.71 -73.19 71.02 -70.87C73.33 -68.55 75.54 -66.11 77.61 -63.57C79.68 -61.03 81.64 -58.38 83.46 -55.66C85.27 -52.93 86.96 -50.1 88.5 -47.21C90.04 -44.31 91.45 -41.33 92.7 -38.3C93.95 -35.27 95.05 -32.16 96 -29.02C96.95 -25.89 97.75 -22.68 98.39 -19.47C99.02 -16.25 99.51 -12.99 99.83 -9.72C100.15 -6.46 100.31 -3.16 100.31 0.12Z" fill="#fff"/><path d="M-9.3 -11.3A9.3 9.3 0 0 1 0 -20.6L0 -20.6A9.3 9.3 0 0 1 9.3 -11.3L9.3 11.3A9.3 9.3 0 0 1 0 20.6L0 20.6A9.3 9.3 0 0 1 -9.3 11.3Z" transform="matrix(0.91,-0.29,0.36,0.9,19.02,-33.96)" opacity="1" fill="#000"/><path d="M-9.3 -11.3A9.3 9.3 0 0 1 0 -20.6L0 -20.6A9.3 9.3 0 0 1 9.3 -11.3L9.3 11.3A9.3 9.3 0 0 1 0 20.6L0 20.6A9.3 9.3 0 0 1 -9.3 11.3Z" transform="matrix(0.69,-0.07,0.36,0.9,63.25,-43.86)" opacity="1" fill="#000"/></mask></defs><g fill="none" stroke-linecap="round"></g><g opacity="1"><path d="M100.31 0.12C100.31 3.4 100.15 6.69 99.83 9.96C99.51 13.22 99.02 16.49 98.39 19.7C97.75 22.92 96.95 26.12 96 29.26C95.05 32.4 93.95 35.51 92.7 38.54C91.45 41.57 90.04 44.55 88.5 47.44C86.96 50.33 85.27 53.16 83.46 55.89C81.64 58.62 79.68 61.27 77.61 63.81C75.54 66.34 73.33 68.79 71.02 71.11C68.71 73.42 66.27 75.64 63.75 77.72C61.22 79.8 58.58 81.77 55.87 83.59C53.15 85.41 50.33 87.11 47.45 88.66C44.57 90.2 41.6 91.61 38.58 92.87C35.56 94.12 32.46 95.23 29.34 96.19C26.21 97.14 23.02 97.94 19.82 98.58C16.61 99.22 13.36 99.7 10.11 100.03C6.86 100.35 3.58 100.51 0.31 100.51C-2.96 100.51 -6.24 100.35 -9.49 100.03C-12.74 99.7 -16 99.22 -19.2 98.58C-22.4 97.94 -25.59 97.14 -28.72 96.19C-31.85 95.23 -34.94 94.12 -37.96 92.87C-40.98 91.61 -43.95 90.2 -46.83 88.66C-49.71 87.11 -52.53 85.41 -55.25 83.59C-57.96 81.77 -60.6 79.8 -63.13 77.72C-65.66 75.64 -68.09 73.42 -70.4 71.11C-72.71 68.79 -74.92 66.34 -76.99 63.81C-79.06 61.27 -81.02 58.62 -82.84 55.89C-84.65 53.16 -86.34 50.33 -87.88 47.44C-89.42 44.55 -90.83 41.57 -92.08 38.54C-93.33 35.51 -94.44 32.4 -95.39 29.26C-96.33 26.12 -97.13 22.92 -97.77 19.7C-98.41 16.49 -98.89 13.22 -99.21 9.96C-99.53 6.69 -99.69 3.4 -99.69 0.12C-99.69 -3.16 -99.53 -6.46 -99.21 -9.72C-98.89 -12.99 -98.41 -16.25 -97.77 -19.47C-97.13 -22.68 -96.33 -25.89 -95.39 -29.02C-94.44 -32.16 -93.33 -35.27 -92.08 -38.3C-90.83 -41.33 -89.42 -44.31 -87.88 -47.21C-86.34 -50.1 -84.65 -52.93 -82.84 -55.66C-81.02 -58.38 -79.06 -61.03 -76.99 -63.57C-74.92 -66.11 -72.71 -68.55 -70.4 -70.87C-68.09 -73.19 -65.66 -75.41 -63.13 -77.49C-60.6 -79.57 -57.96 -81.53 -55.25 -83.35C-52.53 -85.18 -49.71 -86.87 -46.83 -88.42C-43.95 -89.97 -40.98 -91.38 -37.96 -92.63C-34.94 -93.89 -31.85 -95 -28.72 -95.95C-25.59 -96.9 -22.4 -97.7 -19.2 -98.34C-16 -98.98 -12.74 -99.47 -9.49 -99.79C-6.24 -100.11 -2.96 -100.27 0.31 -100.27C3.58 -100.27 6.86 -100.11 10.11 -99.79C13.36 -99.47 16.61 -98.98 19.82 -98.34C23.02 -97.7 26.21 -96.9 29.34 -95.95C32.46 -95 35.56 -93.89 38.58 -92.63C41.6 -91.38 44.57 -89.97 47.45 -88.42C50.33 -86.87 53.15 -85.18 55.87 -83.35C58.58 -81.53 61.22 -79.57 63.75 -77.49C66.27 -75.41 68.71 -73.19 71.02 -70.87C73.33 -68.55 75.54 -66.11 77.61 -63.57C79.68 -61.03 81.64 -58.38 83.46 -55.66C85.27 -52.93 86.96 -50.1 88.5 -47.21C90.04 -44.31 91.45 -41.33 92.7 -38.3C93.95 -35.27 95.05 -32.16 96 -29.02C96.95 -25.89 97.75 -22.68 98.39 -19.47C99.02 -16.25 99.51 -12.99 99.83 -9.72C100.15 -6.46 100.31 -3.16 100.31 0.12Z" fill="#f9f9f9"/><g mask="url(#bot-mask-rk5gr0)"><rect x="-158" y="-158" width="316" height="316" fill="#2fbfa0"/></g></g><g></g><g fill="none" stroke-linecap="round"></g></svg>
@@ -1582,13 +1909,13 @@
 
   <!-- PHONE SHOWCASE (VIDEO DEMO) -->
   <section class="showcase" id="showcase">
-    <div class="section-head">
+    <div class="section-head reveal">
       <span class="eyebrow">FIELD DEMONSTRATION</span>
-      <h2>Every Farmer Has a Question — KISANVANI Has an Answer</h2>
+      <h2 class="shimmer-text">Every Farmer Has a Question — KISANVANI Has an Answer</h2>
       <p>Watch how a farmer speaks out loud in their regional tongue and receives immediate, grounded voice advice — no app, no keypad typing.</p>
     </div>
 
-    <div class="video-theater-wrap">
+    <div class="video-theater-wrap reveal from-scale">
       <div class="video-theater-card">
         <div class="video-theater-topbar">
           <span>● HD FIELD DEMONSTRATION // LIVE TEST</span>
@@ -1600,20 +1927,20 @@
       </div>
     </div>
 
-    <ul class="showcase-points">
-      <li class="showcase-card">
+    <ul class="showcase-points stagger-children">
+      <li class="showcase-card reveal">
         <b>No Smartphone Needed</b>
         <p>Works seamlessly over a basic telecom voice call on ordinary 2G/3G feature phones.</p>
       </li>
-      <li class="showcase-card">
+      <li class="showcase-card reveal">
         <b>Speaks Naturally</b>
         <p>Understands regional farmer dialects and symptom descriptions — not strict keyword prompts.</p>
       </li>
-      <li class="showcase-card">
+      <li class="showcase-card reveal">
         <b>Replies In-Language</b>
         <p>Speaks back audibly in the exact same Indian language the caller used.</p>
       </li>
-      <li class="showcase-card">
+      <li class="showcase-card reveal">
         <b>Checked Before Speaking</b>
         <p>Deterministic checks block banned pesticides (e.g. Monocrotophos) and unsafe dosage amounts.</p>
       </li>
@@ -1622,49 +1949,49 @@
 
   <!-- FEATURES (STICKY NOTE ACCENTS) -->
   <section class="features-section" id="features">
-    <div class="section-head">
+    <div class="section-head reveal">
       <span class="eyebrow">CORE CAPABILITIES</span>
-      <h2>Built for the reality of Indian Agriculture</h2>
+      <h2 class="shimmer-text">Built for the reality of Indian Agriculture</h2>
       <p>Six specialized systems working quietly together on every single phone call.</p>
     </div>
 
-    <div class="grid-3">
-      <div class="feature-card card-mint">
+    <div class="grid-3 stagger-children">
+      <div class="feature-card card-mint reveal">
         <div class="icon-badge">Aa</div>
         <h4>Any Indian Language</h4>
         <p>Zero language menus required. Automatically recognizes Hindi, Gujarati, Punjabi, Marathi, Bengali, Tamil, Telugu, and Kannada directly from speech.</p>
         <span class="tag">Auto-Detected</span>
       </div>
 
-      <div class="feature-card card-cream">
+      <div class="feature-card card-cream reveal">
         <div class="icon-badge">✽</div>
         <h4>Pest &amp; Disease Diagnosis</h4>
         <p>Describe crop symptoms in everyday language. The hybrid engine maps them against thousands of resolved official Kisan Call Centre advisory cases.</p>
         <span class="tag">Grounded Retrieval</span>
       </div>
 
-      <div class="feature-card card-teal">
+      <div class="feature-card card-teal reveal">
         <div class="icon-badge">↗</div>
         <h4>15+ Major Cash &amp; Food Crops</h4>
         <p>From cotton, rice, and wheat to sugarcane, soybean, groundnut, and chili across 13 major agricultural states nationwide.</p>
         <span class="tag">National Coverage</span>
       </div>
 
-      <div class="feature-card card-blush">
+      <div class="feature-card card-blush reveal">
         <div class="icon-badge">⛨</div>
         <h4>Banned-Chemical Guardrail</h4>
         <p>An uncompromising rule-based layer catches Monocrotophos, Endosulfan, and over-concentrated doses before anything is spoken to the farmer.</p>
         <span class="tag">Zero Halucinations</span>
       </div>
 
-      <div class="feature-card card-cream">
+      <div class="feature-card card-cream reveal">
         <div class="icon-badge">◎</div>
         <h4>Crop &amp; State Spatial Awareness</h4>
         <p>Filters and isolates localized context so pest advice for cotton in Gujarat is never conflated with wheat practices in Punjab.</p>
         <span class="tag">Context Aware</span>
       </div>
 
-      <div class="feature-card card-mint">
+      <div class="feature-card card-mint reveal">
         <div class="icon-badge">◇</div>
         <h4>Private &amp; Local by Design</h4>
         <p>Caller IDs are irreversibly SHA-256 hashed. Voice audio is purged immediately post-transcription. The entire stack runs on local models.</p>
@@ -1675,38 +2002,38 @@
 
   <!-- HOW IT WORKS -->
   <section class="how-section" id="how">
-    <div class="section-head">
+    <div class="section-head reveal">
       <span class="eyebrow">WORKFLOW</span>
-      <h2>Five Steps from Question to Spoken Answer</h2>
+      <h2 class="shimmer-text">Five Steps from Question to Spoken Answer</h2>
       <p>Consistent, transparent execution whether triggered by a phone call or this browser sandbox.</p>
     </div>
 
-    <div class="steps-grid">
-      <div class="step-card">
+    <div class="steps-grid stagger-children">
+      <div class="step-card reveal">
         <div class="num-badge">1</div>
         <h4>Call In</h4>
         <p>Farmer dials the helpline number (or taps the mic here) and speaks naturally.</p>
       </div>
 
-      <div class="step-card">
+      <div class="step-card reveal">
         <div class="num-badge">2</div>
         <h4>Transcribe</h4>
         <p>Whisper ASR converts voice to text while determining regional language tags.</p>
       </div>
 
-      <div class="step-card">
+      <div class="step-card reveal">
         <div class="num-badge">3</div>
         <h4>Retrieve</h4>
         <p>Hybrid BM25 + dense neural search matches the query to verified KCC resolved records.</p>
       </div>
 
-      <div class="step-card">
+      <div class="step-card reveal">
         <div class="num-badge">4</div>
         <h4>Guardrail</h4>
         <p>The generated response is validated against the ICAR Package-of-Practices table.</p>
       </div>
 
-      <div class="step-card">
+      <div class="step-card reveal">
         <div class="num-badge">5</div>
         <h4>Speak Out Loud</h4>
         <p>TTS converts the verified text back into clean audio in the farmer's mother tongue.</p>
@@ -1716,14 +2043,14 @@
 
   <!-- UNDER THE HOOD / PIPELINE -->
   <section class="tech-section" id="pipeline-detail">
-    <div class="section-head">
+    <div class="section-head reveal">
       <span class="eyebrow">SYSTEM ARCHITECTURE</span>
-      <h2>Five Open Models Working in Harmony</h2>
+      <h2 class="shimmer-text">Five Open Models Working in Harmony</h2>
       <p>Designed to operate with low compute latency without third-party vendor lock-in.</p>
     </div>
 
-    <div class="pipeline-strip">
-      <div class="pstep">
+    <div class="pipeline-strip stagger-children">
+      <div class="pstep reveal">
         <div class="pstep-header">
           <span class="pstep-badge">ASR</span>
         </div>
@@ -1731,9 +2058,9 @@
         <span>Transcribes audio &amp; auto-detects Indian language dialect.</span>
       </div>
 
-      <div class="arrow-indicator">→</div>
+      <div class="arrow-indicator reveal">→</div>
 
-      <div class="pstep">
+      <div class="pstep reveal">
         <div class="pstep-header">
           <span class="pstep-badge">SEARCH</span>
         </div>
@@ -1741,9 +2068,9 @@
         <span>Combines BM25 lexical search with multilingual sentence embeddings.</span>
       </div>
 
-      <div class="arrow-indicator">→</div>
+      <div class="arrow-indicator reveal">→</div>
 
-      <div class="pstep">
+      <div class="pstep reveal">
         <div class="pstep-header">
           <span class="pstep-badge">LLM</span>
         </div>
@@ -1751,9 +2078,9 @@
         <span>Synthesizes concise advice grounded strictly in retrieved records.</span>
       </div>
 
-      <div class="arrow-indicator">→</div>
+      <div class="arrow-indicator reveal">→</div>
 
-      <div class="pstep">
+      <div class="pstep reveal">
         <div class="pstep-header">
           <span class="pstep-badge">SAFETY</span>
         </div>
@@ -1761,9 +2088,9 @@
         <span>Screens against banned pesticides &amp; unsafe chemical concentrations.</span>
       </div>
 
-      <div class="arrow-indicator">→</div>
+      <div class="arrow-indicator reveal">→</div>
 
-      <div class="pstep">
+      <div class="pstep reveal">
         <div class="pstep-header">
           <span class="pstep-badge">VOICE</span>
         </div>
@@ -1775,28 +2102,28 @@
 
   <!-- TRUST & SAFETY -->
   <section class="safety-section" id="safety">
-    <div class="section-head">
+    <div class="section-head reveal">
       <span class="eyebrow">ETHICAL AI</span>
-      <h2>Grounded Answers. Nothing Invented.</h2>
+      <h2 class="shimmer-text">Grounded Answers. Nothing Invented.</h2>
       <p>Engineered with the safety standards of a certified Krishi Vigyan Kendra agronomist.</p>
     </div>
 
-    <div class="grid-3">
-      <div class="feature-card card-cream">
+    <div class="grid-3 stagger-children">
+      <div class="feature-card card-cream reveal">
         <div class="icon-badge">⛨</div>
         <h4>Deterministic Safety Enforcement</h4>
         <p>Language models can occasionally suggest obsolete or restricted chemicals. KISANVANI applies a hard deterministic lookup against the government Package-of-Practices table to reject unverified recommendations.</p>
         <span class="tag">Hard Filter</span>
       </div>
 
-      <div class="feature-card card-mint">
+      <div class="feature-card card-mint reveal">
         <div class="icon-badge">◇</div>
         <h4>Strict Privacy Safeguards</h4>
         <p>Phone numbers are SHA-256 encrypted before any database reference. Audio recordings are held in volatile memory only for the duration of the transcription.</p>
         <span class="tag">Ephemeral Voice</span>
       </div>
 
-      <div class="feature-card card-teal">
+      <div class="feature-card card-teal reveal">
         <div class="icon-badge">✽</div>
         <h4>Empirical Knowledge Base</h4>
         <p>Advisories are retrieved directly from verified public Kisan Call Centre cases logged on data.gov.in — preserving genuine historical solutions provided by real agricultural scientists.</p>
@@ -2084,6 +2411,165 @@
       console.error(err);
     }
   });
+
+  function scrollToSection(id) {
+    if (id === 'top') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.scrollIntoView({ behavior: 'smooth' });
+  }
+  window.scrollToSection = scrollToSection;
+
+  /* ==========================================================================
+     2. SCROLL-TRIGGERED REVEAL OBSERVER
+     ========================================================================== */
+  (function initScrollReveals() {
+    const reveals = document.querySelectorAll('.reveal');
+    if (!reveals.length) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -30px 0px'
+    });
+
+    reveals.forEach(el => observer.observe(el));
+  })();
+
+  /* ==========================================================================
+     3. SPLIT TEXT HEADLINE FLY-IN
+     ========================================================================== */
+  (function initSplitHeadline() {
+    const headline = document.getElementById('heroHeadline');
+    if (!headline) return;
+
+    const tokens = [
+      { t: "Call", m: false },
+      { t: "in", m: false },
+      { t: "Hindi.", m: false },
+      { t: "Get", m: true },
+      { t: "advice", m: true },
+      { t: "that", m: false },
+      { t: "is", m: false },
+      { t: "grounded", m: false },
+      { t: "and", m: false },
+      { t: "safe.", m: false }
+    ];
+
+    let html = '';
+    let charCount = 0;
+    tokens.forEach(item => {
+      const openM = item.m ? '<mark class="marker">' : '';
+      const closeM = item.m ? '</mark>' : '';
+      let letters = '';
+      for (let i = 0; i < item.t.length; i++) {
+        const char = item.t[i];
+        const delay = (0.2 + charCount * 0.032).toFixed(3);
+        letters += `<span class="split-char" style="transition-delay:${delay}s;">${char}</span>`;
+        charCount++;
+      }
+      html += `<span class="split-word">${openM}${letters}${closeM}</span> `;
+    });
+    headline.innerHTML = html;
+  })();
+
+  /* ==========================================================================
+     4. CUSTOM CURSOR FOLLOWER WITH LERP PHYSICS
+     ========================================================================== */
+  (function initCustomCursor() {
+    const dot = document.getElementById('cursorDot');
+    const ring = document.getElementById('cursorRing');
+    if (!dot || !ring) return;
+
+    if (!window.matchMedia('(pointer: fine)').matches) {
+      dot.style.display = 'none';
+      ring.style.display = 'none';
+      return;
+    }
+
+    let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+    let ringX = mouseX, ringY = mouseY;
+
+    window.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      dot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+    }, { passive: true });
+
+    function renderCursor() {
+      ringX += (mouseX - ringX) * 0.18;
+      ringY += (mouseY - ringY) * 0.18;
+      ring.style.transform = `translate(${ringX}px, ${ringY}px)`;
+      requestAnimationFrame(renderCursor);
+    }
+    requestAnimationFrame(renderCursor);
+
+    const hoverTargets = 'a, button, select, input, textarea, .feature-card, .step-card, .showcase-card, .pstep, .brand, .lang-pill, .tag, .mic-btn, .backed-tag, [role="button"]';
+    document.querySelectorAll(hoverTargets).forEach(el => {
+      el.addEventListener('mouseenter', () => ring.classList.add('hovering'));
+      el.addEventListener('mouseleave', () => ring.classList.remove('hovering'));
+    });
+  })();
+
+  /* ==========================================================================
+     5. MAGNETIC BUTTON HOVER EFFECT
+     ========================================================================== */
+  (function initMagneticButtons() {
+    const btns = document.querySelectorAll('.magnetic-btn, .btn, .nav-btn-demo, .mic-btn');
+    btns.forEach(btn => {
+      btn.addEventListener('mousemove', (e) => {
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        btn.style.transform = `translate(${x * 0.28}px, ${y * 0.28}px)`;
+      });
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transform = 'translate(0px, 0px)';
+      });
+    });
+  })();
+
+  /* ==========================================================================
+     6. PARALLAX EFFECTS ON DECORATIVE BLOBS & HERO
+     ========================================================================== */
+  (function initParallax() {
+    const shapes = document.querySelectorAll('[data-parallax]');
+    window.addEventListener('scroll', () => {
+      const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+      shapes.forEach(shape => {
+        const speed = parseFloat(shape.getAttribute('data-parallax')) || 0.08;
+        shape.style.transform = `translateY(${scrollY * speed}px)`;
+      });
+    }, { passive: true });
+
+    // Mouse parallax on hero elements and floating shapes
+    const hero = document.querySelector('.hero');
+    if (hero) {
+      hero.addEventListener('mousemove', (e) => {
+        const xNorm = (e.clientX / window.innerWidth - 0.5) * 2;
+        const yNorm = (e.clientY / window.innerHeight - 0.5) * 2;
+        shapes.forEach((s, idx) => {
+          const factor = (idx % 2 === 0 ? 1 : -1) * (8 + (idx * 2));
+          s.style.marginLeft = `${xNorm * factor}px`;
+          s.style.marginTop = `${yNorm * factor}px`;
+        });
+      });
+      hero.addEventListener('mouseleave', () => {
+        shapes.forEach(s => {
+          s.style.marginLeft = '0px';
+          s.style.marginTop = '0px';
+        });
+      });
+    }
+  })();
 </script>
 </body>
 </html>
